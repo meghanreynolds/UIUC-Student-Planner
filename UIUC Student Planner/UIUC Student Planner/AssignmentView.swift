@@ -39,7 +39,7 @@ struct AssignmentView: View {
     private let dayFormatter: DateFormatter = {
         //Starter code, feel free to remove this based on that the assignment entry data has
         let formatter = DateFormatter()
-        formatter.dateFormat = "E, MMM d, y"
+        formatter.dateFormat = "E, MMM d"
         return formatter
     }()
     
