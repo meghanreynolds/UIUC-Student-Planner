@@ -25,6 +25,7 @@ struct AssignmentView: View {
                         Text("\(assignment.timestamp ?? Date(), formatter: dayFormatter)")
                         Spacer()
                         Text("\(assignment.points) Points")
+                            .foregroundColor(Color.green)
                     }
                     Text("\(assignment.timestamp ?? Date(), formatter: timeFormatter)")
                 }
