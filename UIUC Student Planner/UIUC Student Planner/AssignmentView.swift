@@ -15,14 +15,37 @@ struct AssignmentView: View {
     @State var assignment: Assignment
     
     var body: some View {
-        Text("Assignment at \(assignment.timestamp ?? Date(), formatter: itemFormatter)")
+        NavigationView {
+            VStack(alignment: .leading, spacing: 20) {
+                    Text("\(assignment.name ?? "Test Assignment")")
+                            .font(.largeTitle)
+                        .fontWeight(.medium)
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("\(assignment.timestamp ?? Date(), formatter: dayFormatter)")
+                        Spacer()
+                        Text("\(assignment.points) Points")
+                    }
+                    Text("\(assignment.timestamp ?? Date(), formatter: timeFormatter)")
+                }
+                
+                Spacer()
+            }
+            .padding()
+        }
     }
     
-    private let itemFormatter: DateFormatter = {
+    private let dayFormatter: DateFormatter = {
         //Starter code, feel free to remove this based on that the assignment entry data has
         let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .medium
+        formatter.dateFormat = "E, MMM d, y"
+        return formatter
+    }()
+    
+    private let timeFormatter: DateFormatter = {
+        //Starter code, feel free to remove this based on that the assignment entry data has
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mm a"
         return formatter
     }()
 }
