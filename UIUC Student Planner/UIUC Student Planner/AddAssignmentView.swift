@@ -10,9 +10,14 @@ import SwiftUI
 struct AddAssignmentView: View {
     //Viewcontext for the database
     @Environment(\.managedObjectContext) private var viewContext
-    
+    @State var pointValue: Int64 = 0
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            Form {
+                TextField("Points", value: $pointValue, formatter: NumberFormatter())
+            }
+            .navigationBarTitle("Add Assignment")
+        }
     }
 }
 
