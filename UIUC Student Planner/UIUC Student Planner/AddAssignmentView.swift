@@ -20,10 +20,13 @@ struct AddAssignmentView: View {
     var body: some View {
         NavigationView {
             Form {
-                //user input for values
-                TextField("Assignment Name", text: $assignmentName)
-                TextField("Points", value: $pointValue, formatter: NumberFormatter())
-                DatePicker("Select Due Date and Time", selection: $selectedDate, displayedComponents: [.date, .hourAndMinute])
+                Section{
+                    TextField("Assignment Name", text: $assignmentName)
+                }
+                Section(header: Text("Assignment Details")) {
+                    TextField("Points", value: $pointValue, formatter: NumberFormatter())
+                    DatePicker("Deadline", selection: $selectedDate, displayedComponents: [.date, .hourAndMinute])
+                }
             }
             //title of the page
             .navigationBarTitle("Add Assignment")
@@ -64,6 +67,9 @@ struct AddAssignmentView: View {
 
 struct AddAssignmentView_Previews: PreviewProvider {
     static var previews: some View {
-        AddAssignmentView()
+        Group {
+            AddAssignmentView()
+            AddAssignmentView()
+        }
     }
 }
