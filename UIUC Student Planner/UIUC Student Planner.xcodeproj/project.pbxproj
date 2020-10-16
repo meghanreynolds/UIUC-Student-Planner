@@ -16,6 +16,8 @@
 		22D5435A252E67980069E6D2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22D54359252E67980069E6D2 /* Preview Assets.xcassets */; };
 		22D5435C252E67980069E6D2 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D5435B252E67980069E6D2 /* Persistence.swift */; };
 		22D5435F252E67980069E6D2 /* UIUC_Student_Planner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 22D5435D252E67980069E6D2 /* UIUC_Student_Planner.xcdatamodeld */; };
+		A80825D525393231002861F3 /* ItemTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A80825D425393231002861F3 /* ItemTestView.swift */; };
+		A80825D825393A26002861F3 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A80825D725393A26002861F3 /* DetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		22D5435B252E67980069E6D2 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		22D5435E252E67980069E6D2 /* UIUC_Student_Planner.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UIUC_Student_Planner.xcdatamodel; sourceTree = "<group>"; };
 		22D54360252E67980069E6D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A80825D425393231002861F3 /* ItemTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTestView.swift; sourceTree = "<group>"; };
+		A80825D725393A26002861F3 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +68,8 @@
 			children = (
 				22D54352252E67970069E6D2 /* UIUC_Student_PlannerApp.swift */,
 				22D54354252E67970069E6D2 /* ContentView.swift */,
+				A80825D725393A26002861F3 /* DetailView.swift */,
+				A80825D425393231002861F3 /* ItemTestView.swift */,
 				224AA7E8252E698700194BF5 /* AssignmentView.swift */,
 				224AA7E5252E697B00194BF5 /* AddAssignmentView.swift */,
 				224AA7E2252E696800194BF5 /* EditAssignmentView.swift */,
@@ -154,12 +160,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				22D5435F252E67980069E6D2 /* UIUC_Student_Planner.xcdatamodeld in Sources */,
+				A80825D825393A26002861F3 /* DetailView.swift in Sources */,
 				224AA7E3252E696800194BF5 /* EditAssignmentView.swift in Sources */,
 				22D5435C252E67980069E6D2 /* Persistence.swift in Sources */,
 				224AA7E9252E698700194BF5 /* AssignmentView.swift in Sources */,
 				224AA7E6252E697B00194BF5 /* AddAssignmentView.swift in Sources */,
 				22D54355252E67970069E6D2 /* ContentView.swift in Sources */,
 				22D54353252E67970069E6D2 /* UIUC_Student_PlannerApp.swift in Sources */,
+				A80825D525393231002861F3 /* ItemTestView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

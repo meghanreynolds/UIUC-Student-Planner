@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  UIUC Student Planner
-//
-//  Created by Matthew Geimer on 10/7/20.
-//
-
 import SwiftUI
 import CoreData
 
@@ -19,13 +12,15 @@ struct ContentView: View {
     private var items: FetchedResults<Assignment>
 
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                }
-                .onDelete(perform: deleteItems)
-            }
+           NavigationView {
+               List {
+                   ForEach(items) { item in
+                       NavigationLink(destination: ItemTestView()) {
+                       Text("Item at \(item.timestamp!, formatter: itemFormatter)") // creates the text in the list
+                       }
+                   }
+                   .onDelete(perform: deleteItems)
+               }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     EditButton()
