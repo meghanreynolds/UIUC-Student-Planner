@@ -16,7 +16,6 @@ struct AddAssignmentView: View {
     @State var assignmentName: String = ""
     @State var pointValue: Int64 = 0
     @State var selectedDate = Date()
-    
     var body: some View {
         NavigationView {
             Form {
@@ -24,25 +23,33 @@ struct AddAssignmentView: View {
                     TextField("Assignment Name", text: $assignmentName)
                 }
                 Section(header: Text("Assignment Details")) {
-                    TextField("Points", value: $pointValue, formatter: NumberFormatter())
+                    Stepper(value: $pointValue,in: 0...100) {
+                        Text("\(pointValue) Point\(pointValue != 1 ? "s" : "")")
+                    }
                     DatePicker("Deadline", selection: $selectedDate, displayedComponents: [.date, .hourAndMinute])
                 }
+                Button(action: {
+                    addAssignment(name: assignmentName, points: pointValue, date: selectedDate)
+                    //change view back to home view
+                }, label: {
+                    HStack{
+                        Spacer()
+                        Text("Save")
+                        Spacer()
+                    }
+                })
             }
             //title of the page
             .navigationBarTitle("Add Assignment")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        //passes in current values of the user input
-                        addAssignment(name: assignmentName, points: pointValue, date: selectedDate)
-                    }) {
-                        //creates the "plus" button on top right
-                        Label("Add Item", systemImage: "plus")
-                    }
+                        //change view back to home view
+                    }, label : {
+                        Text("Cancel")
+                    })
                 }
-
             }
-            
         }
     }
     
