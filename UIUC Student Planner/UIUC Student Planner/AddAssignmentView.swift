@@ -45,7 +45,7 @@ struct AddAssignmentView: View {
                 })
             }
             /*.animation(.linear)
-             SwiftUI animation glitch.
+             was going to add animation, but SwiftUI glitches.
              https://stackoverflow.com/questions/62570238/fix-odd-datepicker-animation-behaviour-in-swiftui-form
              */
             
