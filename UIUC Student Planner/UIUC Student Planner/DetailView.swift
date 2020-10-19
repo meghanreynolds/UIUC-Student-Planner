@@ -8,13 +8,20 @@
 import SwiftUI
 
 struct DetailView: View {
+    @Binding var showingDetail: Bool
     var body: some View {
-        Text("test")
+        Button("test") {
+            self.showingDetail = false
+        }
+        .padding()
+        .background(Color.red)
+        .cornerRadius(10)
+        
     }
 }
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView()
+        DetailView(showingDetail: <#T##Binding<Bool>#>)
     }
 }

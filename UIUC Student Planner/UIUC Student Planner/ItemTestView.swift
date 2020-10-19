@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ItemTestView: View { // this view is meant for group who is working on 'individual assignment view' (Sakshi, Yeshaswini)
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("This is where the assignment view will go")
     }
 }
 

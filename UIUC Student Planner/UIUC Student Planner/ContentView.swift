@@ -10,13 +10,17 @@ struct ContentView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Assignment.timestamp, ascending: true)],
         animation: .default)
     private var items: FetchedResults<Assignment>
-
+    
+    @State private var showingDetail = false
+    
     var body: some View {
            NavigationView {
                List {
                    ForEach(items) { item in
-                       NavigationLink(destination: ItemTestView()) {
-                       Text("Item at \(item.timestamp!, formatter: itemFormatter)") // creates the text in the list
+                        NavigationLink(destination: ItemTestView()) {
+//                       Text("Item at \(item.timestamp!, formatter: itemFormatter)") // creates the text in the list
+                            AssignmentAttributes(assignment: item)
+                                
                        }
                    }
                    .onDelete(perform: deleteItems)
@@ -26,8 +30,13 @@ struct ContentView: View {
                     EditButton()
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: addItem) {
+                    Button(action: {self.showingDetail.toggle()}) {
+                        
                         Label("Add Item", systemImage: "plus")
+                    }
+                    .sheet(isPresented: $showingDetail) {
+                        Text("This is where the Detail View will go. (add button to close this view")
+                            .padding()
                     }
                 }
             }
