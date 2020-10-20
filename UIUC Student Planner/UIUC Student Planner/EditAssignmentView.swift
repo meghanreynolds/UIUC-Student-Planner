@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import UIKit
 
 struct EditAssignmentView: View {
     //Viewcontext for the database
@@ -19,6 +18,9 @@ struct EditAssignmentView: View {
     var body: some View {
         NavigationView {
             Form {
+                Section(header: Text("Assignment Name")){
+                    TextField(item.name ?? "Assignment Name", text: $newName)
+                }
                 Section(header: Text("Assignment Details")) {
                     Stepper(value: $newPoints,in: 0...100){
                        Text(getPoints())
@@ -53,6 +55,7 @@ struct EditAssignmentView: View {
         print("Error saving managed object context: \(error)")
       }
     }
+    
     func getPoints() -> String {
         item.points = newPoints
         return "\(item.points) Point\(item.points != 1 ? "s" : "")"
