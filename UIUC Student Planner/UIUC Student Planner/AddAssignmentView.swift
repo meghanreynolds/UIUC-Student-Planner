@@ -13,10 +13,34 @@ struct AddAssignmentView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     //essential values for assignment
-    @State var assignmentName: String = ""
-    @State var pointValue: Int64 = 0
-    @State var selectedDate = Date()
+    //default values are later registered in initializers.
+    @State var assignmentName: String
+    @State var pointValue: Int64
+        @State var selectedDate: Date
+    var navigationBarTitle = ""
     
+    
+    /*
+     Default View Initializer
+     - if no value is passed (e.g. AddAssignmentView()), the view will initialize with a name of "", point of 0, and date of now, which serves as an assignment adder.
+     */
+    init(){
+        self._assignmentName = State.init(initialValue: "")
+        self._pointValue = State.init(initialValue: 0)
+        self._selectedDate = State.init(initialValue: Date.init(timeIntervalSinceNow: 0))
+        self.navigationBarTitle = "Add Assignment"
+    }
+    
+    /*
+    View Initializer with values
+     - if value is passed, such as passing values from the assignment that the user just tapped, the view will initialze with those values, which serves as an assignment editor.
+     */
+    init(assignmentName: String = "", pointValue: Int64 = 0, date: Date = Date()){
+        self._assignmentName = State.init(initialValue: assignmentName)
+        self._pointValue = State.init(initialValue: pointValue)
+        self._selectedDate = State.init(initialValue: date)
+        self.navigationBarTitle = "Edit Assignment"
+    }
     
     var body: some View {
         NavigationView {
@@ -47,7 +71,7 @@ struct AddAssignmentView: View {
              */
             
             //title of the page
-            .navigationBarTitle("Add Assignment")
+            .navigationBarTitle(self.navigationBarTitle)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -83,7 +107,7 @@ struct AddAssignmentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             AddAssignmentView()
-            AddAssignmentView()
+            AddAssignmentView.init(assignmentName: "Finish Reading Chapter 1", pointValue: 20, date: Date.init(timeIntervalSinceNow: 86400 * 2))
         }
     }
 }
