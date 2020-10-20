@@ -35,7 +35,7 @@ struct AddAssignmentView: View {
     View Initializer with values
      - if value is passed, such as passing values from the assignment that the user just tapped, the view will initialze with those values, which serves as an assignment editor.
      */
-    init(assignmentName: String = "", pointValue: Int64 = 0, date: Date = Date()){
+    init(assignmentName: String, pointValue: Int64, date: Date){
         self._assignmentName = State.init(initialValue: assignmentName)
         self._pointValue = State.init(initialValue: pointValue)
         self._selectedDate = State.init(initialValue: date)
