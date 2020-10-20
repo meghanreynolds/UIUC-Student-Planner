@@ -16,7 +16,7 @@ struct AddAssignmentView: View {
     //default values are later registered in initializers.
     @State var assignmentName: String
     @State var pointValue: Int64
-        @State var selectedDate: Date
+    @State var selectedDate: Date
     var navigationBarTitle = ""
     
     
