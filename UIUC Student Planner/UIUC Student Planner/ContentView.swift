@@ -18,7 +18,6 @@ struct ContentView: View {
         animation: .default)
     private var items: FetchedResults<Assignment>
 
-    @State var showAssignment = false;
     var body: some View {
         NavigationView {
             List {

@@ -10,7 +10,7 @@ import SwiftUI
 struct AssignmentView: View {
     //Viewcontext for the database
     @Environment(\.managedObjectContext) private var viewContext
-    
+    @State var isPresented = false
     //The assignment passed in from the parent view
     @State var assignment: Assignment
     
@@ -28,13 +28,25 @@ struct AssignmentView: View {
                             .foregroundColor(Color.green)
                     }
                     Text("\(assignment.timestamp ?? Date(), formatter: timeFormatter)")
+                }.toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("Edit", action: toModal)
+                    }
                 }
+                .sheet(isPresented: $isPresented, content: {
+                    Text("Example")
+                })
                 
                 Spacer()
             }
             .padding()
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
+    private func toModal() {
+           self.isPresented.toggle();
+       }
+       
     
     private let dayFormatter: DateFormatter = {
         //Starter code, feel free to remove this based on that the assignment entry data has
