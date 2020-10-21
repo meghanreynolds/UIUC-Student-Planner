@@ -32,6 +32,7 @@ struct EditAssignmentView: View {
                     }
                 }
                 Button(action: {
+                    saveContext()
                     //change view back to home view
                 }, label : {
                     HStack {
