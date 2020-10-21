@@ -29,8 +29,10 @@ struct AssignmentView: View {
                     }
                     Text("\(assignment.dueDate ?? Date(), formatter: timeFormatter)")
                 }.toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button("Edit", action: toModal)
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Edit", action: {
+                            self.isPresented.toggle();
+                        })
                     }
                 }
                 .sheet(isPresented: $isPresented, content: {
@@ -43,9 +45,7 @@ struct AssignmentView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
     }
-    private func toModal() {
-           self.isPresented.toggle();
-       }
+    
        
     
     private let dayFormatter: DateFormatter = {
