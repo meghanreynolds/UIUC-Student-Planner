@@ -65,6 +65,7 @@ struct AssignmentAttributes: View {
 
 struct AssignmentAttributes_Previews: PreviewProvider {
     static var previews: some View {
-        AssignmentAttributes(assignment: Assignment())
+        AssignmentAttributes(assignment: Assignment(context: PersistenceController.preview.container.viewContext))
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
