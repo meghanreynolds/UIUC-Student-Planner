@@ -16,6 +16,8 @@
 		22D5435A252E67980069E6D2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22D54359252E67980069E6D2 /* Preview Assets.xcassets */; };
 		22D5435C252E67980069E6D2 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D5435B252E67980069E6D2 /* Persistence.swift */; };
 		22D5435F252E67980069E6D2 /* UIUC_Student_Planner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 22D5435D252E67980069E6D2 /* UIUC_Student_Planner.xcdatamodeld */; };
+		230DB4D7253F9CBB005D7427 /* DeadlinePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DB4D6253F9CBB005D7427 /* DeadlinePickerView.swift */; };
+		237E09A9253A661E00B26AB2 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237E09A8253A661E00B26AB2 /* Date+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		22D5435B252E67980069E6D2 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		22D5435E252E67980069E6D2 /* UIUC_Student_Planner.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UIUC_Student_Planner.xcdatamodel; sourceTree = "<group>"; };
 		22D54360252E67980069E6D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		230DB4D6253F9CBB005D7427 /* DeadlinePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlinePickerView.swift; sourceTree = "<group>"; };
+		237E09A8253A661E00B26AB2 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +66,8 @@
 		22D54351252E67970069E6D2 /* UIUC Student Planner */ = {
 			isa = PBXGroup;
 			children = (
+				230DB4D5253F9CA7005D7427 /* SupportingView */,
+				237E09A7253A65F400B26AB2 /* Utilities */,
 				22D54352252E67970069E6D2 /* UIUC_Student_PlannerApp.swift */,
 				22D54354252E67970069E6D2 /* ContentView.swift */,
 				224AA7E8252E698700194BF5 /* AssignmentView.swift */,
@@ -82,6 +88,22 @@
 				22D54359252E67980069E6D2 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		230DB4D5253F9CA7005D7427 /* SupportingView */ = {
+			isa = PBXGroup;
+			children = (
+				230DB4D6253F9CBB005D7427 /* DeadlinePickerView.swift */,
+			);
+			path = SupportingView;
+			sourceTree = "<group>";
+		};
+		237E09A7253A65F400B26AB2 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				237E09A8253A661E00B26AB2 /* Date+Ext.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -153,9 +175,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				230DB4D7253F9CBB005D7427 /* DeadlinePickerView.swift in Sources */,
 				22D5435F252E67980069E6D2 /* UIUC_Student_Planner.xcdatamodeld in Sources */,
 				224AA7E3252E696800194BF5 /* EditAssignmentView.swift in Sources */,
 				22D5435C252E67980069E6D2 /* Persistence.swift in Sources */,
+				237E09A9253A661E00B26AB2 /* Date+Ext.swift in Sources */,
 				224AA7E9252E698700194BF5 /* AssignmentView.swift in Sources */,
 				224AA7E6252E697B00194BF5 /* AddAssignmentView.swift in Sources */,
 				22D54355252E67970069E6D2 /* ContentView.swift in Sources */,
