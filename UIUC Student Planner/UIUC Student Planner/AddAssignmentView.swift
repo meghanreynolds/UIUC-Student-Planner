@@ -34,6 +34,7 @@ struct AddAssignmentView: View {
     /*
     View Initializer with values
      - if value is passed, such as passing values from the assignment that the user just tapped, the view will initialze with those values, which serves as an assignment editor.
+     - Noted that we are still using `EditAssignmentView.swift` this is just a backup feature.
      */
     init(assignmentName: String, pointValue: Int64, date: Date){
         self._assignmentName = State.init(initialValue: assignmentName)
