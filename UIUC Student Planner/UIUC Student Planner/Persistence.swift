@@ -18,7 +18,6 @@ struct PersistenceController {
             newItem.dueDate = Date()
             newItem.name = ""
             newItem.points = 0
-            newItem.timestamp = Date()
         }
         do {
             try viewContext.save()

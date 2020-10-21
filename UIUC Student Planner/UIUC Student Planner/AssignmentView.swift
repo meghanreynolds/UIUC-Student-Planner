@@ -22,12 +22,12 @@ struct AssignmentView: View {
                         .fontWeight(.medium)
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("\(assignment.timestamp ?? Date(), formatter: dayFormatter)")
+                        Text("\(assignment.dueDate ?? Date(), formatter: dayFormatter)")
                         Spacer()
                         Text("\(assignment.points) Points")
                             .foregroundColor(Color.green)
                     }
-                    Text("\(assignment.timestamp ?? Date(), formatter: timeFormatter)")
+                    Text("\(assignment.dueDate ?? Date(), formatter: timeFormatter)")
                 }.toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button("Edit", action: toModal)

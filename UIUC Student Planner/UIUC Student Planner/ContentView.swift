@@ -14,7 +14,7 @@ struct ContentView: View {
 
     //The fetch request getting all the assignments and sorting them by their timestamps
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Assignment.timestamp, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Assignment.dueDate, ascending: true)],
         animation: .default)
     private var items: FetchedResults<Assignment>
 
@@ -22,7 +22,7 @@ struct ContentView: View {
         NavigationView {
             List {
                 ForEach(items) { item in
-                    Text("Item at \(item.timestamp!, formatter: itemFormatter)")
+                    Text("Item at \(item.dueDate!, formatter: itemFormatter)")
                 }
                 .onDelete(perform: deleteItems)
             }
@@ -42,7 +42,7 @@ struct ContentView: View {
     private func addItem() {
         withAnimation {
             let newItem = Assignment(context: viewContext)
-            newItem.timestamp = Date()
+            newItem.dueDate = Date()
 
             do {
                 try viewContext.save()
