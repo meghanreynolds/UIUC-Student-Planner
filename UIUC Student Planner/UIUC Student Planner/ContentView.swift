@@ -14,7 +14,7 @@ struct ContentView: View {
 
     //The fetch request getting all the assignments and sorting them by their timestamps
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Assignment.timestamp, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Assignment.dueDate, ascending: true)],
         animation: .default)
     private var items: FetchedResults<Assignment>
 
