@@ -32,6 +32,7 @@ struct EditAssignmentView: View {
                        Text(getPoints())
                     }
                 }
+                DeadlinePickerView.init(selectedDate: self.$newDate)
                 Button(action: {
                     saveContext()
                     //change view back to home view
