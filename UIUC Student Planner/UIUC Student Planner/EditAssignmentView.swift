@@ -13,6 +13,7 @@ struct EditAssignmentView: View {
     
     //The item passed in from the parent view
     @State var item: FetchedResults<Assignment>.Element
+    
     @State var newName: String = ""
     @State var newPoints: Int64 = 0
     var body: some View {
@@ -20,6 +21,10 @@ struct EditAssignmentView: View {
             Form {
                 Section(header: Text("Assignment Name")){
                     TextField(item.name ?? "Assignment Name", text: $newName)
+                        //updates item.name if the user changes the assignment's name
+                        .onChange(of: newName) { value in
+                          item.name = newName
+                        }
                 }
                 Section(header: Text("Assignment Details")) {
                     Stepper(value: $newPoints,in: 0...100){
@@ -27,7 +32,7 @@ struct EditAssignmentView: View {
                     }
                 }
                 Button(action: {
-                    //update assignment
+                    //change view back to home view
                 }, label : {
                     HStack {
                         Spacer()
@@ -57,6 +62,7 @@ struct EditAssignmentView: View {
     }
     
     func getPoints() -> String {
+        //updates the assignment's points and displays the points to the user
         item.points = newPoints
         return "\(item.points) Point\(item.points != 1 ? "s" : "")"
     }
