@@ -54,7 +54,7 @@ struct AddAssignmentView: View {
                         Text("\(pointValue) Point\(pointValue != 1 ? "s" : "")")
                     }
                 }
-                DeadlineView(selectedDate: self.$selectedDate)
+                DeadlinePickerView(selectedDate: self.$selectedDate)
                 Button(action: {
                     addAssignment(name: assignmentName, points: pointValue, date: selectedDate)
                     //change view back to home view

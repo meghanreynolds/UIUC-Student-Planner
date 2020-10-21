@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct DeadlineView: View{
+struct DeadlinePickerView: View{
     
     @Binding var selectedDate: Date
     

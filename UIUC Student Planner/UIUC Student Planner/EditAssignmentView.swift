@@ -16,6 +16,7 @@ struct EditAssignmentView: View {
     
     @State var newName: String = ""
     @State var newPoints: Int64 = 0
+    @State var newDate = Date.init(timeIntervalSinceNow: 0)
     var body: some View {
         NavigationView {
             Form {
