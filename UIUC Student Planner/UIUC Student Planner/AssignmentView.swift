@@ -36,7 +36,7 @@ struct AssignmentView: View {
                     }
                 }
                 .sheet(isPresented: $isPresented, content: {
-                    Text("Example")
+                    EditAssignmentView(item: Assignment(context: PersistenceController.preview.container.viewContext))
                 })
                 
                 Spacer()
