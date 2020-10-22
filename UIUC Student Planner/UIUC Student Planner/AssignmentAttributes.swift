@@ -26,8 +26,8 @@ extension Color {
         return Color(decimalRed: 36, green: 36, blue: 36)
     }
     
-    public static var flatDarkCardBackground: Color {
-        return Color(decimalRed: 46, green: 46, blue: 46)
+    public static var CardBackground: Color {
+        return Color(decimalRed: 232, green: 74, blue: 39)
     }
 }
 
@@ -35,7 +35,7 @@ struct AssignmentAttributes: View {
     var assignment: Assignment
     var body: some View {
         VStack {ZStack(alignment: .leading) {
-            Color.flatDarkCardBackground
+            Color.CardBackground
             HStack {
                 VStack(alignment: .leading) {
                      Text("Assignment Name: \(assignment.name ?? "Unknown")")
@@ -43,12 +43,15 @@ struct AssignmentAttributes: View {
                         .fontWeight(.bold)
                         .lineLimit(2)
                         .padding(.bottom, 5)
+                        .foregroundColor(Color.white)
                     
                      Text("Due Date: \(assignment.dueDate ?? Date())")
                         .padding(.bottom, 5)
+                        .foregroundColor(Color.white)
                     
                     HStack(alignment: .center) {
                          Text("Points: \(assignment.points)")
+                            .foregroundColor(Color.white)
                     }
                     .padding(.bottom, 5)
                     
