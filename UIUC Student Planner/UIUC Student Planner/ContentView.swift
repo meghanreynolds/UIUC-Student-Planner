@@ -1,12 +1,18 @@
-//
-//  ContentView.swift
-//  UIUC Student Planner
-//
-//  Created by Matthew Geimer on 10/7/20.
-//
-
 import SwiftUI
 import CoreData
+
+extension Color {
+    
+    public static var ListBackground: Color {
+        return Color(decimalRed: 19, green: 41 , blue: 75 )
+    }
+    public static var ListBackground2: Color {
+        return Color(decimalRed: 232, green: 74, blue: 39)
+    }
+    
+}
+
+
 
 struct ContentView: View {
     //Viewcontext for the database
@@ -14,35 +20,62 @@ struct ContentView: View {
 
     //The fetch request getting all the assignments and sorting them by their timestamps
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Assignment.timestamp, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Assignment.dueDate, ascending: true)],
         animation: .default)
     private var items: FetchedResults<Assignment>
-
+    
+    @State private var showingDetail = false
+    
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                }
-                .onDelete(perform: deleteItems)
-            }
+           NavigationView {
+               List {
+                   ForEach(items) { item in
+                    NavigationLink(destination:AssignmentView(assignment: Assignment(context: PersistenceController.preview.container.viewContext))) {
+//                       Text("Item at \(item.timestamp!, formatter: itemFormatter)") // creates the text in the list
+                            HStack {
+                                AssignmentAttributes(assignment: item)
+                                    .cornerRadius(15)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                  .resizable()
+                                  .aspectRatio(contentMode: .fit)
+                                  .frame(width: 7)
+                                  .foregroundColor(.white)
+                              }
+                                
+                       }
+                   }
+                   .onDelete(perform: deleteItems)
+                   .background(Color.ListBackground)
+                   .cornerRadius(15)
+               }
+               
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     EditButton()
                 }
+            
+                ToolbarItem(placement: .navigationBarLeading) {
+                    CircleImage()
+                }
+
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: addItem) {
+                    Button(action: {self.showingDetail.toggle()}) {
+                        
                         Label("Add Item", systemImage: "plus")
+                    }
+                    .sheet(isPresented: $showingDetail) {
+                        AddAssignmentView()
                     }
                 }
             }
-        }
+           }
     }
 
     private func addItem() {
         withAnimation {
             let newItem = Assignment(context: viewContext)
-            newItem.timestamp = Date()
+            newItem.dueDate = Date()
 
             do {
                 try viewContext.save()

@@ -15,7 +15,9 @@ struct PersistenceController {
         let viewContext = result.container.viewContext
         for _ in 0..<10 {
             let newItem = Assignment(context: viewContext)
-            newItem.timestamp = Date()
+            newItem.dueDate = Date()
+            newItem.name = ""
+            newItem.points = 0
         }
         do {
             try viewContext.save()
