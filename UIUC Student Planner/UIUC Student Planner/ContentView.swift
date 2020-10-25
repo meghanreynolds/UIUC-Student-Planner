@@ -61,7 +61,6 @@ struct ContentView: View {
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {self.showingDetail.toggle()}) {
-                        
                         Label("Add Item", systemImage: "plus")
                     }
                     .sheet(isPresented: $showingDetail) {

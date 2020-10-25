@@ -10,7 +10,7 @@ import SwiftUI
 struct EditAssignmentView: View {
     //Viewcontext for the database
     @Environment(\.managedObjectContext) private var viewContext
-    
+    @Environment(\.presentationMode) var presentationMode
     //The item passed in from the parent view
     @State var item: FetchedResults<Assignment>.Element
     
@@ -35,7 +35,7 @@ struct EditAssignmentView: View {
                 DeadlinePickerView.init(selectedDate: self.$newDate)
                 Button(action: {
                     saveContext()
-                    //change view back to home view
+                    self.presentationMode.wrappedValue.dismiss()
                 }, label : {
                     HStack {
                         Spacer()
@@ -48,7 +48,7 @@ struct EditAssignmentView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        //change view back to home view
+                        self.presentationMode.wrappedValue.dismiss()
                     }, label : {
                         Text("Cancel")
                     })
