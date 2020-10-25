@@ -11,7 +11,7 @@ import CoreData
 struct AddAssignmentView: View {
     //Viewcontext for the database
     @Environment(\.managedObjectContext) private var viewContext
-
+    @Environment(\.presentationMode) var presentationMode
     //essential values for assignment
     //default values are later registered in initializers.
     @State var assignmentName: String
@@ -57,7 +57,7 @@ struct AddAssignmentView: View {
                 DeadlinePickerView(selectedDate: self.$selectedDate)
                 Button(action: {
                     addAssignment(name: assignmentName, points: pointValue, date: selectedDate)
-                    //change view back to home view
+                    self.presentationMode.wrappedValue.dismiss()
                 }, label: {
                     HStack{
                         Spacer()
@@ -76,7 +76,7 @@ struct AddAssignmentView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        //change view back to home view
+                        self.presentationMode.wrappedValue.dismiss()
                     }, label : {
                         Text("Cancel")
                     })
