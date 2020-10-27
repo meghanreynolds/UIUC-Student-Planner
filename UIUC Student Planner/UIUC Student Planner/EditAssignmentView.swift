@@ -26,13 +26,22 @@ struct EditAssignmentView: View {
                         .onChange(of: newName) { value in
                           item.name = newName
                         }
+                        .onAppear(){
+                            newName = item.name ?? ""
+                        }
                 }
                 Section(header: Text("Assignment Details")) {
                     Stepper(value: $newPoints,in: 0...100){
                        Text(getPoints())
                     }
+                    .onAppear(){
+                        newPoints = item.points
+                    }
                 }
                 DeadlinePickerView.init(selectedDate: self.$newDate)
+                    .onAppear(){
+                        newDate = item.dueDate ?? Date()
+                    }
                 Button(action: {
                     saveContext()
                     self.presentationMode.wrappedValue.dismiss()
