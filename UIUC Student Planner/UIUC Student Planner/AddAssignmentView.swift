@@ -48,6 +48,8 @@ struct AddAssignmentView: View {
             Form {
                 Section{
                     TextField("Assignment Name", text: $assignmentName)
+//                    TagView(addable: false, tags: ["CS 192", "MATH 241", "Apple", "Banana", "Country", "Donald J. Trump", "China", "Coronavirus"])
+                    //TagView is under development.
                 }
                 Section(header: Text("Assignment Details")) {
                     Stepper(value: $pointValue,in: 0...100) {
@@ -66,11 +68,6 @@ struct AddAssignmentView: View {
                     }
                 })
             }
-            /*.animation(.linear)
-             was going to add animation, but SwiftUI glitches.
-             https://stackoverflow.com/questions/62570238/fix-odd-datepicker-animation-behaviour-in-swiftui-form
-             */
-            
             //title of the page
             .navigationBarTitle(self.navigationBarTitle)
             .toolbar {
