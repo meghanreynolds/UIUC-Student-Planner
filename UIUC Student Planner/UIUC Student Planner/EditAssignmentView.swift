@@ -23,25 +23,13 @@ struct EditAssignmentView: View {
                 Section(header: Text("Assignment Name")){
                     TextField("Assignment Name", text: $newName)
                         //updates item.name if the user changes the assignment's name
-                        .onChange(of: newName) { value in
-                          item.name = newName
-                        }
-                        .onAppear(){
-                            newName = item.name ?? "Untitled Assignment"
-                        }
                 }
                 Section(header: Text("Assignment Details")) {
-                    Stepper(value: $newPoints,in: 0...100){
+                    Stepper(value: $newPoints ,in: 0...100){
                        Text(getPoints())
-                    }
-                    .onAppear(){
-                        newPoints = item.points
                     }
                 }
                 DeadlinePickerView.init(selectedDate: self.$newDate)
-                    .onAppear(){
-                        newDate = item.dueDate ?? Date()
-                    }
                 Button(action: {
                     saveContext()
                     self.presentationMode.wrappedValue.dismiss()
@@ -64,9 +52,19 @@ struct EditAssignmentView: View {
                 }
             }
         }
+        .onAppear {
+            newName = item.name ?? "Untitled Assignment"
+            newPoints = item.points
+            newDate = item.dueDate ?? Date()
+        }
     }
+    
     func saveContext() {
       do {
+        item.name = newName
+        item.points = newPoints
+        item.dueDate = newDate
+        
         try viewContext.save()
       } catch {
         print("Error saving managed object context: \(error)")
@@ -75,8 +73,7 @@ struct EditAssignmentView: View {
     
     func getPoints() -> String {
         //updates the assignment's points and displays the points to the user
-        item.points = newPoints
-        return "\(item.points) Point\(item.points != 1 ? "s" : "")"
+        return "\(newPoints) Point\(newPoints != 1 ? "s" : "")"
     }
 }
 
