@@ -6,9 +6,6 @@ extension Color {
     public static var ListBackground: Color {
         return Color(decimalRed: 19, green: 41 , blue: 75 )
     }
-    public static var ListBackground2: Color {
-        return Color(decimalRed: 232, green: 74, blue: 39)
-    }
     
 }
 
@@ -30,7 +27,7 @@ struct ContentView: View {
            NavigationView {
                List {
                    ForEach(items) { item in
-                    NavigationLink(destination:AssignmentView(assignment: Assignment(context: PersistenceController.preview.container.viewContext))) {
+                    NavigationLink(destination:AssignmentView(assignment: item)) {
 //                       Text("Item at \(item.timestamp!, formatter: itemFormatter)") // creates the text in the list
                             HStack {
                                 AssignmentAttributes(assignment: item)
@@ -48,16 +45,18 @@ struct ContentView: View {
                    .onDelete(perform: deleteItems)
                    .background(Color.ListBackground)
                    .cornerRadius(15)
-               }
+               }.navigationTitle("UIUC Student Planner")
+               .navigationBarTitleDisplayMode(.inline)
+               
                
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     EditButton()
                 }
-            
-                ToolbarItem(placement: .navigationBarLeading) {
-                    CircleImage()
-                }
+                
+//                ToolbarItem( placement: .navigationBarTrailing) {
+//                    CircleImage()
+//                }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {self.showingDetail.toggle()}) {
@@ -69,6 +68,7 @@ struct ContentView: View {
                     }
                 }
             }
+               
            }
     }
 

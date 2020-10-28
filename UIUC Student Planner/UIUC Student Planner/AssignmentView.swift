@@ -17,7 +17,7 @@ struct AssignmentView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 20) {
-                    Text("\(assignment.name ?? "Test Assignment")")
+                    Text((assignment.name ?? "Test Assignment"))
                             .font(.largeTitle)
                         .fontWeight(.medium)
                 VStack(alignment: .leading) {
