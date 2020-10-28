@@ -15,7 +15,6 @@ struct AssignmentView: View {
     @State var assignment: Assignment
     
     var body: some View {
-        NavigationView {
             VStack(alignment: .leading, spacing: 20) {
                     Text("\(assignment.name ?? "Test Assignment")")
                             .font(.largeTitle)
@@ -44,7 +43,6 @@ struct AssignmentView: View {
             .padding()
             .navigationBarTitleDisplayMode(.inline)
         }
-    }
     
        
     
