@@ -15,9 +15,8 @@ struct AssignmentView: View {
     @State var assignment: Assignment
     
     var body: some View {
-        NavigationView {
             VStack(alignment: .leading, spacing: 20) {
-                    Text("\(assignment.name ?? "Test Assignment")")
+                    Text((assignment.name ?? "Test Assignment"))
                             .font(.largeTitle)
                         .fontWeight(.medium)
                 VStack(alignment: .leading) {
@@ -36,7 +35,7 @@ struct AssignmentView: View {
                     }
                 }
                 .sheet(isPresented: $isPresented, content: {
-                    EditAssignmentView(item: Assignment(context: PersistenceController.preview.container.viewContext))
+                    EditAssignmentView(item: assignment)
                 })
                 
                 Spacer()
@@ -44,7 +43,6 @@ struct AssignmentView: View {
             .padding()
             .navigationBarTitleDisplayMode(.inline)
         }
-    }
     
        
     

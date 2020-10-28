@@ -11,7 +11,7 @@ import CoreData
 struct AddAssignmentView: View {
     //Viewcontext for the database
     @Environment(\.managedObjectContext) private var viewContext
-
+    @Environment(\.presentationMode) var presentationMode
     //essential values for assignment
     //default values are later registered in initializers.
     @State var assignmentName: String
@@ -48,6 +48,8 @@ struct AddAssignmentView: View {
             Form {
                 Section{
                     TextField("Assignment Name", text: $assignmentName)
+//                    TagView(addable: false, tags: ["CS 192", "MATH 241", "Apple", "Banana", "Country", "Donald J. Trump", "China", "Coronavirus"])
+                    //TagView is under development.
                 }
                 Section(header: Text("Assignment Details")) {
                     Stepper(value: $pointValue,in: 0...100) {
@@ -57,7 +59,7 @@ struct AddAssignmentView: View {
                 DeadlinePickerView(selectedDate: self.$selectedDate)
                 Button(action: {
                     addAssignment(name: assignmentName, points: pointValue, date: selectedDate)
-                    //change view back to home view
+                    self.presentationMode.wrappedValue.dismiss()
                 }, label: {
                     HStack{
                         Spacer()
@@ -66,17 +68,12 @@ struct AddAssignmentView: View {
                     }
                 })
             }
-            /*.animation(.linear)
-             was going to add animation, but SwiftUI glitches.
-             https://stackoverflow.com/questions/62570238/fix-odd-datepicker-animation-behaviour-in-swiftui-form
-             */
-            
             //title of the page
             .navigationBarTitle(self.navigationBarTitle)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        //change view back to home view
+                        self.presentationMode.wrappedValue.dismiss()
                     }, label : {
                         Text("Cancel")
                     })
