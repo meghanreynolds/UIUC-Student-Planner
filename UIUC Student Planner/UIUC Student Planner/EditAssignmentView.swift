@@ -21,13 +21,13 @@ struct EditAssignmentView: View {
         NavigationView {
             Form {
                 Section(header: Text("Assignment Name")){
-                    TextField(item.name ?? "Assignment Name", text: $newName)
+                    TextField("Assignment Name", text: $newName)
                         //updates item.name if the user changes the assignment's name
                         .onChange(of: newName) { value in
                           item.name = newName
                         }
                         .onAppear(){
-                            newName = item.name ?? ""
+                            newName = item.name ?? "Untitled Assignment"
                         }
                 }
                 Section(header: Text("Assignment Details")) {
