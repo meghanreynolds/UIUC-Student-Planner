@@ -17,6 +17,7 @@ struct AddAssignmentView: View {
     @State var assignmentName: String
     @State var pointValue: Int64
     @State var selectedDate: Date
+    @State var codes = [String]()
     var navigationBarTitle = ""
     
     
@@ -55,6 +56,7 @@ struct AddAssignmentView: View {
                     Stepper(value: $pointValue,in: 0...100) {
                         Text("\(pointValue) Point\(pointValue != 1 ? "s" : "")")
                     }
+                    AdditionalFieldViewListView(placeholder: "Link to Assignment", addTxt: "link", holder: "")
                 }
                 DeadlinePickerView(selectedDate: self.$selectedDate)
                 Button(action: {
