@@ -21,7 +21,6 @@
 		237E09A9253A661E00B26AB2 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237E09A8253A661E00B26AB2 /* Date+Ext.swift */; };
 		23F332C725461D46007811B2 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F332C625461D46007811B2 /* TagView.swift */; };
 		23F332CE25463091007811B2 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F332CD25463091007811B2 /* String+Ext.swift */; };
-		79333931254CC39D009CD272 /* AdditionalFieldViewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79333930254CC39D009CD272 /* AdditionalFieldViewListView.swift */; };
 		A80825D525393231002861F3 /* ItemTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A80825D425393231002861F3 /* ItemTestView.swift */; };
 		A8D2211A253D256500E2A13A /* AssignmentAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D22119253D256400E2A13A /* AssignmentAttributes.swift */; };
 /* End PBXBuildFile section */
@@ -43,7 +42,6 @@
 		237E09A8253A661E00B26AB2 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		23F332C625461D46007811B2 /* TagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		23F332CD25463091007811B2 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
-		79333930254CC39D009CD272 /* AdditionalFieldViewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalFieldViewListView.swift; sourceTree = "<group>"; };
 		A80825D425393231002861F3 /* ItemTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTestView.swift; sourceTree = "<group>"; };
 		A8D22119253D256400E2A13A /* AssignmentAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentAttributes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -110,7 +108,6 @@
 			children = (
 				230DB4D6253F9CBB005D7427 /* DeadlinePickerView.swift */,
 				23F332C625461D46007811B2 /* TagView.swift */,
-				79333930254CC39D009CD272 /* AdditionalFieldViewListView.swift */,
 			);
 			path = SupportingView;
 			sourceTree = "<group>";
@@ -194,7 +191,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				230DB4D7253F9CBB005D7427 /* DeadlinePickerView.swift in Sources */,
-				79333931254CC39D009CD272 /* AdditionalFieldViewListView.swift in Sources */,
 				22D5435F252E67980069E6D2 /* UIUC_Student_Planner.xcdatamodeld in Sources */,
 				224AA7E3252E696800194BF5 /* EditAssignmentView.swift in Sources */,
 				A8D2211A253D256500E2A13A /* AssignmentAttributes.swift in Sources */,

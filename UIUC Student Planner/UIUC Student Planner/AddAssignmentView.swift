@@ -17,7 +17,9 @@ struct AddAssignmentView: View {
     @State var assignmentName: String
     @State var pointValue: Int64
     @State var selectedDate: Date
-    @State var codes = [String]()
+    @State var formShowing: Bool = false
+    @State var holder: String = ""
+    
     var navigationBarTitle = ""
     
     
@@ -49,18 +51,45 @@ struct AddAssignmentView: View {
             Form {
                 Section{
                     TextField("Assignment Name", text: $assignmentName)
-//                    TagView(addable: false, tags: ["CS 192", "MATH 241", "Apple", "Banana", "Country", "Donald J. Trump", "China", "Coronavirus"])
-                    //TagView is under development.
                 }
                 Section(header: Text("Assignment Details")) {
+                    //Point Value Stepper
                     Stepper(value: $pointValue,in: 0...100) {
                         Text("\(pointValue) Point\(pointValue != 1 ? "s" : "")")
                     }
-                    AdditionalFieldViewListView(placeholder: "Link to Assignment", addTxt: "link", holder: "")
+                    //Add a link field
+                    List{
+                        if formShowing {
+                            HStack {
+                                Button(action: {formShowing = false}) {
+                                    HStack {
+                                        Image(systemName: "minus.circle.fill")
+                                            .foregroundColor(.red)
+                                    }
+                                }
+                                Text("link")
+                                    .foregroundColor(.blue)
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.gray)
+                                Divider()
+                                TextField("link to assignment", text: $holder)
+                            }
+                        }
+                        Button(action: {formShowing = true
+                        }) {
+                            HStack {
+                                Image(systemName: "plus.circle.fill")
+                                    .foregroundColor(.green)
+                                Text("Add a link")
+                            }
+                        }
+                    }
+                    TagView(addable: false, tags: ["CS196", "CS125", "CS225","CS173"])
+                    //TagView is under development
                 }
                 DeadlinePickerView(selectedDate: self.$selectedDate)
                 Button(action: {
-                    addAssignment(name: assignmentName, points: pointValue, date: selectedDate)
+                    addAssignment(name: assignmentName, points: pointValue, date: selectedDate, convertToLink: holder)
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
                     HStack{
@@ -84,13 +113,14 @@ struct AddAssignmentView: View {
         }
     }
     
-    func addAssignment(name: String, points: Int64, date: Date) {
+    func addAssignment(name: String, points: Int64, date: Date, convertToLink: String) {
         //create new Assignment and set its values
+        let link: URL = URL(string: convertToLink)!
         let newAssignment = Assignment(context: viewContext)
         newAssignment.name = name
         newAssignment.points = points
         newAssignment.dueDate = date
-        
+        newAssignment.linkToAssignment = link
         saveContext()
     }
     

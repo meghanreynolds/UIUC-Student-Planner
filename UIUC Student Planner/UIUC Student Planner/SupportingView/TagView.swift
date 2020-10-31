@@ -21,7 +21,7 @@ struct TagView: View {
     init(addable: Bool = false, tags: Array<String> = []){
         self.addable = addable
         self.tags = tags
-        self.tags.insert("TAG:", at: 0)  //the TAG: text at the beginning of the view
+        self.tags.insert("TAGS:", at: 0)  //the TAG: text at the beginning of the view
         if self.addable{
             self.tags.append("+")  //the plus sign for adding a tag
         }
@@ -44,7 +44,7 @@ struct TagView: View {
     
     private func tagViewCell(for indexPath: (Int, Int)) -> some View{
         if indexPath == (0, 0){
-            let tv = Text("TAG:")
+            let tv = Text("TAGS:")
                 .font(.system(size: 12, weight: .bold, design: .default))
                 .fixedSize()
                 .padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))  //cell padding
