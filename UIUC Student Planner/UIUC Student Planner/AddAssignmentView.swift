@@ -57,11 +57,15 @@ struct AddAssignmentView: View {
                     Stepper(value: $pointValue,in: 0...100) {
                         Text("\(pointValue) Point\(pointValue != 1 ? "s" : "")")
                     }
-                    //Add a link field
+                    //Allows the user to add a link to their assignment
                     List{
+                        //textfield allowing a user to add a link
                         if formShowing {
                             HStack {
-                                Button(action: {formShowing = false}) {
+                                //closes textfield view if user no longer wants a link
+                                Button(action: {formShowing = false
+                                    holder = ""
+                                }) {
                                     HStack {
                                         Image(systemName: "minus.circle.fill")
                                             .foregroundColor(.red)
@@ -72,9 +76,13 @@ struct AddAssignmentView: View {
                                 Image(systemName: "chevron.right")
                                     .foregroundColor(.gray)
                                 Divider()
+                                //allows user to input link without dealing with autocorect and autocapitalization
                                 TextField("link to assignment", text: $holder)
+                                    .disableAutocorrection(true)
+                                    .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
                             }
                         }
+                        //Causes add link textfield to appear on click
                         Button(action: {formShowing = true
                         }) {
                             HStack {
@@ -115,12 +123,16 @@ struct AddAssignmentView: View {
     
     func addAssignment(name: String, points: Int64, date: Date, convertToLink: String) {
         //create new Assignment and set its values
-        let link: URL = URL(string: convertToLink)!
         let newAssignment = Assignment(context: viewContext)
         newAssignment.name = name
         newAssignment.points = points
         newAssignment.dueDate = date
-        newAssignment.linkToAssignment = link
+        if (convertToLink != "") {
+            let link: URL = URL(string: convertToLink)!
+            newAssignment.linkToAssignment = link
+        } else {
+            newAssignment.linkToAssignment = nil
+        }
         saveContext()
     }
     

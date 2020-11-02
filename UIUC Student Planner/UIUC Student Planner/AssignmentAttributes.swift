@@ -28,7 +28,7 @@ struct AssignmentAttributes: View {
             Color.CardBackground
             HStack {
                 VStack(alignment: .leading) {
-                     Text("Assignment Name: \(assignment.name ?? "Unknown")")
+                     Text("\(assignment.name ?? "Unknown")")
                         .font(.headline)
                         .fontWeight(.bold)
                         .lineLimit(2)

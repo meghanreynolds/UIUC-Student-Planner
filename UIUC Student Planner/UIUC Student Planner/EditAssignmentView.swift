@@ -16,7 +16,13 @@ struct EditAssignmentView: View {
     
     @State var newName: String = ""
     @State var newPoints: Int64 = 0
+    
+    @State var formShowing: Bool = false
+    @State var newLink: URL = URL(string: "tester.com")!
+    @State var holder: String = ""
+    
     @State var newDate = Date.init(timeIntervalSinceNow: 0)
+    
     var body: some View {
         NavigationView {
             Form {
@@ -24,10 +30,45 @@ struct EditAssignmentView: View {
                     TextField("Assignment Name", text: $newName)
                         //updates item.name if the user changes the assignment's name
                 }
-                Section(header: Text("Assignment Details")) {
+                Section (header: Text("Assignment Details")) {
                     Stepper(value: $newPoints ,in: 0...100){
                        Text(getPoints())
                     }
+                    //Allows the user to add or remove a link to their assignment
+                        List{
+                            if formShowing {
+                                //textfield allowing a user to add a link
+                                HStack {
+                                    //closes textfield view if user no longer wants a link
+                                    Button(action: {formShowing = false
+                                        holder = ""
+                                    }) {
+                                        HStack {
+                                            Image(systemName: "minus.circle.fill")
+                                                .foregroundColor(.red)
+                                        }
+                                    }
+                                    Text("link")
+                                        .foregroundColor(.blue)
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.gray)
+                                    Divider()
+                                    //allows user to input link without dealing with autocorect and autocapitalization
+                                    TextField("link to assignment", text: $holder)
+                                        .disableAutocorrection(true)
+                                        .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+                                }
+                            }
+                            //Causes add link textfield to appear on click
+                            Button(action: {formShowing = true
+                            }) {
+                                HStack {
+                                    Image(systemName: "plus.circle.fill")
+                                        .foregroundColor(.green)
+                                    Text("Add a link")
+                                }
+                            }
+                        }
                 }
                 DeadlinePickerView.init(selectedDate: self.$newDate)
                 Button(action: {
@@ -56,6 +97,12 @@ struct EditAssignmentView: View {
             newName = item.name ?? "Untitled Assignment"
             newPoints = item.points
             newDate = item.dueDate ?? Date()
+            newLink = item.linkToAssignment ?? URL(string: "tester.com")!
+            //causes link textfield to appear immediately if the user has already entered a link and to remain hidden otherwise
+            if newLink != URL(string: "tester.com")! {
+                formShowing = true
+                holder = "\(newLink)"
+            }
         }
     }
     
@@ -64,7 +111,12 @@ struct EditAssignmentView: View {
         item.name = newName
         item.points = newPoints
         item.dueDate = newDate
-        
+        if holder != "" {
+            let link: URL = URL(string: holder)!
+            item.linkToAssignment = link
+        } else {
+            item.linkToAssignment = nil
+        }
         try viewContext.save()
       } catch {
         print("Error saving managed object context: \(error)")
