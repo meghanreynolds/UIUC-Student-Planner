@@ -48,7 +48,7 @@ struct AddAssignmentView: View {
             Form {
                 Section{
                     TextField("Assignment Name", text: $assignmentName)
-//                    TagView(addable: false, tags: ["CS 192", "MATH 241", "Apple", "Banana", "Country", "Donald J. Trump", "China", "Coronavirus"])
+                    TagView(addable: true, selectedTags: [])
                     //TagView is under development.
                 }
                 Section(header: Text("Assignment Details")) {
