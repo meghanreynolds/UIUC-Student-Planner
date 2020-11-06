@@ -19,7 +19,7 @@ struct AddAssignmentView: View {
     @State var selectedDate: Date
     @State var formShowing: Bool = false
     @State var holder: String = ""
-    
+    @State var isPinned: Bool = false
     var navigationBarTitle = ""
     
     
@@ -92,6 +92,9 @@ struct AddAssignmentView: View {
                             }
                         }
                     }
+                    Toggle(isOn: $isPinned) {
+                        Text("Pin Assignment")
+                    }
                     TagView(addable: false, tags: ["CS196", "CS125", "CS225","CS173"])
                     //TagView is under development
                 }
@@ -127,6 +130,7 @@ struct AddAssignmentView: View {
         newAssignment.name = name
         newAssignment.points = points
         newAssignment.dueDate = date
+        newAssignment.pinned = isPinned
         if (convertToLink != "") {
             let link: URL = URL(string: convertToLink)!
             newAssignment.linkToAssignment = link

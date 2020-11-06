@@ -21,6 +21,8 @@ struct EditAssignmentView: View {
     @State var newLink: URL = URL(string: "tester.com")!
     @State var holder: String = ""
     
+    @State var isPinned: Bool = false
+    
     @State var newDate = Date.init(timeIntervalSinceNow: 0)
     
     var body: some View {
@@ -69,6 +71,9 @@ struct EditAssignmentView: View {
                                 }
                             }
                         }
+                    Toggle(isOn: $isPinned) {
+                        Text("Pin Assignment")
+                    }
                 }
                 DeadlinePickerView.init(selectedDate: self.$newDate)
                 Button(action: {
@@ -98,6 +103,7 @@ struct EditAssignmentView: View {
             newPoints = item.points
             newDate = item.dueDate ?? Date()
             newLink = item.linkToAssignment ?? URL(string: "tester.com")!
+            isPinned = item.pinned
             //causes link textfield to appear immediately if the user has already entered a link and to remain hidden otherwise
             if newLink != URL(string: "tester.com")! {
                 formShowing = true
@@ -111,6 +117,7 @@ struct EditAssignmentView: View {
         item.name = newName
         item.points = newPoints
         item.dueDate = newDate
+        item.pinned = isPinned
         if holder != "" {
             let link: URL = URL(string: holder)!
             item.linkToAssignment = link
