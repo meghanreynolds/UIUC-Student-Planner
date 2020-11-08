@@ -13,11 +13,12 @@ struct AssignmentView: View {
     @State var isPresented = false
     //The assignment passed in from the parent view
     @State var assignment: Assignment
+    var tags = ["test", "test2"]
     
     var body: some View {
             VStack(alignment: .leading, spacing: 20) {
-                    Text("\(assignment.name ?? "Test Assignment")")
-                            .font(.largeTitle)
+                Text("\(assignment.name ?? "Test Assignment")")
+                        .font(.largeTitle)
                         .fontWeight(.medium)
                 VStack(alignment: .leading) {
                     HStack {
@@ -26,7 +27,20 @@ struct AssignmentView: View {
                         Text("\(assignment.points) Points")
                             .foregroundColor(Color.green)
                     }
-                    Text("\(assignment.dueDate ?? Date(), formatter: timeFormatter)")
+                Text("\(assignment.dueDate ?? Date(), formatter: timeFormatter)")
+                HStack {
+                    ForEach(tags, id: \.self) {tag in
+                        Button(action: {}) {
+                            HStack {
+                                Text(tag)
+                            }
+                        }
+                        .padding()
+                        .foregroundColor(.white)
+                        .background(Color.gray)
+                        .cornerRadius(25.0)
+                    }
+                }
                 }.toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button("Edit", action: {
