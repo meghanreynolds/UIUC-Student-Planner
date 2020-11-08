@@ -20,7 +20,7 @@ struct AddAssignmentView: View {
     @State var formShowing: Bool = false
     @State var holder: String = ""
     @State var isPinned: Bool = false
-    @State var selectedTag = Array<String>()
+    @State var selectedTag = Array<Tag>()
     var navigationBarTitle = ""
     
     
@@ -139,6 +139,7 @@ struct AddAssignmentView: View {
         } else {
             newAssignment.linkToAssignment = nil
         }
+        newAssignment.tags = Set(self.selectedTag) as NSSet
         saveContext()
     }
     
@@ -151,12 +152,16 @@ struct AddAssignmentView: View {
     }
     
     private func getSelectedTagText() -> some View{
-        let s = self.selectedTag.joined(separator: ", ")
-        if s.count == 0{
+        if self.selectedTag.count == 0{
             return Text("no tag selected")
                 .foregroundColor(.gray)
                 .font(Font.system(size: 15))
         }
+        var s = ""
+        for i in stride(from: 0, to: self.selectedTag.count - 1, by: 1){
+            s += self.selectedTag[i].name! + ", "
+        }
+        s += self.selectedTag.last!.name!
         return Text(s).font(Font.system(size: 15))
     }
 }

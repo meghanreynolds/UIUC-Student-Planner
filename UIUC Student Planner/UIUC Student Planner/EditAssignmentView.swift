@@ -25,12 +25,17 @@ struct EditAssignmentView: View {
     
     @State var newDate = Date.init(timeIntervalSinceNow: 0)
     
+    @State var newSelectedTag = Array<Tag>()
+    
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Assignment Name")){
                     TextField("Assignment Name", text: $newName)
                         //updates item.name if the user changes the assignment's name
+                    NavigationLink(destination: TagPicker(selectedTags: self.$newSelectedTag)){
+                        self.getSelectedTagText()
+                    }
                 }
                 Section (header: Text("Assignment Details")) {
                     Stepper(value: $newPoints ,in: 0...100){
@@ -109,6 +114,7 @@ struct EditAssignmentView: View {
                 formShowing = true
                 holder = "\(newLink)"
             }
+            newSelectedTag = Array.init((item.tags ?? NSSet()) as! Set)
         }
     }
     
@@ -124,6 +130,8 @@ struct EditAssignmentView: View {
         } else {
             item.linkToAssignment = nil
         }
+        item.tags = Set(self.newSelectedTag) as NSSet
+        
         try viewContext.save()
       } catch {
         print("Error saving managed object context: \(error)")
@@ -133,6 +141,20 @@ struct EditAssignmentView: View {
     func getPoints() -> String {
         //updates the assignment's points and displays the points to the user
         return "\(newPoints) Point\(newPoints != 1 ? "s" : "")"
+    }
+    
+    private func getSelectedTagText() -> some View{
+        if self.newSelectedTag.count == 0{
+            return Text("no tag selected")
+                .foregroundColor(.gray)
+                .font(Font.system(size: 15))
+        }
+        var s = ""
+        for i in stride(from: 0, to: self.newSelectedTag.count - 1, by: 1){
+            s += self.newSelectedTag[i].name! + ", "
+        }
+        s += self.newSelectedTag.last!.name!
+        return Text(s).font(Font.system(size: 15))
     }
 }
 

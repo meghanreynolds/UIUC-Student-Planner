@@ -12,7 +12,7 @@ struct TagPicker: View{
     
     @State var createNewTag = false
     @State var newTagName: String = ""
-    @Binding var selectedTags: Array<String>
+    @Binding var selectedTags: Array<Tag>
     
     @Environment(\.managedObjectContext) private var viewContext
     //The fetch request getting all the assignments and sorting them by their timestamps
@@ -44,7 +44,7 @@ struct TagPicker: View{
                     }catch{
                         
                     }
-                    self.selectedTags.append(self.newTagName)
+                    self.selectedTags.append(t)
                     self.newTagName = ""
                     self.createNewTag.toggle()
                 }.disabled(self.newTagName == "")
@@ -56,16 +56,16 @@ struct TagPicker: View{
                 HStack{
                     Text(tag.name!)
                     Spacer()
-                    if self.selectedTags.contains(tag.name ?? ""){
+                    if self.selectedTags.contains(tag){
                         Image.init(systemName: "checkmark").foregroundColor(.blue)
                     }else{
                         EmptyView()
                     }
                 }.contentShape(Rectangle()).onTapGesture {
-                    if self.selectedTags.contains(tag.name!){
-                        self.selectedTags.remove(at: self.selectedTags.firstIndex(of: tag.name!)!)
+                    if self.selectedTags.contains(tag){
+                        self.selectedTags.remove(at: self.selectedTags.firstIndex(of: tag)!)
                     }else{
-                        self.selectedTags.append(tag.name!)
+                        self.selectedTags.append(tag)
                     }
                 }
             }
