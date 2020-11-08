@@ -157,7 +157,7 @@ struct AddAssignmentView: View {
                 .foregroundColor(.gray)
                 .font(Font.system(size: 15))
         }
-        return Text(s.dropLast(1)).font(Font.system(size: 15))
+        return Text(s).font(Font.system(size: 15))
     }
 }
 
