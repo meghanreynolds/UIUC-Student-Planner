@@ -17,6 +17,8 @@ struct AddAssignmentView: View {
     @State var assignmentName: String
     @State var pointValue: Int64
     @State var selectedDate: Date
+    @State var showTagDetail: Bool = false
+    @State var selectedTag = Array<String>()
     var navigationBarTitle = ""
     
     
@@ -48,8 +50,9 @@ struct AddAssignmentView: View {
             Form {
                 Section{
                     TextField("Assignment Name", text: $assignmentName)
-                    TagView(addable: true, selectedTags: [])
-                    //TagView is under development.
+                    NavigationLink(destination: TagPicker(selectedTags: self.$selectedTag)){
+                        self.getSelectedTagText()
+                    }
                 }
                 Section(header: Text("Assignment Details")) {
                     Stepper(value: $pointValue,in: 0...100) {
@@ -98,6 +101,16 @@ struct AddAssignmentView: View {
       } catch {
         print("Error saving managed object context: \(error)")
       }
+    }
+    
+    private func getSelectedTagText() -> some View{
+        let s = self.selectedTag.joined(separator: ", ")
+        if s.count == 0{
+            return Text("no tag selected")
+                .foregroundColor(.gray)
+                .font(Font.system(size: 15))
+        }
+        return Text(s.dropLast(1)).font(Font.system(size: 15))
     }
 }
 
