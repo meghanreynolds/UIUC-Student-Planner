@@ -17,7 +17,9 @@ struct AddAssignmentView: View {
     @State var assignmentName: String
     @State var pointValue: Int64
     @State var selectedDate: Date
-    @State var showTagDetail: Bool = false
+    @State var formShowing: Bool = false
+    @State var holder: String = ""
+    @State var isPinned: Bool = false
     @State var selectedTag = Array<String>()
     var navigationBarTitle = ""
     
@@ -55,13 +57,52 @@ struct AddAssignmentView: View {
                     }
                 }
                 Section(header: Text("Assignment Details")) {
+                    //Point Value Stepper
                     Stepper(value: $pointValue,in: 0...100) {
                         Text("\(pointValue) Point\(pointValue != 1 ? "s" : "")")
+                    }
+                    //Allows the user to add a link to their assignment
+                    List{
+                        //textfield allowing a user to add a link
+                        if formShowing {
+                            HStack {
+                                //closes textfield view if user no longer wants a link
+                                Button(action: {formShowing = false
+                                    holder = ""
+                                }) {
+                                    HStack {
+                                        Image(systemName: "minus.circle.fill")
+                                            .foregroundColor(.red)
+                                    }
+                                }
+                                Text("link")
+                                    .foregroundColor(.blue)
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.gray)
+                                Divider()
+                                //allows user to input link without dealing with autocorect and autocapitalization
+                                TextField("link to assignment", text: $holder)
+                                    .disableAutocorrection(true)
+                                    .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+                            }
+                        }
+                        //Causes add link textfield to appear on click
+                        Button(action: {formShowing = true
+                        }) {
+                            HStack {
+                                Image(systemName: "plus.circle.fill")
+                                    .foregroundColor(.green)
+                                Text("Add a link")
+                            }
+                        }
+                    }
+                    Toggle(isOn: $isPinned) {
+                        Text("Pin Assignment")
                     }
                 }
                 DeadlinePickerView(selectedDate: self.$selectedDate)
                 Button(action: {
-                    addAssignment(name: assignmentName, points: pointValue, date: selectedDate)
+                    addAssignment(name: assignmentName, points: pointValue, date: selectedDate, convertToLink: holder)
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
                     HStack{
@@ -85,13 +126,19 @@ struct AddAssignmentView: View {
         }
     }
     
-    func addAssignment(name: String, points: Int64, date: Date) {
+    func addAssignment(name: String, points: Int64, date: Date, convertToLink: String) {
         //create new Assignment and set its values
         let newAssignment = Assignment(context: viewContext)
         newAssignment.name = name
         newAssignment.points = points
         newAssignment.dueDate = date
-        
+        newAssignment.pinned = isPinned
+        if (convertToLink != "") {
+            let link: URL = URL(string: convertToLink)!
+            newAssignment.linkToAssignment = link
+        } else {
+            newAssignment.linkToAssignment = nil
+        }
         saveContext()
     }
     

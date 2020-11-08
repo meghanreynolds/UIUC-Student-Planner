@@ -28,12 +28,19 @@ struct AssignmentAttributes: View {
             Color.CardBackground
             HStack {
                 VStack(alignment: .leading) {
-                     Text("Assignment Name: \(assignment.name ?? "Unknown")")
-                        .font(.headline)
-                        .fontWeight(.bold)
-                        .lineLimit(2)
-                        .padding(.bottom, 5)
-                        .foregroundColor(Color.white)
+                    HStack{
+                        Text("\(assignment.name ?? "Unknown")")
+                           .font(.headline)
+                           .fontWeight(.bold)
+                           .lineLimit(2)
+                           .padding(.bottom, 5)
+                           .foregroundColor(Color.white)
+                        Spacer()
+                        if(assignment.pinned) {
+                            Image(systemName: "pin.fill")
+                                .foregroundColor(.white)
+                        }
+                    }
                     
                     Text("Due Date: \(assignment.dueDate ?? Date(), formatter: dayFormatter)")
                         .padding(.bottom, 5)
