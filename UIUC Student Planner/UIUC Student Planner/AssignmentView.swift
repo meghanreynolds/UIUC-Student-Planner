@@ -58,15 +58,37 @@ struct AssignmentView: View {
                         .background(Color.green)
                         .cornerRadius(25.0)
                     }
-                    Button(action: {}) {
-                        HStack {
-                            Text("Priority: \(assignment.priority)")
+                    if (assignment.priority == 0) {
+                        Button(action: {}) {
+                            HStack {
+                                Text("Priority: Low")
+                            }
                         }
+                        .padding(10.0)
+                        .foregroundColor(.white)
+                        .background(Color.green)
+                        .cornerRadius(25.0)
+                    } else if (assignment.priority == 1) {
+                        Button(action: {}) {
+                            HStack {
+                                Text("Priority: Normal")
+                            }
+                        }
+                        .padding(10.0)
+                        .foregroundColor(.white)
+                        .background(Color.yellow)
+                        .cornerRadius(25.0)
+                    } else {
+                        Button(action: {}) {
+                            HStack {
+                                Text("Priority: High")
+                            }
+                        }
+                        .padding(10.0)
+                        .foregroundColor(.white)
+                        .background(Color.red)
+                        .cornerRadius(25.0)
                     }
-                    .padding(10.0)
-                    .foregroundColor(.white)
-                    .background(Color.blue)
-                    .cornerRadius(25.0)
                 }
                 }.toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
