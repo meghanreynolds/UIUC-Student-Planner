@@ -9,6 +9,7 @@ import SwiftUI
 import CoreData
 
 struct AddAssignmentView: View {
+
     //Viewcontext for the database
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
@@ -20,6 +21,8 @@ struct AddAssignmentView: View {
     @State var formShowing: Bool = false
     @State var holder: String = ""
     @State var isPinned: Bool = false
+    @State var pickerShowing: Bool = false
+    @State var setPriority = Priority.normal
     @State var selectedTag = Array<Tag>()
     var navigationBarTitle = ""
     
@@ -46,7 +49,13 @@ struct AddAssignmentView: View {
         self._selectedDate = State.init(initialValue: date)
         self.navigationBarTitle = "Edit Assignment"
     }
-    
+    enum Priority: String, CaseIterable, Identifiable {
+        case Low
+        case normal
+        case High
+
+        var id: String { self.rawValue }
+    }
     var body: some View {
         NavigationView {
             Form {
@@ -96,10 +105,31 @@ struct AddAssignmentView: View {
                             }
                         }
                     }
+                    //allows user to set the assignment's priority
+                    HStack {
+                        Text("Priority  ")
+                        Divider()
+                        Button(action:{pickerShowing = !pickerShowing}, label: {
+                            Text("\(setPriority.rawValue.capitalized)")
+                                .foregroundColor(.black)
+                        })
+                        Spacer()
+                        Image(systemName: "chevron.down")
+                            .foregroundColor(.blue)
+                    }
+                    //if the user clicks to change the priority they are presented with a wheel picker
+                    if (pickerShowing) {
+                        Picker("Priority", selection: $setPriority) {
+                                Text("Low").tag(Priority.Low)
+                                Text("Normal").tag(Priority.normal)
+                                Text("High").tag(Priority.High)
+                        }.pickerStyle(WheelPickerStyle())
+                    }
                     Toggle(isOn: $isPinned) {
                         Text("Pin Assignment")
                     }
                 }
+                
                 DeadlinePickerView(selectedDate: self.$selectedDate)
                 Button(action: {
                     addAssignment(name: assignmentName, points: pointValue, date: selectedDate, convertToLink: holder)
@@ -138,6 +168,13 @@ struct AddAssignmentView: View {
             newAssignment.linkToAssignment = link
         } else {
             newAssignment.linkToAssignment = nil
+        }
+        if (setPriority.rawValue == Priority.normal.rawValue) {
+            newAssignment.priority = 1;
+        } else if (setPriority.rawValue == Priority.High.rawValue) {
+            newAssignment.priority = 2;
+        } else {
+            newAssignment.priority = 0;
         }
         newAssignment.tags = Set(self.selectedTag) as NSSet
         saveContext()

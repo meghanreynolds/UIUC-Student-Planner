@@ -21,11 +21,22 @@ struct EditAssignmentView: View {
     @State var newLink: URL = URL(string: "tester.com")!
     @State var holder: String = ""
     
+    @State var pickerShowing: Bool = false
+    @State var newPriority = Priority.normal
+    
     @State var isPinned: Bool = false
     
     @State var newDate = Date.init(timeIntervalSinceNow: 0)
     
     @State var newSelectedTag = Array<Tag>()
+    
+    enum Priority: String, CaseIterable, Identifiable {
+        case Low
+        case normal
+        case High
+
+        var id: String { self.rawValue }
+    }
     
     var body: some View {
         NavigationView {
@@ -79,6 +90,27 @@ struct EditAssignmentView: View {
                     Toggle(isOn: $isPinned) {
                         Text("Pin Assignment")
                     }
+                    //allows user to change the assignment's priority
+                    HStack {
+                        Text("Priority  ")
+                        Divider()
+                        Button(action:{pickerShowing = !pickerShowing}, label: {
+                            Text("\(newPriority.rawValue.capitalized)")
+                                .foregroundColor(.black)
+                        })
+                        Spacer()
+                        Image(systemName: "chevron.down")
+                            .foregroundColor(.blue)
+                    }
+                    //if the user clicks to change the priority they are presented with a wheel picker
+                    if (pickerShowing) {
+                        Picker("Priority", selection: $newPriority) {
+                                Text("Low").tag(Priority.Low)
+                                Text("Normal").tag(Priority.normal)
+                                Text("High").tag(Priority.High)
+                        }.pickerStyle(WheelPickerStyle())
+                    }
+
                 }
                 DeadlinePickerView.init(selectedDate: self.$newDate)
                 Button(action: {
@@ -114,6 +146,13 @@ struct EditAssignmentView: View {
                 formShowing = true
                 holder = "\(newLink)"
             }
+            if (item.priority == 0) {
+                newPriority = Priority.Low
+            } else if (item.priority == 1) {
+                newPriority = Priority.normal
+            } else {
+                newPriority = Priority.High
+            }
             newSelectedTag = Array.init((item.tags ?? NSSet()) as! Set)
         }
     }
@@ -129,6 +168,13 @@ struct EditAssignmentView: View {
             item.linkToAssignment = link
         } else {
             item.linkToAssignment = nil
+        }
+        if (newPriority.rawValue == Priority.normal.rawValue) {
+            item.priority = 1;
+        } else if (newPriority.rawValue == Priority.High.rawValue) {
+            item.priority = 2;
+        } else {
+            item.priority = 0;
         }
         item.tags = Set(self.newSelectedTag) as NSSet
         
