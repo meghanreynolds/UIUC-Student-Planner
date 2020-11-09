@@ -13,12 +13,19 @@ struct AssignmentView: View {
     @State var isPresented = false
     //The assignment passed in from the parent view
     @State var assignment: Assignment
+    var tags = ["test", "test2"]
     
     var body: some View {
             VStack(alignment: .leading, spacing: 20) {
-                    Text((assignment.name ?? "Test Assignment"))
+                HStack {
+                    Text("\(assignment.name ?? "Test Assignment")")
                             .font(.largeTitle)
                         .fontWeight(.medium)
+                    if (assignment.pinned == true) {
+                        Image(systemName: "star.fill")
+                            .foregroundColor(.yellow)
+                    }
+                }
                 VStack(alignment: .leading) {
                     HStack {
                         Text("\(assignment.dueDate ?? Date(), formatter: dayFormatter)")
@@ -26,7 +33,29 @@ struct AssignmentView: View {
                         Text("\(assignment.points) Points")
                             .foregroundColor(Color.green)
                     }
-                    Text("\(assignment.dueDate ?? Date(), formatter: timeFormatter)")
+                Text("\(assignment.dueDate ?? Date(), formatter: timeFormatter)")
+                HStack {
+                    if (assignment.completed == true) {
+                        Button(action: {}) {
+                            HStack {
+                                Text("Completed")
+                            }
+                        }
+                        .padding(10.0)
+                        .foregroundColor(.white)
+                        .background(Color.green)
+                        .cornerRadius(25.0)
+                    }
+                    Button(action: {}) {
+                        HStack {
+                            Text("Priority: \(assignment.priority)")
+                        }
+                    }
+                    .padding(10.0)
+                    .foregroundColor(.white)
+                    .background(Color.blue)
+                    .cornerRadius(25.0)
+                }
                 }.toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button("Edit", action: {
