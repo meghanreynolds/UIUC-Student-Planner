@@ -24,8 +24,6 @@ struct EditAssignmentView: View {
     @State var pickerShowing: Bool = false
     @State var newPriority = Priority.normal
     
-    @State var isPinned: Bool = false
-    
     @State var newDate = Date.init(timeIntervalSinceNow: 0)
     
     @State var newSelectedTag = Array<Tag>()
@@ -87,9 +85,6 @@ struct EditAssignmentView: View {
                                 }
                             }
                         }
-                    Toggle(isOn: $isPinned) {
-                        Text("Pin Assignment")
-                    }
                     //allows user to change the assignment's priority
                     HStack {
                         Text("Priority  ")
@@ -140,7 +135,6 @@ struct EditAssignmentView: View {
             newPoints = item.points
             newDate = item.dueDate ?? Date()
             newLink = item.linkToAssignment ?? URL(string: "tester.com")!
-            isPinned = item.pinned
             //causes link textfield to appear immediately if the user has already entered a link and to remain hidden otherwise
             if newLink != URL(string: "tester.com")! {
                 formShowing = true
@@ -162,7 +156,6 @@ struct EditAssignmentView: View {
         item.name = newName
         item.points = newPoints
         item.dueDate = newDate
-        item.pinned = isPinned
         if holder != "" {
             let link: URL = URL(string: holder)!
             item.linkToAssignment = link
