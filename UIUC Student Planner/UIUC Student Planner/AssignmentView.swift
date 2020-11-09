@@ -17,9 +17,15 @@ struct AssignmentView: View {
     
     var body: some View {
             VStack(alignment: .leading, spacing: 20) {
-                Text("\(assignment.name ?? "Test Assignment")")
-                        .font(.largeTitle)
+                HStack {
+                    Text("\(assignment.name ?? "Test Assignment")")
+                            .font(.largeTitle)
                         .fontWeight(.medium)
+                    if (assignment.pinned == true) {
+                        Image(systemName: "star.fill")
+                            .foregroundColor(.yellow)
+                    }
+                }
                 VStack(alignment: .leading) {
                     HStack {
                         Text("\(assignment.dueDate ?? Date(), formatter: dayFormatter)")
@@ -29,17 +35,26 @@ struct AssignmentView: View {
                     }
                 Text("\(assignment.dueDate ?? Date(), formatter: timeFormatter)")
                 HStack {
-                    ForEach(tags, id: \.self) {tag in
+                    if (assignment.completed == true) {
                         Button(action: {}) {
                             HStack {
-                                Text(tag)
+                                Text("Completed")
                             }
                         }
-                        .padding()
+                        .padding(10.0)
                         .foregroundColor(.white)
-                        .background(Color.gray)
+                        .background(Color.green)
                         .cornerRadius(25.0)
                     }
+                    Button(action: {}) {
+                        HStack {
+                            Text("Priority: \(assignment.priority)")
+                        }
+                    }
+                    .padding(10.0)
+                    .foregroundColor(.white)
+                    .background(Color.blue)
+                    .cornerRadius(25.0)
                 }
                 }.toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {

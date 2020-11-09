@@ -18,6 +18,9 @@ struct PersistenceController {
             newItem.dueDate = Date()
             newItem.name = ""
             newItem.points = 0
+            newItem.completed = false
+            newItem.pinned = false
+            newItem.priority = 0
         }
         do {
             try viewContext.save()
