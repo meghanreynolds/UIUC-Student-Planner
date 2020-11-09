@@ -43,7 +43,6 @@ struct AssignmentView: View {
                         Text("\(assignment.dueDate ?? Date(), formatter: dayFormatter)")
                         Spacer()
                         Text("\(assignment.points) Points")
-                            .foregroundColor(Color.green)
                     }
                 Text("\(assignment.dueDate ?? Date(), formatter: timeFormatter)")
                 HStack {
