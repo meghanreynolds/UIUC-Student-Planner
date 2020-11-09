@@ -22,6 +22,10 @@ struct PersistenceController {
             newItem.pinned = false
             newItem.priority = 0
         }
+        let t1 = Tag(context: viewContext)
+        t1.name = "CS 125"
+        let t2 = Tag(context: viewContext)
+        t2.name = "CS 196"
         do {
             try viewContext.save()
         } catch {

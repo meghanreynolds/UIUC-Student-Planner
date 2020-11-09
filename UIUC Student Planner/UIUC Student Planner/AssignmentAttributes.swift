@@ -7,16 +7,6 @@
 
 import SwiftUI
 
-extension UIColor {
-    
-    static let flatDarkBackground = UIColor(red: 36, green: 36, blue: 36)
-    static let flatDarkCardBackground = UIColor(red: 46, green: 46, blue: 46)
-    
-    convenience init(red: Int, green: Int, blue: Int, a: CGFloat = 1.0) {
-        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: a)
-    }
-}
-
 extension Color {
     public init(decimalRed red: Double, green: Double, blue: Double) {
         self.init(red: red / 255, green: green / 255, blue: blue / 255)
@@ -38,14 +28,21 @@ struct AssignmentAttributes: View {
             Color.CardBackground
             HStack {
                 VStack(alignment: .leading) {
-                     Text("Assignment Name: \(assignment.name ?? "Unknown")")
-                        .font(.headline)
-                        .fontWeight(.bold)
-                        .lineLimit(2)
-                        .padding(.bottom, 5)
-                        .foregroundColor(Color.white)
+                    HStack{
+                        Text("\(assignment.name ?? "Unknown")")
+                           .font(.headline)
+                           .fontWeight(.bold)
+                           .lineLimit(2)
+                           .padding(.bottom, 5)
+                           .foregroundColor(Color.white)
+                        Spacer()
+                        if(assignment.pinned) {
+                            Image(systemName: "pin.fill")
+                                .foregroundColor(.white)
+                        }
+                    }
                     
-                     Text("Due Date: \(assignment.dueDate ?? Date())")
+                    Text("Due Date: \(assignment.dueDate ?? Date(), formatter: dayFormatter)")
                         .padding(.bottom, 5)
                         .foregroundColor(Color.white)
                     
@@ -63,6 +60,12 @@ struct AssignmentAttributes: View {
         }
     }
 }
+    private let dayFormatter: DateFormatter = {
+        //Starter code, feel free to remove this based on that the assignment entry data has
+        let formatter = DateFormatter()
+        formatter.dateFormat = "E, MMM d"
+        return formatter
+    }()
 }
 
 
