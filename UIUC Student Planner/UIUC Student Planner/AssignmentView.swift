@@ -13,7 +13,7 @@ struct AssignmentView: View {
     @State var isPresented = false
     //The assignment passed in from the parent view
     @State var assignment: Assignment
-    var tags = ["test", "test2"]
+    @State var isPinned: Bool = false
     
     var body: some View {
             VStack(alignment: .leading, spacing: 20) {
@@ -21,9 +21,21 @@ struct AssignmentView: View {
                     Text("\(assignment.name ?? "Test Assignment")")
                             .font(.largeTitle)
                         .fontWeight(.medium)
-                    if (assignment.pinned == true) {
-                        Image(systemName: "star.fill")
-                            .foregroundColor(.yellow)
+                    Spacer()
+                    if(isPinned) {
+                        Button(action: {isPinned = false
+                            saveContext()
+                        }, label: {
+                            Image(systemName: "pin.fill")
+                                .foregroundColor(.black)
+                        })
+                    } else {
+                        Button(action: {isPinned = true
+                            saveContext()
+                        }, label: {
+                            Image(systemName: "pin")
+                                .foregroundColor(.black)
+                        })
                     }
                 }
                 VStack(alignment: .leading) {
@@ -31,7 +43,6 @@ struct AssignmentView: View {
                         Text("\(assignment.dueDate ?? Date(), formatter: dayFormatter)")
                         Spacer()
                         Text("\(assignment.points) Points")
-                            .foregroundColor(Color.green)
                     }
                 Text("\(assignment.dueDate ?? Date(), formatter: timeFormatter)")
                 HStack {
@@ -46,15 +57,37 @@ struct AssignmentView: View {
                         .background(Color.green)
                         .cornerRadius(25.0)
                     }
-                    Button(action: {}) {
-                        HStack {
-                            Text("Priority: \(assignment.priority)")
+                    if (assignment.priority == 0) {
+                        Button(action: {}) {
+                            HStack {
+                                Text("Priority: Low")
+                            }
                         }
+                        .padding(10.0)
+                        .foregroundColor(.white)
+                        .background(Color.green)
+                        .cornerRadius(25.0)
+                    } else if (assignment.priority == 1) {
+                        Button(action: {}) {
+                            HStack {
+                                Text("Priority: Normal")
+                            }
+                        }
+                        .padding(10.0)
+                        .foregroundColor(.white)
+                        .background(Color.yellow)
+                        .cornerRadius(25.0)
+                    } else {
+                        Button(action: {}) {
+                            HStack {
+                                Text("Priority: High")
+                            }
+                        }
+                        .padding(10.0)
+                        .foregroundColor(.white)
+                        .background(Color.red)
+                        .cornerRadius(25.0)
                     }
-                    .padding(10.0)
-                    .foregroundColor(.white)
-                    .background(Color.blue)
-                    .cornerRadius(25.0)
                 }
                 }.toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
@@ -71,6 +104,9 @@ struct AssignmentView: View {
             }
             .padding()
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear(){
+                isPinned = assignment.pinned
+            }
         }
     
        
@@ -88,6 +124,15 @@ struct AssignmentView: View {
         formatter.dateFormat = "hh:mm a"
         return formatter
     }()
+    
+    func saveContext() {
+      do {
+        assignment.pinned = isPinned
+        try viewContext.save()
+      } catch {
+        print("Error saving managed object context: \(error)")
+      }
+    }
 }
 
 struct AssignmentView_Previews: PreviewProvider {
