@@ -13,7 +13,6 @@ struct EditAssignmentView: View {
     @Environment(\.presentationMode) var presentationMode
     //The item passed in from the parent view
     @State var item: FetchedResults<Assignment>.Element
-    
     @State var newName: String = ""
     @State var newPoints: Int64 = 0
     
@@ -85,6 +84,7 @@ struct EditAssignmentView: View {
                                 }
                             }
                         }
+                    
                     //allows user to change the assignment's priority
                     HStack {
                         Text("Priority  ")

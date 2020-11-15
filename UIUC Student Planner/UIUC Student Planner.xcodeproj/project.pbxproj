@@ -21,6 +21,13 @@
 		237E09A9253A661E00B26AB2 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237E09A8253A661E00B26AB2 /* Date+Ext.swift */; };
 		23F332C725461D46007811B2 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F332C625461D46007811B2 /* TagView.swift */; };
 		23F332CE25463091007811B2 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F332CD25463091007811B2 /* String+Ext.swift */; };
+		790F44BC255C8CA90066ECA4 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F44BB255C8CA90066ECA4 /* HomeView.swift */; };
+		790F44C3255C8E2F0066ECA4 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F44C2255C8E2F0066ECA4 /* Settings.swift */; };
+		79852E2425604E9800CEB5B1 /* AddCourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79852E2325604E9800CEB5B1 /* AddCourse.swift */; };
+		79A125D425606958008A3A90 /* EditCourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A125D325606958008A3A90 /* EditCourseView.swift */; };
+		79A125D725606B0D008A3A90 /* CourseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A125D625606B0D008A3A90 /* CourseDetailView.swift */; };
+		79A125DA2560CBA9008A3A90 /* TagSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A125D92560CBA9008A3A90 /* TagSettings.swift */; };
+		79DCCA01255C959E000CAB0C /* CourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DCCA00255C959E000CAB0C /* CourseView.swift */; };
 		A8D2211A253D256500E2A13A /* AssignmentAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D22119253D256400E2A13A /* AssignmentAttributes.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +48,13 @@
 		237E09A8253A661E00B26AB2 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		23F332C625461D46007811B2 /* TagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		23F332CD25463091007811B2 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
+		790F44BB255C8CA90066ECA4 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		790F44C2255C8E2F0066ECA4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		79852E2325604E9800CEB5B1 /* AddCourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourse.swift; sourceTree = "<group>"; };
+		79A125D325606958008A3A90 /* EditCourseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCourseView.swift; sourceTree = "<group>"; };
+		79A125D625606B0D008A3A90 /* CourseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailView.swift; sourceTree = "<group>"; };
+		79A125D92560CBA9008A3A90 /* TagSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSettings.swift; sourceTree = "<group>"; };
+		79DCCA00255C959E000CAB0C /* CourseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseView.swift; sourceTree = "<group>"; };
 		A8D22119253D256400E2A13A /* AssignmentAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentAttributes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -79,6 +93,13 @@
 				22D54352252E67970069E6D2 /* UIUC_Student_PlannerApp.swift */,
 				13288AC52541158600AA9EEF /* CircleImage.swift */,
 				22D54354252E67970069E6D2 /* ContentView.swift */,
+				790F44BB255C8CA90066ECA4 /* HomeView.swift */,
+				790F44C2255C8E2F0066ECA4 /* Settings.swift */,
+				79A125D92560CBA9008A3A90 /* TagSettings.swift */,
+				79DCCA00255C959E000CAB0C /* CourseView.swift */,
+				79852E2325604E9800CEB5B1 /* AddCourse.swift */,
+				79A125D325606958008A3A90 /* EditCourseView.swift */,
+				79A125D625606B0D008A3A90 /* CourseDetailView.swift */,
 				A8D22119253D256400E2A13A /* AssignmentAttributes.swift */,
 				224AA7E8252E698700194BF5 /* AssignmentView.swift */,
 				224AA7E5252E697B00194BF5 /* AddAssignmentView.swift */,
@@ -188,13 +209,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				230DB4D7253F9CBB005D7427 /* DeadlinePickerView.swift in Sources */,
+				79A125D425606958008A3A90 /* EditCourseView.swift in Sources */,
+				79A125D725606B0D008A3A90 /* CourseDetailView.swift in Sources */,
+				790F44BC255C8CA90066ECA4 /* HomeView.swift in Sources */,
 				22D5435F252E67980069E6D2 /* UIUC_Student_Planner.xcdatamodeld in Sources */,
+				79DCCA01255C959E000CAB0C /* CourseView.swift in Sources */,
+				79852E2425604E9800CEB5B1 /* AddCourse.swift in Sources */,
 				224AA7E3252E696800194BF5 /* EditAssignmentView.swift in Sources */,
 				A8D2211A253D256500E2A13A /* AssignmentAttributes.swift in Sources */,
+				79A125DA2560CBA9008A3A90 /* TagSettings.swift in Sources */,
 				22D5435C252E67980069E6D2 /* Persistence.swift in Sources */,
 				13288AC62541158600AA9EEF /* CircleImage.swift in Sources */,
 				237E09A9253A661E00B26AB2 /* Date+Ext.swift in Sources */,
 				224AA7E9252E698700194BF5 /* AssignmentView.swift in Sources */,
+				790F44C3255C8E2F0066ECA4 /* Settings.swift in Sources */,
 				23F332CE25463091007811B2 /* String+Ext.swift in Sources */,
 				224AA7E6252E697B00194BF5 /* AddAssignmentView.swift in Sources */,
 				22D54355252E67970069E6D2 /* ContentView.swift in Sources */,

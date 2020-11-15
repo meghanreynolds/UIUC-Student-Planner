@@ -117,9 +117,6 @@ struct AddAssignmentView: View {
                         Image(systemName: "chevron.down")
                             .foregroundColor(.blue)
                     }
-                    Toggle(isOn: $isPinned) {
-                        Text("Pin Assignment")
-                    }
                     //if the user clicks to change the priority they are presented with a wheel picker
                     if (pickerShowing) {
                         Picker("Priority", selection: $setPriority) {
@@ -127,6 +124,9 @@ struct AddAssignmentView: View {
                                 Text("Normal").tag(Priority.normal)
                                 Text("High").tag(Priority.High)
                         }.pickerStyle(WheelPickerStyle())
+                    }
+                    Toggle(isOn: $isPinned) {
+                        Text("Pin Assignment")
                     }
                 }
                 
