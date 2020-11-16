@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct EditCourseView: View {
     
@@ -79,12 +80,25 @@ struct EditCourseView: View {
 
     func saveContext() {
       do {
+        //update tag name that corresponds to the course.
+        //update tag name for any assignment that contains the tag.
+        let request: NSFetchRequest<Tag> = Tag.fetchRequest()
+        request.predicate = NSPredicate(format: "name = %@", item.name! as CVarArg)
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        var tags = Array<Tag>()
+        try tags = self.viewContext.fetch(request) as [Tag]
+        if let t = tags[safe: 0]{
+            t.name = newCourseName
+        }
+        
+        //update course
         item.name = newCourseName
         if (newPointSystem == "Points") {
             item.pointValues = true
         } else if (newPointSystem == "Percentages") {
             item.pointValues = false
         }
+
         try viewContext.save()
       } catch {
         print("Error saving managed object context: \(error)")

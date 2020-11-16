@@ -76,6 +76,10 @@ struct AddCourse: View {
         } else if (pointsOrPercents == "Percentages"){
             newCourse.pointValues = false
         }
+        
+        //create new tag base on the course title
+        let newTag = Tag(context: self.viewContext)
+        newTag.name = name
         saveContext()
     }
 
