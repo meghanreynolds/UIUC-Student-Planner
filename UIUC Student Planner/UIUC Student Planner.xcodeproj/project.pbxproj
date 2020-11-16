@@ -88,18 +88,14 @@
 		22D54351252E67970069E6D2 /* UIUC Student Planner */ = {
 			isa = PBXGroup;
 			children = (
+				2375CEC82561FDFB00ED0DB1 /* Settings */,
+				2375CEC72561FDDC00ED0DB1 /* Course */,
 				230DB4D5253F9CA7005D7427 /* SupportingView */,
 				237E09A7253A65F400B26AB2 /* Utilities */,
 				22D54352252E67970069E6D2 /* UIUC_Student_PlannerApp.swift */,
 				13288AC52541158600AA9EEF /* CircleImage.swift */,
 				22D54354252E67970069E6D2 /* ContentView.swift */,
 				790F44BB255C8CA90066ECA4 /* HomeView.swift */,
-				790F44C2255C8E2F0066ECA4 /* Settings.swift */,
-				79A125D92560CBA9008A3A90 /* TagSettings.swift */,
-				79DCCA00255C959E000CAB0C /* CourseView.swift */,
-				79852E2325604E9800CEB5B1 /* AddCourse.swift */,
-				79A125D325606958008A3A90 /* EditCourseView.swift */,
-				79A125D625606B0D008A3A90 /* CourseDetailView.swift */,
 				A8D22119253D256400E2A13A /* AssignmentAttributes.swift */,
 				224AA7E8252E698700194BF5 /* AssignmentView.swift */,
 				224AA7E5252E697B00194BF5 /* AddAssignmentView.swift */,
@@ -128,6 +124,26 @@
 				23F332C625461D46007811B2 /* TagView.swift */,
 			);
 			path = SupportingView;
+			sourceTree = "<group>";
+		};
+		2375CEC72561FDDC00ED0DB1 /* Course */ = {
+			isa = PBXGroup;
+			children = (
+				79DCCA00255C959E000CAB0C /* CourseView.swift */,
+				79A125D625606B0D008A3A90 /* CourseDetailView.swift */,
+				79852E2325604E9800CEB5B1 /* AddCourse.swift */,
+				79A125D325606958008A3A90 /* EditCourseView.swift */,
+			);
+			path = Course;
+			sourceTree = "<group>";
+		};
+		2375CEC82561FDFB00ED0DB1 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				790F44C2255C8E2F0066ECA4 /* Settings.swift */,
+				79A125D92560CBA9008A3A90 /* TagSettings.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		237E09A7253A65F400B26AB2 /* Utilities */ = {

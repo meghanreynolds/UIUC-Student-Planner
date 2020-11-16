@@ -21,7 +21,7 @@ struct CourseView: View {
     @State var showingDetail: Bool = false
     @State var courseName: String = ""
     var body: some View {
-      //  NavigationView {
+        NavigationView {
             List {
                 ForEach(items){item in
                     NavigationLink(destination:CourseDetailView(course: item)) {
@@ -42,7 +42,8 @@ struct CourseView: View {
                     }
                 }
             }
-       // }
+        }
+        .navigationTitle("Course")
         .sheet(isPresented: $showingDetail) {
             AddCourse()
         }

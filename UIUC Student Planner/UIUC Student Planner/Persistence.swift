@@ -26,6 +26,12 @@ struct PersistenceController {
         t1.name = "CS 125"
         let t2 = Tag(context: viewContext)
         t2.name = "CS 196"
+        let c1 = Course(context: viewContext)    //added Course context for testing
+        c1.pointValues = true
+        c1.name = "Test Course 1"
+        let c2 = Course(context: viewContext)
+        c2.pointValues = false
+        c2.name = "Test Course 2"
         do {
             try viewContext.save()
         } catch {

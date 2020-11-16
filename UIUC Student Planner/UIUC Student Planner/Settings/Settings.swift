@@ -12,14 +12,6 @@ struct Settings: View {
         NavigationView {
             Form {
                 Section {
-                    NavigationLink(destination: CourseView()){
-                             HStack {
-                                Image(systemName: "book")
-                                    .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
-                                Text("Courses")
-                                    .foregroundColor(.black)
-                            }
-                    }
                     NavigationLink(destination: TagSettings()){
                         HStack {
                             Image(systemName: "tag.fill")
