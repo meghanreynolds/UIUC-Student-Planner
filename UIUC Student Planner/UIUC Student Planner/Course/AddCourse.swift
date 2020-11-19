@@ -22,7 +22,7 @@ struct AddCourse: View {
                     TextField("Course Name", text: $courseName)
                 }
                 Section(header: Text("Grading System")) {
-                    //allows user to change the assignment's priority
+                    //allows user to change the assignment's grading system
                     HStack {
                         Text("Grading System  ")
                         Divider()
@@ -34,7 +34,7 @@ struct AddCourse: View {
                         Image(systemName: "chevron.down")
                             .foregroundColor(.blue)
                     }
-                    //if the user clicks to change the priority they are presented with a wheel picker
+                    //if the user clicks to change the grading system they are presented with a wheel picker
                     if (pickerShowing) {
                         Picker("Grading System", selection: $pointSystem) {
                                 Text("Points").tag("Points")

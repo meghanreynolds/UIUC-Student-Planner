@@ -10,9 +10,14 @@ import SwiftUI
 struct EditAssignmentView: View {
     //Viewcontext for the database
     @Environment(\.managedObjectContext) private var viewContext
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) var presentationMode:Binding<PresentationMode>
+    
+    //The fetch request getting all the courses and sorting them by their names
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Course.name, ascending: true)])
+    private var courses: FetchedResults<Course>
+    
     //The item passed in from the parent view
-    @State var item: FetchedResults<Assignment>.Element
+    @Binding var item: FetchedResults<Assignment>.Element
     @State var newName: String = ""
     @State var newPoints: Int64 = 0
     
@@ -26,6 +31,8 @@ struct EditAssignmentView: View {
     @State var newDate = Date.init(timeIntervalSinceNow: 0)
     
     @State var newSelectedTag = Array<Tag>()
+    
+    @State var newCourse: Course = Course()
     
     enum Priority: String, CaseIterable, Identifiable {
         case Low
@@ -43,6 +50,11 @@ struct EditAssignmentView: View {
                         //updates item.name if the user changes the assignment's name
                     NavigationLink(destination: TagPicker(selectedTags: self.$newSelectedTag)){
                         self.getSelectedTagText()
+                    }
+                    Picker("Course", selection: $newCourse) {
+                        ForEach(courses) { course in
+                            Text("\(course.name ?? "Untitled Course")").tag(course)
+                        }
                     }
                 }
                 Section (header: Text("Assignment Details")) {
@@ -148,6 +160,7 @@ struct EditAssignmentView: View {
                 newPriority = Priority.High
             }
             newSelectedTag = Array.init((item.tags ?? NSSet()) as! Set)
+            newCourse = item.courses ?? Course()
         }
     }
     
@@ -170,7 +183,7 @@ struct EditAssignmentView: View {
             item.priority = 0;
         }
         item.tags = Set(self.newSelectedTag) as NSSet
-        
+        item.courses = newCourse
         try viewContext.save()
       } catch {
         print("Error saving managed object context: \(error)")
@@ -197,10 +210,10 @@ struct EditAssignmentView: View {
     }
 }
 
-struct EditAssignmentView_Previews: PreviewProvider {
+/*struct EditAssignmentView_Previews: PreviewProvider {
     static var previews: some View {
-        EditAssignmentView(item: Assignment(context: PersistenceController.preview.container.viewContext))
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+       /* EditAssignmentView(item: Assignment(context: PersistenceController.preview.container.viewContext))
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)*/
     }
-}
+}*/
 

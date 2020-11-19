@@ -14,7 +14,7 @@ extension Color {
     }
     
 }
-
+//extension NSManagedObject: Identifiable { }
 
 
 struct HomeView: View {
@@ -22,10 +22,9 @@ struct HomeView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     //The fetch request getting all the assignments and sorting them by their timestamps
-    @FetchRequest(
+    @FetchRequest(entity: Assignment.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \Assignment.dueDate, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Assignment>
+        animation: .default) var items: FetchedResults<Assignment>
     
     @State private var showingDetail = false
     
@@ -74,6 +73,9 @@ struct HomeView: View {
         }
         .sheet(isPresented: $showingDetail) {
             AddAssignmentView()
+        }
+        .onAppear() {
+            
         }
     }
     

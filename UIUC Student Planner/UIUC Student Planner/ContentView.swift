@@ -5,18 +5,18 @@ struct ContentView: View {
         TabView {
             HomeView()
                 .tabItem {
-                    Text("home")
+                    Text("Home")
                     Image(systemName: "house.fill")
                 }
             CourseView()
                 .tabItem {
-                    Text("course")
+                    Text("Courses")
                     Image(systemName: "book.fill")
                         .foregroundColor(.blue)
                 }
             Settings()
                 .tabItem {
-                    Text("settings")
+                    Text("Settings")
                     Image(systemName: "gear")
                 }
         }

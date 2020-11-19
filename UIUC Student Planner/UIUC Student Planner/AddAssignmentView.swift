@@ -13,6 +13,10 @@ struct AddAssignmentView: View {
     //Viewcontext for the database
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
+    //The fetch request getting all the courses and sorting them by their names
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Course.name, ascending: true)])
+    private var courses: FetchedResults<Course>
+    
     //essential values for assignment
     //default values are later registered in initializers.
     @State var assignmentName: String
@@ -21,9 +25,11 @@ struct AddAssignmentView: View {
     @State var formShowing: Bool = false
     @State var holder: String = ""
     @State var isPinned: Bool = false
+    @State var setCourse: Course = Course()
     @State var pickerShowing: Bool = false
     @State var setPriority = Priority.normal
     @State var selectedTag = Array<Tag>()
+    @State var pointsOrPercents: Bool = true
     var navigationBarTitle = ""
     
     
@@ -64,11 +70,18 @@ struct AddAssignmentView: View {
                     NavigationLink(destination: TagPicker(selectedTags: self.$selectedTag)){
                         self.getSelectedTagText()
                     }
+                    Picker("Course", selection: $setCourse) {
+                        ForEach(courses) { course in
+                            Text("\(course.name ?? "Untitled Course")").tag(course)
+                        }
+                    }
                 }
                 Section(header: Text("Assignment Details")) {
-                    //Point Value Stepper
-                    Stepper(value: $pointValue,in: 0...100) {
-                        Text("\(pointValue) Point\(pointValue != 1 ? "s" : "")")
+                    if pointsOrPercents {
+                        //Point Value Stepper
+                        Stepper(value: $pointValue,in: 0...100) {
+                            Text("\(pointValue) Point\(pointValue != 1 ? "s" : "")")
+                        }
                     }
                     //Allows the user to add a link to their assignment
                     List{
@@ -141,7 +154,7 @@ struct AddAssignmentView: View {
                         Spacer()
                     }
                 })
-            }
+            } 
             //title of the page
             .navigationBarTitle(self.navigationBarTitle)
             .toolbar {
@@ -163,6 +176,7 @@ struct AddAssignmentView: View {
         newAssignment.points = points
         newAssignment.dueDate = date
         newAssignment.pinned = isPinned
+        newAssignment.courses = setCourse
         if (convertToLink != "") {
             let link: URL = URL(string: convertToLink)!
             newAssignment.linkToAssignment = link

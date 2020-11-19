@@ -96,8 +96,8 @@ struct AssignmentView: View {
                         })
                     }
                 }
-                .sheet(isPresented: $isPresented, /*onDismiss:(updatedAssignment: Assignment) -> {assignment = updatedAssignment},*/ content: {
-                    EditAssignmentView(item: assignment)
+                .sheet(isPresented: $isPresented, content: {
+                    EditAssignmentView(item: $assignment)
                     
                 })
                 
@@ -107,7 +107,6 @@ struct AssignmentView: View {
             .navigationBarTitleDisplayMode(.inline)
             .onAppear(){
                 isPinned = assignment.pinned
-               // assignment.name = assignment.name
             }
         }
     
