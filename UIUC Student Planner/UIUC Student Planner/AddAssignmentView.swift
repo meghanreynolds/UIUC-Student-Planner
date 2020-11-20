@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 
 struct AddAssignmentView: View {
-
+    
     //Viewcontext for the database
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
@@ -20,13 +20,14 @@ struct AddAssignmentView: View {
     //essential values for assignment
     //default values are later registered in initializers.
     @State var assignmentName: String
-    @State var pointValue: Int64
+    @State var pointValue: Int
     @State var selectedDate: Date
     @State var formShowing: Bool = false
     @State var holder: String = ""
     @State var isPinned: Bool = false
     @State var setCourse: Course = Course()
     @State var pickerShowing: Bool = false
+    @State var pickerPointShowing: Bool = false
     @State var setPriority = Priority.normal
     @State var selectedTag = Array<Tag>()
     @State var pointsOrPercents: Bool = true
@@ -45,13 +46,13 @@ struct AddAssignmentView: View {
     }
     
     /*
-    View Initializer with values
+     View Initializer with values
      - if value is passed, such as passing values from the assignment that the user just tapped, the view will initialze with those values, which serves as an assignment editor.
      - Noted that we are still using `EditAssignmentView.swift` this is just a backup feature.
      */
     init(assignmentName: String, pointValue: Int64, date: Date){
         self._assignmentName = State.init(initialValue: assignmentName)
-        self._pointValue = State.init(initialValue: pointValue)
+        self._pointValue = State.init(initialValue: Int(pointValue))
         self._selectedDate = State.init(initialValue: date)
         self.navigationBarTitle = "Edit Assignment"
     }
@@ -59,7 +60,7 @@ struct AddAssignmentView: View {
         case Low
         case normal
         case High
-
+        
         var id: String { self.rawValue }
     }
     var body: some View {
@@ -79,8 +80,24 @@ struct AddAssignmentView: View {
                 Section(header: Text("Assignment Details")) {
                     if pointsOrPercents {
                         //Point Value Stepper
-                        Stepper(value: $pointValue,in: 0...100) {
-                            Text("\(pointValue) Point\(pointValue != 1 ? "s" : "")")
+                        HStack {
+                            Text("Point\(pointValue != 1 ? "s" : "")")
+                            Divider()
+                            Button(action:{pickerPointShowing = !pickerPointShowing}, label: {
+                                Text("\(pointValue)")
+                                    .foregroundColor(.black)
+                            })
+                            Spacer()
+                            Image(systemName: "chevron.down")
+                                .foregroundColor(.blue)
+                        }
+                        if (pickerPointShowing){
+                            Picker("Point Picker", selection: $pointValue){
+                                ForEach(0 ..< 101) {
+                                    Text("\($0)")
+                                }
+                            }.pickerStyle(WheelPickerStyle())
+                            
                         }
                     }
                     //Allows the user to add a link to their assignment
@@ -133,9 +150,9 @@ struct AddAssignmentView: View {
                     //if the user clicks to change the priority they are presented with a wheel picker
                     if (pickerShowing) {
                         Picker("Priority", selection: $setPriority) {
-                                Text("Low").tag(Priority.Low)
-                                Text("Normal").tag(Priority.normal)
-                                Text("High").tag(Priority.High)
+                            Text("Low").tag(Priority.Low)
+                            Text("Normal").tag(Priority.normal)
+                            Text("High").tag(Priority.High)
                         }.pickerStyle(WheelPickerStyle())
                     }
                     Toggle(isOn: $isPinned) {
@@ -145,7 +162,7 @@ struct AddAssignmentView: View {
                 
                 DeadlinePickerView(selectedDate: self.$selectedDate)
                 Button(action: {
-                    addAssignment(name: assignmentName, points: pointValue, date: selectedDate, convertToLink: holder)
+                    addAssignment(name: assignmentName, points: Int64(pointValue), date: selectedDate, convertToLink: holder)
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
                     HStack{
@@ -195,11 +212,11 @@ struct AddAssignmentView: View {
     }
     
     func saveContext() {
-      do {
-        try viewContext.save()
-      } catch {
-        print("Error saving managed object context: \(error)")
-      }
+        do {
+            try viewContext.save()
+        } catch {
+            print("Error saving managed object context: \(error)")
+        }
     }
     
     private func getSelectedTagText() -> some View{

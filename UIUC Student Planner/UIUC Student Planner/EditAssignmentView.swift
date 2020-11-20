@@ -19,13 +19,14 @@ struct EditAssignmentView: View {
     //The item passed in from the parent view
     @Binding var item: FetchedResults<Assignment>.Element
     @State var newName: String = ""
-    @State var newPoints: Int64 = 0
+    @State var newPoints: Int = 0
     
     @State var formShowing: Bool = false
     @State var newLink: URL = URL(string: "tester.com")!
     @State var holder: String = ""
     
     @State var pickerShowing: Bool = false
+    @State var pickerPointShowing: Bool = false
     @State var newPriority = Priority.normal
     
     @State var newDate = Date.init(timeIntervalSinceNow: 0)
@@ -58,8 +59,24 @@ struct EditAssignmentView: View {
                     }
                 }
                 Section (header: Text("Assignment Details")) {
-                    Stepper(value: $newPoints ,in: 0...100){
-                       Text(getPoints())
+                    HStack {
+                        Text("Point\(newPoints != 1 ? "s" : "")")
+                        Divider()
+                        Button(action:{pickerPointShowing = !pickerPointShowing}, label: {
+                            Text("\(newPoints)")
+                                .foregroundColor(.black)
+                        })
+                        Spacer()
+                        Image(systemName: "chevron.down")
+                            .foregroundColor(.blue)
+                    }
+                    if (pickerPointShowing){
+                        Picker("Point Picker", selection: $newPoints){
+                            ForEach(0 ..< 101) {
+                                Text("\($0)")
+                            }
+                        }.pickerStyle(WheelPickerStyle())
+                        
                     }
                     //Allows the user to add or remove a link to their assignment
                         List{
@@ -144,7 +161,7 @@ struct EditAssignmentView: View {
         }
         .onAppear {
             newName = item.name ?? "Untitled Assignment"
-            newPoints = item.points
+            newPoints = Int(item.points)
             newDate = item.dueDate ?? Date()
             newLink = item.linkToAssignment ?? URL(string: "tester.com")!
             //causes link textfield to appear immediately if the user has already entered a link and to remain hidden otherwise
@@ -167,7 +184,7 @@ struct EditAssignmentView: View {
     func saveContext() {
       do {
         item.name = newName
-        item.points = newPoints
+        item.points = Int64(newPoints)
         item.dueDate = newDate
         if holder != "" {
             let link: URL = URL(string: holder)!
