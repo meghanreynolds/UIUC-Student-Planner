@@ -33,7 +33,7 @@ struct EditAssignmentView: View {
     
     @State var newSelectedTag = Array<Tag>()
     
-    @State var newCourse: Course = Course()
+   // @State var newCourse: Course = Course()
     
     enum Priority: String, CaseIterable, Identifiable {
         case Low
@@ -52,11 +52,11 @@ struct EditAssignmentView: View {
                     NavigationLink(destination: TagPicker(selectedTags: self.$newSelectedTag)){
                         self.getSelectedTagText()
                     }
-                    Picker("Course", selection: $newCourse) {
+                  /*  Picker("Course", selection: $newCourse) {
                         ForEach(courses) { course in
                             Text("\(course.name ?? "Untitled Course")").tag(course)
                         }
-                    }
+                    }*/
                 }
                 Section (header: Text("Assignment Details")) {
                     HStack {
@@ -177,7 +177,11 @@ struct EditAssignmentView: View {
                 newPriority = Priority.High
             }
             newSelectedTag = Array.init((item.tags ?? NSSet()) as! Set)
-            newCourse = item.courses ?? Course()
+           // newCourse = item.courses ?? Course()
+           /* if newCourse.name == nil {
+                newCourse.name = "No Course"
+                newCourse.pointValues = true
+            }*/
         }
     }
     
@@ -200,7 +204,7 @@ struct EditAssignmentView: View {
             item.priority = 0;
         }
         item.tags = Set(self.newSelectedTag) as NSSet
-        item.courses = newCourse
+//        item.courses = newCourse
         try viewContext.save()
       } catch {
         print("Error saving managed object context: \(error)")

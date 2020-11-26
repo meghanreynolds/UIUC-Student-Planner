@@ -101,11 +101,11 @@
 				A8D22119253D256400E2A13A /* AssignmentAttributes.swift */,
 				224AA7E8252E698700194BF5 /* AssignmentView.swift */,
 				224AA7E5252E697B00194BF5 /* AddAssignmentView.swift */,
-				224AA7E2252E696800194BF5 /* EditAssignmentView.swift */,
 				22D54356252E67980069E6D2 /* Assets.xcassets */,
 				22D5435B252E67980069E6D2 /* Persistence.swift */,
 				22D54360252E67980069E6D2 /* Info.plist */,
 				22D5435D252E67980069E6D2 /* UIUC_Student_Planner.xcdatamodeld */,
+				794B38AE256F23FA008BA859 /* Extra Edit Views */,
 				22D54358252E67980069E6D2 /* Preview Content */,
 			);
 			path = "UIUC Student Planner";
@@ -134,7 +134,6 @@
 				79DCCA00255C959E000CAB0C /* CourseView.swift */,
 				79A125D625606B0D008A3A90 /* CourseDetailView.swift */,
 				79852E2325604E9800CEB5B1 /* AddCourse.swift */,
-				79A125D325606958008A3A90 /* EditCourseView.swift */,
 			);
 			path = Course;
 			sourceTree = "<group>";
@@ -156,6 +155,15 @@
 				23D0A6CB25620A0400AC1970 /* Collection+Ext.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		794B38AE256F23FA008BA859 /* Extra Edit Views */ = {
+			isa = PBXGroup;
+			children = (
+				79A125D325606958008A3A90 /* EditCourseView.swift */,
+				224AA7E2252E696800194BF5 /* EditAssignmentView.swift */,
+			);
+			path = "Extra Edit Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

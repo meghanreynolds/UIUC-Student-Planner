@@ -26,6 +26,10 @@ struct HomeView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Assignment.dueDate, ascending: true)],
         animation: .default) var items: FetchedResults<Assignment>
     
+    //The fetch request getting all the courses and sorting them by their names
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Course.name, ascending: true)])
+    private var courses: FetchedResults<Course>
+    
     @State private var showingDetail = false
     
     var body: some View {
@@ -74,9 +78,6 @@ struct HomeView: View {
         .sheet(isPresented: $showingDetail) {
             AddAssignmentView()
         }
-        .onAppear() {
-            
-        }
     }
     
     private func addItem() {
@@ -95,7 +96,6 @@ struct HomeView: View {
             }
         }
     }
-    
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             offsets.map { items[$0] }.forEach(viewContext.delete)

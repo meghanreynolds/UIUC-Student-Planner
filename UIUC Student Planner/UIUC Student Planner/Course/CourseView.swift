@@ -18,14 +18,19 @@ struct CourseView: View {
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Course.name, ascending: true)])
     private var items: FetchedResults<Course>
+    
     @State var showingDetail: Bool = false
     @State var courseName: String = ""
+    
     var body: some View {
         NavigationView {
+            //displays all courses that are not empty courses with navigation links to detailedCourseView
             List {
                 ForEach(items){item in
-                    NavigationLink(destination:CourseDetailView(course: item)) {
-                        Text("\(item.name ?? "Untitled Course")")
+                    if (item.name != "No Course") {
+                        NavigationLink(destination:CourseDetailView(course: item)) {
+                            Text("\(item.name ?? "Untitled Course")")
+                        }
                     }
                 }
                 .onDelete(perform: deleteCourses)
@@ -33,10 +38,8 @@ struct CourseView: View {
             .navigationBarTitle(Text("Courses"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-              //  ToolbarItem(placement: .navigationBarLeading) {
-               //     EditButton()
-                //}
                 ToolbarItem(placement: .navigationBarTrailing) {
+                    //button to add a course that takes the user to add course view
                     Button(action: {self.showingDetail.toggle()}) {
                         Label("Add Item", systemImage: "plus")
                     }

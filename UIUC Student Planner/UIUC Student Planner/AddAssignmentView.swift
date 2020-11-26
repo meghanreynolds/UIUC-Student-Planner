@@ -4,7 +4,6 @@
 //
 //  Created by Matthew Geimer on 10/7/20.
 //
-
 import SwiftUI
 import CoreData
 
@@ -26,11 +25,14 @@ struct AddAssignmentView: View {
     @State var holder: String = ""
     @State var isPinned: Bool = false
     @State var setCourse: Course = Course()
+    @State var hasCourse: Bool = false
     @State var pickerShowing: Bool = false
     @State var pickerPointShowing: Bool = false
     @State var setPriority = Priority.normal
     @State var selectedTag = Array<Tag>()
     @State var pointsOrPercents: Bool = true
+    @State var numTimes: Int64 = 0
+    @State var appeared: Bool = false
     var navigationBarTitle = ""
     
     
@@ -43,6 +45,7 @@ struct AddAssignmentView: View {
         self._pointValue = State.init(initialValue: 0)
         self._selectedDate = State.init(initialValue: Date.init(timeIntervalSinceNow: 0))
         self.navigationBarTitle = "Add Assignment"
+        self.setCourse = Course(context: viewContext)
     }
     
     /*
@@ -55,7 +58,9 @@ struct AddAssignmentView: View {
         self._pointValue = State.init(initialValue: Int(pointValue))
         self._selectedDate = State.init(initialValue: date)
         self.navigationBarTitle = "Edit Assignment"
+        self.setCourse = Course(context: viewContext)
     }
+    //enumeration of possible priorities
     enum Priority: String, CaseIterable, Identifiable {
         case Low
         case normal
@@ -67,21 +72,25 @@ struct AddAssignmentView: View {
         NavigationView {
             Form {
                 Section{
+                    //lets user set the assignment's name
                     TextField("Assignment Name", text: $assignmentName)
+                    //lets user pick tags for the assignment
                     NavigationLink(destination: TagPicker(selectedTags: self.$selectedTag)){
                         self.getSelectedTagText()
                     }
+                    //lets user pick a course without displaying empty courses
                     Picker("Course", selection: $setCourse) {
-                        ForEach(courses) { course in
-                            Text("\(course.name ?? "Untitled Course")").tag(course)
+                        ForEach(courses) { module in
+                            if (module.name != "No Course") {
+                                Text("\(module.name ?? "No Course")").tag(module)
+                            }
                         }
                     }
                 }
                 Section(header: Text("Assignment Details")) {
-                    if pointsOrPercents {
-                        //Point Value Stepper
+                    //lets user pick how much an assignment is worth
                         HStack {
-                            Text("Point\(pointValue != 1 ? "s" : "")")
+                            Text("Percent")
                             Divider()
                             Button(action:{pickerPointShowing = !pickerPointShowing}, label: {
                                 Text("\(pointValue)")
@@ -90,16 +99,15 @@ struct AddAssignmentView: View {
                             Spacer()
                             Image(systemName: "chevron.down")
                                 .foregroundColor(.blue)
-                        }
+                            
                         if (pickerPointShowing){
                             Picker("Point Picker", selection: $pointValue){
                                 ForEach(0 ..< 101) {
                                     Text("\($0)")
                                 }
                             }.pickerStyle(WheelPickerStyle())
-                            
+                            }
                         }
-                    }
                     //Allows the user to add a link to their assignment
                     List{
                         //textfield allowing a user to add a link
@@ -159,8 +167,10 @@ struct AddAssignmentView: View {
                         Text("Pin Assignment")
                     }
                 }
-                
+                //lets user select a deadline
                 DeadlinePickerView(selectedDate: self.$selectedDate)
+                
+                //save button lets user add the assignment
                 Button(action: {
                     addAssignment(name: assignmentName, points: Int64(pointValue), date: selectedDate, convertToLink: holder)
                     self.presentationMode.wrappedValue.dismiss()
@@ -171,7 +181,7 @@ struct AddAssignmentView: View {
                         Spacer()
                     }
                 })
-            } 
+            }
             //title of the page
             .navigationBarTitle(self.navigationBarTitle)
             .toolbar {
@@ -183,6 +193,17 @@ struct AddAssignmentView: View {
                     })
                 }
             }
+            //sets course context and default values on first appearance
+            .onAppear() {
+                if(numTimes == 0) {
+                    setCourse = Course(context: viewContext)
+                    setCourse.name = "No Course"
+                    setCourse.pointValues = true
+                    saveContext()
+                    appeared = true
+                }
+                numTimes += 1;
+            }
         }
     }
     
@@ -193,7 +214,6 @@ struct AddAssignmentView: View {
         newAssignment.points = points
         newAssignment.dueDate = date
         newAssignment.pinned = isPinned
-        newAssignment.courses = setCourse
         if (convertToLink != "") {
             let link: URL = URL(string: convertToLink)!
             newAssignment.linkToAssignment = link
@@ -208,6 +228,15 @@ struct AddAssignmentView: View {
             newAssignment.priority = 0;
         }
         newAssignment.tags = Set(self.selectedTag) as NSSet
+        //attatches selected course to the assignment if setCourse is not an empty course and sets hasCourse to true
+        if (setCourse.name != "No Course") {
+            newAssignment.course = setCourse
+            newAssignment.hasCourse = true
+        } else {
+            //deletes setCourse if its an empty course and sets hasCourse to false
+            viewContext.delete(setCourse)
+            newAssignment.hasCourse = false
+        }
         saveContext()
     }
     
