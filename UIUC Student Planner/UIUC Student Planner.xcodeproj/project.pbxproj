@@ -17,6 +17,7 @@
 		22D5435A252E67980069E6D2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22D54359252E67980069E6D2 /* Preview Assets.xcassets */; };
 		22D5435C252E67980069E6D2 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D5435B252E67980069E6D2 /* Persistence.swift */; };
 		22D5435F252E67980069E6D2 /* UIUC_Student_Planner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 22D5435D252E67980069E6D2 /* UIUC_Student_Planner.xcdatamodeld */; };
+		230BB70A2573359300FD0572 /* Color+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230BB7092573359300FD0572 /* Color+Ext.swift */; };
 		230DB4D7253F9CBB005D7427 /* DeadlinePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DB4D6253F9CBB005D7427 /* DeadlinePickerView.swift */; };
 		237E09A9253A661E00B26AB2 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237E09A8253A661E00B26AB2 /* Date+Ext.swift */; };
 		23D0A6CC25620A0400AC1970 /* Collection+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D0A6CB25620A0400AC1970 /* Collection+Ext.swift */; };
@@ -45,6 +46,7 @@
 		22D5435B252E67980069E6D2 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		22D5435E252E67980069E6D2 /* UIUC_Student_Planner.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UIUC_Student_Planner.xcdatamodel; sourceTree = "<group>"; };
 		22D54360252E67980069E6D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		230BB7092573359300FD0572 /* Color+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Ext.swift"; sourceTree = "<group>"; };
 		230DB4D6253F9CBB005D7427 /* DeadlinePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlinePickerView.swift; sourceTree = "<group>"; };
 		237E09A8253A661E00B26AB2 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		23D0A6CB25620A0400AC1970 /* Collection+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Ext.swift"; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				237E09A8253A661E00B26AB2 /* Date+Ext.swift */,
 				23F332CD25463091007811B2 /* String+Ext.swift */,
 				23D0A6CB25620A0400AC1970 /* Collection+Ext.swift */,
+				230BB7092573359300FD0572 /* Color+Ext.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 				22D5435F252E67980069E6D2 /* UIUC_Student_Planner.xcdatamodeld in Sources */,
 				79DCCA01255C959E000CAB0C /* CourseView.swift in Sources */,
 				79852E2425604E9800CEB5B1 /* AddCourse.swift in Sources */,
+				230BB70A2573359300FD0572 /* Color+Ext.swift in Sources */,
 				224AA7E3252E696800194BF5 /* EditAssignmentView.swift in Sources */,
 				A8D2211A253D256500E2A13A /* AssignmentAttributes.swift in Sources */,
 				79A125DA2560CBA9008A3A90 /* TagSettings.swift in Sources */,

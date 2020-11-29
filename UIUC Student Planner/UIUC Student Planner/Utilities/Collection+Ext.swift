@@ -12,4 +12,9 @@ extension Collection{
     subscript (safe i: Index) -> Element? {
         return indices.contains(i) ? self[i] : nil
     }
+    
+    //safer way to get subscript when at least 1 element presented
+    subscript (get i: Index) -> Element {
+        return indices.contains(i) ? self[i] : self[0 as! Self.Index]
+    }
 }

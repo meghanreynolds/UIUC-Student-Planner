@@ -12,171 +12,130 @@ struct AddCourse: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     
-    @State var courseName: String = ""
-    @State var pointSystem: String = ""
-    @State var pickerShowing: Bool = false
-    @State var selectedColor = Color(red: 1, green: 0, blue: 0)
-    @State var colorAsString = "Red"
+    @State var courseName: String = "Course Name"
+    @State var pointSystem: Int = 0
+    @State var selectedColorIndex = 0
+    
+    //columns item for colors
+    private var columns: [GridItem] =
+            Array(repeating: .init(.flexible()), count: 6)
+    
+    
+    init() {
+        //get rid of UITextView background color
+        UITextView.appearance().backgroundColor = .clear
+    }
     
     var body: some View {
         NavigationView {
-            Form {
-                Section {
+            
+            ScrollView {
+                LazyVStack{
                     //TextField allows user to set the course's name
-                    TextField("Course Name", text: $courseName)
-                }
-                Section(header: Text("Course Details")) {
+                    ZStack{
+                        RoundedRectangle(cornerRadius: 10.0)
+                            .fill(Color.Material.palette[get: self.selectedColorIndex])
+                            .padding([.leading, .trailing], 40)
+                        TextEditor(text: self.$courseName)
+                            .font(Font(UIFont.systemFont(ofSize: 22, weight: .bold)))
+                            .lineLimit(1)
+                            .multilineTextAlignment(.leading)
+                            .foregroundColor(Color.Material.palette[get: self.selectedColorIndex].isDarkColor ? .white : .black)
+                            .padding(.top, 5)
+                            .padding(.bottom, 50)
+                            .padding([.leading, .trailing], 50)
+                            .zIndex(1)
+                    }  //ZStack
+                    .padding(.top, -30)
+                    .padding(.bottom, 10)
+                    .padding([.leading, .trailing], 10)
+                    .onTapGesture {
+                        if !self.courseName.isEmpty{
+                            self.courseName = ""
+                        }
+                    }.animation(.easeInOut(duration: 0.25))
+                    
+                    //allows the user to set the course tag's color
+                    LazyVGrid(columns: self.columns){
+                        ForEach(0..<Color.Material.palette.count){ i in
+                            ZStack{
+                                if(self.selectedColorIndex == i){
+                                    Circle()
+                                        .fill(Color.Material.lightGrey)
+                                        .frame(width: 40, height: 40)
+                                    Circle()
+                                        .fill(Color.white)
+                                        .frame(width: 35, height: 35)
+                                }else{
+                                    Circle()
+                                        .fill(Color.white)
+                                        .frame(width: 40, height: 40)
+                                }
+                                    
+                                Circle()
+                                    .fill(Color.Material.palette[get: i])
+                                    .frame(width: 30, height: 30)
+                                    .onTapGesture {
+                                        selectedColorIndex = i
+                                    }
+                            } //ZStack
+                        } // ForEach
+                    } //LazyVGrid
+                    .padding([.leading, .trailing], 10)
+                    .padding([.top, .bottom], 10)
+                    
                     //allows user to change the assignment's grading system
                     HStack {
-                        Text("Grading System  ")
-                        Divider()
-                        Button(action:{pickerShowing = !pickerShowing}, label: {
-                            Text("\(pointSystem)")
-                                .foregroundColor(.black)
-                        })
-                        Spacer()
-                        Image(systemName: "chevron.down")
-                            .foregroundColor(.blue)
-                    }
-                    //if the user clicks to change the grading system they are presented with a wheel picker
-                    if (pickerShowing) {
-                        Picker("Grading System", selection: $pointSystem) {
-                                Text("Points").tag("Points")
-                                Text("Percentages").tag("Percentages")
-                        }.pickerStyle(WheelPickerStyle())
-                    }
-                }
-                HStack {
-                    //interactive course tag preview
-                    Text("Course Tag Preview")
-                    Button(action:{}, label: {
-                        if(courseName != "") {
-                            Text("\(courseName)")
-                        } else {
-                            Text("Untitled Course")
-                        }
-                    })
-                    .padding(10.0)
-                    .foregroundColor(.white)
-                    .background(selectedColor)
-                    .cornerRadius(25.0)
-                }
-                
-                VStack {
-                    //allows the user to set the course tag's color
-                    Text("Select Course Color: ")
-                    HStack {
-                        Circle()
-                            .fill(Color.red)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.red
-                                colorAsString = "Red"
-                            }
-                        
-                        Circle()
-                            .fill(Color.orange)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.orange
-                                colorAsString = "Orange"
-                            }
-                        
-                        Circle()
-                            .fill(Color.yellow)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.yellow
-                                colorAsString = "Yellow"
-                            }
-                        Circle()
-                            .fill(Color.green)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.green
-                                colorAsString = "Green"
-                            }
-                        Circle()
-                            .fill(Color.blue)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.blue
-                                colorAsString = "Blue"
-                            }
-                        
-                        Circle()
-                            .fill(Color.purple)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.purple
-                                colorAsString = "Purple"
-                            }
-                        Circle()
-                            .fill(Color.pink)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.pink
-                                colorAsString = "Pink"
-                            }
-                        Circle()
-                            .fill(Color.gray)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.gray
-                                colorAsString = "Gray"
-                            }
-                        
-                        Circle()
-                            .fill(Color.black)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.black
-                                colorAsString = "Black"
-                            }
-                    }.padding(.leading).padding(.trailing)
-                }
+                        Spacer(minLength: 25)
+                        Text("Grading:")
+                        Spacer(minLength: 25)
+                        Picker(selection: self.$pointSystem, label: Text("")){
+                            Text("point").tag(0)
+                            Text("percentage").tag(1)
+                        }.pickerStyle(SegmentedPickerStyle())
+                        Spacer(minLength: 25)
+                    }.padding([.top, .bottom], 10)
+                }  //LazyVStack
                 
                 
-                //Save button
-                Section {
-                    Button(action: {
-                        addCourse(name: courseName, pointsOrPercents: pointSystem)
-                        self.presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        HStack{
-                            Spacer()
-                            Text("Save")
-                            Spacer()
-                        }
-                    })
-                }
+
             }
-            .navigationBarTitle("Add a Course")
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                //Cancel Button
+                ToolbarItem(placement: .cancellationAction) {
                     Button(action: {
                         self.presentationMode.wrappedValue.dismiss()
                     }, label : {
                         Text("Cancel")
                     })
                 }
+                //NavigationTitle
+                ToolbarItem(placement: .principal){
+                    Text("New Course").bold()
+                }
+                //Save Button
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(action: {
+                        addCourse()
+                        self.presentationMode.wrappedValue.dismiss()
+                    }, label : {
+                        Text("Done")
+                    })
+                }
             }
         }
     }
-    func addCourse(name: String, pointsOrPercents: String) {
+    
+    func addCourse() {
         //create new Course and set its values
         let newCourse = Course(context: viewContext)
-        newCourse.name = name
-        if(pointsOrPercents == "Points") {
-            newCourse.pointValues = true
-        } else if (pointsOrPercents == "Percentages"){
-            newCourse.pointValues = false
-        }
-        newCourse.color = colorAsString
+        newCourse.name = self.courseName
+        newCourse.pointValues = self.pointSystem == 0 ? true : false
+        newCourse.colorIndex = Int16(self.selectedColorIndex)
         
         //create new tag base on the course title
         let newTag = Tag(context: self.viewContext)
-        newTag.name = name
+        newTag.name = self.courseName
         
         saveContext()
     }

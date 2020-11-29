@@ -156,48 +156,48 @@ struct CourseDetailView: View {
                 }
             }
             .onAppear(){
-                //sets initial course values
-                courseName = course.name ?? "Untitled Course"
-                if (course.pointValues) {
-                    pointSystem = "Points"
-                } else if (!course.pointValues) {
-                    pointSystem = "Percentages"
-                }
-               colorAsString = course.color ?? "Red"
-                if(colorAsString == "Red") {
-                    selectedColor = Color.red
-                } else if (colorAsString == "Orange") {
-                    selectedColor = Color.orange
-                } else if (colorAsString == "Yellow") {
-                    selectedColor = Color.yellow
-                } else if (colorAsString == "Green") {
-                    selectedColor = Color.green
-                } else if (colorAsString == "Blue") {
-                    selectedColor = Color.blue
-                } else if (colorAsString == "Purple") {
-                    selectedColor = Color.purple
-                } else if (colorAsString == "Pink") {
-                    selectedColor = Color.pink
-                } else if (colorAsString == "Gray") {
-                    selectedColor = Color.gray
-                } else if (colorAsString == "Black") {
-                    selectedColor = Color.black
-                } else {
-                    selectedColor = Color.red
-                }
+//                //sets initial course values
+//                courseName = course.name ?? "Untitled Course"
+//                if (course.pointValues) {
+//                    pointSystem = "Points"
+//                } else if (!course.pointValues) {
+//                    pointSystem = "Percentages"
+//                }
+//               colorAsString = course.color ?? "Red"
+//                if(colorAsString == "Red") {
+//                    selectedColor = Color.red
+//                } else if (colorAsString == "Orange") {
+//                    selectedColor = Color.orange
+//                } else if (colorAsString == "Yellow") {
+//                    selectedColor = Color.yellow
+//                } else if (colorAsString == "Green") {
+//                    selectedColor = Color.green
+//                } else if (colorAsString == "Blue") {
+//                    selectedColor = Color.blue
+//                } else if (colorAsString == "Purple") {
+//                    selectedColor = Color.purple
+//                } else if (colorAsString == "Pink") {
+//                    selectedColor = Color.pink
+//                } else if (colorAsString == "Gray") {
+//                    selectedColor = Color.gray
+//                } else if (colorAsString == "Black") {
+//                    selectedColor = Color.black
+//                } else {
+//                    selectedColor = Color.red
+//                }
             }
         
     }
     func saveContext() {
       do {
-        course.name = courseName
-        if(pointSystem == "Points") {
-            course.pointValues = true
-        } else if (pointSystem == "Percentages"){
-            course.pointValues = false
-        }
-        course.color = colorAsString
-        try viewContext.save()
+//        course.name = courseName
+//        if(pointSystem == "Points") {
+//            course.pointValues = true
+//        } else if (pointSystem == "Percentages"){
+//            course.pointValues = false
+//        }
+//        course.color = colorAsString
+//        try viewContext.save()
       } catch {
         print("Error saving managed object context: \(error)")
       }
