@@ -25,15 +25,31 @@ struct CourseView: View {
     var body: some View {
         NavigationView {
             //displays all courses that are not empty courses with navigation links to detailedCourseView
-            List {
-                ForEach(items){item in
-                    if (item.name != "No Course") {
+            ScrollView{
+                LazyVStack {
+                    ForEach(items){item in
                         NavigationLink(destination:CourseDetailView(course: item)) {
-                            Text("\(item.name ?? "Untitled Course")")
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 10.0)
+                                    .fill(Color.Material.palette[get: Int(item.colorIndex)])
+                                    .padding([.leading, .trailing], 0)
+                                TextField("", text: .constant(item.name ?? ""))
+                                    .font(Font(UIFont.systemFont(ofSize: 22, weight: .bold)))
+                                    .lineLimit(1)
+                                    .multilineTextAlignment(.leading)
+                                    .frame(maxWidth: .infinity)
+                                    .foregroundColor(Color.Material.palette[get: Int(item.colorIndex)].isDarkColor ? .white : .black)
+                                    .padding(.top, 5)
+                                    .padding(.bottom, 60)
+                                    .padding([.leading, .trailing], 10)
+                                    .disabled(true)
+                            }  //ZStack
+                            .padding([.top], 5)
+                            .padding([.leading, .trailing], 10)
                         }
                     }
-                }
-                .onDelete(perform: deleteCourses)
+                    .onDelete(perform: deleteCourses)
+                }.padding(.top, 10)
             }
             .navigationBarTitle(Text("Courses"))
             .navigationBarTitleDisplayMode(.inline)
