@@ -35,7 +35,7 @@ struct AssignmentView: View {
     @State var courseName: String = ""
     @State var showCourse: Bool = false
     @State var points: Bool = false
-    @State var selectedColor = Color(decimalRed: 1.0, green: 0.0, blue: 0.0)
+    @State var colorIndex = 0
     
     var body: some View {
             VStack(alignment: .leading, spacing: 20) {
@@ -169,7 +169,7 @@ struct AssignmentView: View {
                         }
                         .padding(10.0)
                         .foregroundColor(.white)
-                        .background(selectedColor)
+                        .background(Color.Material.palette[get: self.colorIndex])
                         .cornerRadius(25.0)
                     }
                 }
@@ -203,34 +203,11 @@ struct AssignmentView: View {
                 assignmentLink = assignment.linkToAssignment ?? URL(string: "https://google.com")!
                 holder = assignmentLink.absoluteString
                 
-//                //sets course values if the assignment has a course
-//                if(assignment.hasCourse) {
-//                    courseName = assignment.course!.name!
-//                    points = assignment.course!.pointValues
-//                    let colorAsString = assignment.course!.color
-//                    if(colorAsString == "Red") {
-//                        selectedColor = Color.red
-//                    } else if (colorAsString == "Orange") {
-//                        selectedColor = Color.orange
-//                    } else if (colorAsString == "Yellow") {
-//                        selectedColor = Color.yellow
-//                    } else if (colorAsString == "Green") {
-//                        selectedColor = Color.green
-//                    } else if (colorAsString == "Blue") {
-//                        selectedColor = Color.blue
-//                    } else if (colorAsString == "Purple") {
-//                        selectedColor = Color.purple
-//                    } else if (colorAsString == "Pink") {
-//                        selectedColor = Color.pink
-//                    } else if (colorAsString == "Gray") {
-//                        selectedColor = Color.gray
-//                    } else if (colorAsString == "Black") {
-//                        selectedColor = Color.black
-//                    } else {
-//                        selectedColor = Color.red
-//                    }
-//                    showCourse = true
-//                }
+                //sets course values if the assignment has a course
+                if(assignment.course != nil) {
+                    courseName = assignment.course!.name!
+                    colorIndex = Int(assignment.course!.colorIndex)
+                }
             }
         }
     //saves changes to assignment name, points, and due dates

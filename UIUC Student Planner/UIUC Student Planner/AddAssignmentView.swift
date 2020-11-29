@@ -24,8 +24,7 @@ struct AddAssignmentView: View {
     @State var formShowing: Bool = false
     @State var holder: String = ""
     @State var isPinned: Bool = false
-    @State var setCourse: Course = Course()
-    @State var hasCourse: Bool = false
+    @State var courseIndex: Int = -1
     @State var pickerShowing: Bool = false
     @State var pickerPointShowing: Bool = false
     @State var setPriority = Priority.normal
@@ -45,7 +44,6 @@ struct AddAssignmentView: View {
         self._pointValue = State.init(initialValue: 0)
         self._selectedDate = State.init(initialValue: Date.init(timeIntervalSinceNow: 0))
         self.navigationBarTitle = "Add Assignment"
-        self.setCourse = Course(context: viewContext)
     }
     
     /*
@@ -58,7 +56,6 @@ struct AddAssignmentView: View {
         self._pointValue = State.init(initialValue: Int(pointValue))
         self._selectedDate = State.init(initialValue: date)
         self.navigationBarTitle = "Edit Assignment"
-        self.setCourse = Course(context: viewContext)
     }
     //enumeration of possible priorities
     enum Priority: String, CaseIterable, Identifiable {
@@ -79,10 +76,10 @@ struct AddAssignmentView: View {
                         self.getSelectedTagText()
                     }
                     //lets user pick a course without displaying empty courses
-                    Picker("Course", selection: $setCourse) {
-                        ForEach(courses) { module in
-                            if (module.name != "No Course") {
-                                Text("\(module.name ?? "No Course")").tag(module)
+                    VStack{
+                        Picker(selection: self.$courseIndex, label: Text("Course")){
+                            ForEach(self.courses.indices, id: \.self) { i in
+                                Text(self.courses[i].name!)
                             }
                         }
                     }
@@ -196,10 +193,6 @@ struct AddAssignmentView: View {
             //sets course context and default values on first appearance
             .onAppear() {
                 if(numTimes == 0) {
-                    setCourse = Course(context: viewContext)
-                    setCourse.name = "No Course"
-                    setCourse.pointValues = true
-                    saveContext()
                     appeared = true
                 }
                 numTimes += 1;
@@ -229,13 +222,11 @@ struct AddAssignmentView: View {
         }
         newAssignment.tags = Set(self.selectedTag) as NSSet
         //attatches selected course to the assignment if setCourse is not an empty course and sets hasCourse to true
-        if (setCourse.name != "No Course") {
-            newAssignment.course = setCourse
-            newAssignment.hasCourse = true
-        } else {
-            //deletes setCourse if its an empty course and sets hasCourse to false
-            viewContext.delete(setCourse)
-            newAssignment.hasCourse = false
+        if(newAssignment.course != nil){
+            fatalError()
+        }
+        if(self.courseIndex != -1){
+            newAssignment.course = self.courses[self.courseIndex]
         }
         saveContext()
     }
