@@ -16,7 +16,7 @@ struct DeadlinePickerView: View{
     @State var showSelectTimeDetail = false
     
     var body: some View{
-        Section(header: Text("DEADLINE")){
+        Section(){
             HStack{
                 Image.init(systemName: "calendar")
                     .font(.system(size: 18))

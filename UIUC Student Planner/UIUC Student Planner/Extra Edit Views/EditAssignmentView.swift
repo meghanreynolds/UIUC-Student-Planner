@@ -10,23 +10,30 @@ import SwiftUI
 struct EditAssignmentView: View {
     //Viewcontext for the database
     @Environment(\.managedObjectContext) private var viewContext
-    @Environment(\.presentationMode) var presentationMode
-    //The item passed in from the parent view
-    @State var item: FetchedResults<Assignment>.Element
+    @Environment(\.presentationMode) var presentationMode:Binding<PresentationMode>
     
+    //The fetch request getting all the courses and sorting them by their names
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Course.name, ascending: true)])
+    private var courses: FetchedResults<Course>
+    
+    //The item passed in from the parent view
+    @Binding var item: FetchedResults<Assignment>.Element
     @State var newName: String = ""
-    @State var newPoints: Int64 = 0
+    @State var newPoints: Int = 0
     
     @State var formShowing: Bool = false
     @State var newLink: URL = URL(string: "tester.com")!
     @State var holder: String = ""
     
     @State var pickerShowing: Bool = false
+    @State var pickerPointShowing: Bool = false
     @State var newPriority = Priority.normal
     
     @State var newDate = Date.init(timeIntervalSinceNow: 0)
     
     @State var newSelectedTag = Array<Tag>()
+    
+   // @State var newCourse: Course = Course()
     
     enum Priority: String, CaseIterable, Identifiable {
         case Low
@@ -45,10 +52,31 @@ struct EditAssignmentView: View {
                     NavigationLink(destination: TagPicker(selectedTags: self.$newSelectedTag)){
                         self.getSelectedTagText()
                     }
+                  /*  Picker("Course", selection: $newCourse) {
+                        ForEach(courses) { course in
+                            Text("\(course.name ?? "Untitled Course")").tag(course)
+                        }
+                    }*/
                 }
                 Section (header: Text("Assignment Details")) {
-                    Stepper(value: $newPoints ,in: 0...100){
-                       Text(getPoints())
+                    HStack {
+                        Text("Point\(newPoints != 1 ? "s" : "")")
+                        Divider()
+                        Button(action:{pickerPointShowing = !pickerPointShowing}, label: {
+                            Text("\(newPoints)")
+                                .foregroundColor(.black)
+                        })
+                        Spacer()
+                        Image(systemName: "chevron.down")
+                            .foregroundColor(.blue)
+                    }
+                    if (pickerPointShowing){
+                        Picker("Point Picker", selection: $newPoints){
+                            ForEach(0 ..< 101) {
+                                Text("\($0)")
+                            }
+                        }.pickerStyle(WheelPickerStyle())
+                        
                     }
                     //Allows the user to add or remove a link to their assignment
                         List{
@@ -85,6 +113,7 @@ struct EditAssignmentView: View {
                                 }
                             }
                         }
+                    
                     //allows user to change the assignment's priority
                     HStack {
                         Text("Priority  ")
@@ -132,7 +161,7 @@ struct EditAssignmentView: View {
         }
         .onAppear {
             newName = item.name ?? "Untitled Assignment"
-            newPoints = item.points
+            newPoints = Int(item.points)
             newDate = item.dueDate ?? Date()
             newLink = item.linkToAssignment ?? URL(string: "tester.com")!
             //causes link textfield to appear immediately if the user has already entered a link and to remain hidden otherwise
@@ -148,13 +177,18 @@ struct EditAssignmentView: View {
                 newPriority = Priority.High
             }
             newSelectedTag = Array.init((item.tags ?? NSSet()) as! Set)
+           // newCourse = item.courses ?? Course()
+           /* if newCourse.name == nil {
+                newCourse.name = "No Course"
+                newCourse.pointValues = true
+            }*/
         }
     }
     
     func saveContext() {
       do {
         item.name = newName
-        item.points = newPoints
+        item.points = Int64(newPoints)
         item.dueDate = newDate
         if holder != "" {
             let link: URL = URL(string: holder)!
@@ -170,7 +204,7 @@ struct EditAssignmentView: View {
             item.priority = 0;
         }
         item.tags = Set(self.newSelectedTag) as NSSet
-        
+//        item.courses = newCourse
         try viewContext.save()
       } catch {
         print("Error saving managed object context: \(error)")
@@ -197,10 +231,10 @@ struct EditAssignmentView: View {
     }
 }
 
-struct EditAssignmentView_Previews: PreviewProvider {
+/*struct EditAssignmentView_Previews: PreviewProvider {
     static var previews: some View {
-        EditAssignmentView(item: Assignment(context: PersistenceController.preview.container.viewContext))
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+       /* EditAssignmentView(item: Assignment(context: PersistenceController.preview.container.viewContext))
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)*/
     }
-}
+}*/
 
