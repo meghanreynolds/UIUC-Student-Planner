@@ -9,195 +9,118 @@ import UIKit
 
 struct CourseDetailView: View {
     //Viewcontext for the database
-    @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.managedObjectContext) var viewContext
     //The course passed in from the parent view
     @State var course: Course
     @State var courseName: String = ""
-    @State var pointSystem: String = ""
-    @State var pickerShowing: Bool = false
-    @State var colorAsString: String = ""
-    @State var selectedColor = Color(decimalRed: 1.0, green: 0.0, blue: 0.0)
+    @State var pointSystem: Int = 0
+    @State var selectedColorIndex = 0
     
+    //columns item for colors
+     var columns: [GridItem] =
+            Array(repeating: .init(.flexible()), count: 6)
     var body: some View {
-            VStack(alignment: .leading) {
-                HStack {
-                    //Text editor allowing the user to change the coure's name if they click on the text
-                    TextEditor(text: $courseName)
-                        .frame(width: 275, height: 50)
-                        .font(.largeTitle)
-                }
-                    HStack {
-                        //picker allowing the user to change the course's grading system
-                        Text("Grading System: ")
-                            .bold()
-                        Spacer()
-                        Button(action: {pickerShowing = !pickerShowing}, label: {
-                            Text("\(pointSystem)")
-                                .foregroundColor(.black)
-                       })
-                        Spacer()
-                    }.padding(.bottom)
-                        //if the user clicks to change the grading system they are presented with a wheel picker
-                        if (pickerShowing) {
-                            Picker("Grading System", selection: $pointSystem) {
-                                    Text("Points").tag("Points")
-                                    Text("Percentages").tag("Percentages")
-                            }.pickerStyle(WheelPickerStyle())
+            VStack {
+                Spacer()
+                LazyVStack{
+                    //TextField allows user to set the course's name
+                    ZStack{
+                        RoundedRectangle(cornerRadius: 10.0)
+                            .fill(Color.Material.palette[get: self.selectedColorIndex])
+                            .padding([.leading, .trailing], 40)
+                        TextEditor(text: $courseName)
+                            .font(Font(UIFont.systemFont(ofSize: 22, weight: .bold)))
+                            .lineLimit(1)
+                            .multilineTextAlignment(.leading)
+                            .foregroundColor(Color.Material.palette[get: self.selectedColorIndex].isDarkColor ? .white : .black)
+                            .padding(.top, 5)
+                            .padding(.bottom, 50)
+                            .padding([.leading, .trailing], 50)
+                            .zIndex(1)
+                    }  //ZStack
+                    .padding(.top, -30)
+                    .padding(.bottom, 10)
+                    .padding([.leading, .trailing], 10)
+                    .onTapGesture {
+                        if !self.courseName.isEmpty{
+                            self.courseName = ""
                         }
-                
-                
-                HStack {
-                    //Displays an interactive Course tag preview
-                    Text("Course Tag Preview: ")
-                        .bold()
-                    Spacer()
-                    Button(action:{}, label: {
-                        if(courseName != "") {
-                            Text("\(courseName)")
-                        } else {
-                            Text("Untitled Course")
-                        }
-                    })
-                    .padding(10.0)
-                    .foregroundColor(.white)
-                    .background(selectedColor)
-                    .cornerRadius(25.0)
-                    Spacer()
-                }.padding(.bottom)
-                
-                VStack(alignment: .center){
-                    //Allows user to change the color of the custom course tag
-                    Text("   Select Course Color: ")
-                        .bold()
+                    }.animation(.easeInOut(duration: 0.25))
+                    
+                    //allows the user to set the course tag's color
+                    LazyVGrid(columns: self.columns){
+                        ForEach(0..<Color.Material.palette.count){ i in
+                            ZStack{
+                                if(self.selectedColorIndex == i){
+                                    Circle()
+                                        .fill(Color.Material.lightGrey)
+                                        .frame(width: 40, height: 40)
+                                    Circle()
+                                        .fill(Color.white)
+                                        .frame(width: 35, height: 35)
+                                }else{
+                                    Circle()
+                                        .fill(Color.white)
+                                        .frame(width: 40, height: 40)
+                                }
+                                    
+                                Circle()
+                                    .fill(Color.Material.palette[get: i])
+                                    .frame(width: 30, height: 30)
+                                    .onTapGesture {
+                                        selectedColorIndex = i
+                                    }
+                            } //ZStack
+                        } // ForEach
+                    } //LazyVGrid
+                    .padding([.leading, .trailing], 10)
+                    .padding([.top, .bottom], 10)
+                    
+                    //allows user to change the assignment's grading system
                     HStack {
-                        Circle()
-                            .fill(Color.clear)
-                            .frame(width: 25, height: 25)
-                        Circle()
-                            .fill(Color.red)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.red
-                                colorAsString = "Red"
-                            }
-                        
-                        Circle()
-                            .fill(Color.orange)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.orange
-                                colorAsString = "Orange"
-                            }
-                        
-                        Circle()
-                            .fill(Color.yellow)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.yellow
-                                colorAsString = "Yellow"
-                            }
-                        Circle()
-                            .fill(Color.green)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.green
-                                colorAsString = "Green"
-                            }
-                        Circle()
-                            .fill(Color.blue)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.blue
-                                colorAsString = "Blue"
-                            }
-                        
-                        Circle()
-                            .fill(Color.purple)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.purple
-                                colorAsString = "Purple"
-                            }
-                        Circle()
-                            .fill(Color.pink)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.pink
-                                colorAsString = "Pink"
-                            }
-                        Circle()
-                            .fill(Color.gray)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.gray
-                                colorAsString = "Gray"
-                            }
-                        Circle()
-                            .fill(Color.black)
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                selectedColor = Color.black
-                                colorAsString = "Black"
-                            }
-                    
-                    
-                    }
-                }
+                        Spacer(minLength: 25)
+                        Text("Grading:")
+                        Spacer(minLength: 25)
+                        Picker(selection: self.$pointSystem, label: Text("")){
+                            Text("point").tag(0)
+                            Text("percentage").tag(1)
+                        }.pickerStyle(SegmentedPickerStyle())
+                        Spacer(minLength: 25)
+                    }.padding([.top, .bottom], 10)
+                }  //LazyVStack
+                
                 
                 
                 Spacer()
                 //button allows user to save changes to the course
                 HStack{
                     Spacer()
-                    Button(action: {saveContext()}, label: {Text("Save Changes")})
+                    Button(action: {
+                            saveContext()
+                            
+                    }, label: {Text("Save Changes")})
                         .padding()
                         .border(Color.blue)
                     Spacer()
                 }
-            }
-            .onAppear(){
-//                //sets initial course values
-//                courseName = course.name ?? "Untitled Course"
-//                if (course.pointValues) {
-//                    pointSystem = "Points"
-//                } else if (!course.pointValues) {
-//                    pointSystem = "Percentages"
-//                }
-//               colorAsString = course.color ?? "Red"
-//                if(colorAsString == "Red") {
-//                    selectedColor = Color.red
-//                } else if (colorAsString == "Orange") {
-//                    selectedColor = Color.orange
-//                } else if (colorAsString == "Yellow") {
-//                    selectedColor = Color.yellow
-//                } else if (colorAsString == "Green") {
-//                    selectedColor = Color.green
-//                } else if (colorAsString == "Blue") {
-//                    selectedColor = Color.blue
-//                } else if (colorAsString == "Purple") {
-//                    selectedColor = Color.purple
-//                } else if (colorAsString == "Pink") {
-//                    selectedColor = Color.pink
-//                } else if (colorAsString == "Gray") {
-//                    selectedColor = Color.gray
-//                } else if (colorAsString == "Black") {
-//                    selectedColor = Color.black
-//                } else {
-//                    selectedColor = Color.red
-//                }
+            }.onAppear() {
+                courseName = course.name ?? ""
+                if (course.pointValues) {
+                    pointSystem = 0
+                } else {
+                    pointSystem = 1
+                }
+                selectedColorIndex = Int(Int16(course.colorIndex))
+                UITextView.appearance().backgroundColor = .clear
             }
         
     }
     func saveContext() {
       do {
-//        course.name = courseName
-//        if(pointSystem == "Points") {
-//            course.pointValues = true
-//        } else if (pointSystem == "Percentages"){
-//            course.pointValues = false
-//        }
-//        course.color = colorAsString
-//        try viewContext.save()
+        course.name = courseName
+        course.pointValues = self.pointSystem == 0 ? true : false
+        course.colorIndex = Int16(self.selectedColorIndex)
+        try viewContext.save()
       } catch {
         print("Error saving managed object context: \(error)")
       }
