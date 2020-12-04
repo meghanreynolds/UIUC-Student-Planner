@@ -204,7 +204,8 @@ struct AssignmentView: View {
                 holder = assignmentLink.absoluteString
                 
                 //sets course values if the assignment has a course
-                if(assignment.course != nil) {
+                if(assignment.hasCourse) {
+                    showCourse = true
                     courseName = assignment.course!.name!
                     colorIndex = Int(assignment.course!.colorIndex)
                 }
