@@ -207,6 +207,7 @@ struct AssignmentView: View {
                 if(assignment.hasCourse) {
                     showCourse = true
                     courseName = assignment.course!.name!
+                    points = assignment.course!.pointValues
                     colorIndex = Int(assignment.course!.colorIndex)
                 }
             }
@@ -243,7 +244,22 @@ struct AssignmentView: View {
     //saves changes made to the link
     func saveLinkContext() {
       do {
-        assignment.linkToAssignment = assignmentLink
+        if(holder == "") {
+            assignmentLink = URL(string: "https://google.com")!
+            holder = "https://google.com"
+            assignment.linkToAssignment = URL(string: "https://google.com")!
+        }
+        //assignment.linkToAssignment = assignmentLink
+        if(holder.contains("http://")) {
+            let link: URL = URL(string: holder)!
+            assignment.linkToAssignment = link
+        } else {
+            let finLink = "http://" + holder
+            let link: URL = URL(string: finLink)!
+            assignment.linkToAssignment = link
+            assignmentLink = link
+            holder = finLink
+        }
         try viewContext.save()
       } catch {
         print("Error saving managed object context: \(error)")
