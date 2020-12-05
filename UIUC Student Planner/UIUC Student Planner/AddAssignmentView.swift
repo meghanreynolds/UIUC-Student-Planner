@@ -208,7 +208,7 @@ struct AddAssignmentView: View {
         newAssignment.dueDate = date
         newAssignment.pinned = isPinned
         if (convertToLink != "") {
-            if(convertToLink.contains("http://")) {
+            if(convertToLink.contains("http://") || convertToLink.contains("https://")) {
                 let link: URL = URL(string: convertToLink)!
                 newAssignment.linkToAssignment = link
             } else {

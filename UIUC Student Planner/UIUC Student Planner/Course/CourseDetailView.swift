@@ -15,6 +15,10 @@ struct CourseDetailView: View {
     @State var courseName: String = ""
     @State var pointSystem: Int = 0
     @State var selectedColorIndex = 0
+    //link values
+    @State var courseLink: URL = URL(string: "https://google.com")!
+    @State var formShowing: Bool = false
+    @State var holder: String = "https://google.com"
     
     //columns item for colors
      var columns: [GridItem] =
@@ -22,6 +26,10 @@ struct CourseDetailView: View {
     var body: some View {
             VStack {
                 Spacer()
+                
+                Text("Course Tag Preview:")
+                    .bold()
+                    .font(.headline)
                 LazyVStack{
                     //TextField allows user to set the course's name
                     ZStack{
@@ -87,11 +95,47 @@ struct CourseDetailView: View {
                         }.pickerStyle(SegmentedPickerStyle())
                         Spacer(minLength: 25)
                     }.padding([.top, .bottom], 10)
-                }  //LazyVStack
+                    
+                    //allows user to click on the default link for this course (if they don't have one google is the default) and also edit and save an updated link
+                    HStack {
+                        Text("Default Link: ")
+                            .font(.subheadline)
+                            .bold()
+                        if(formShowing) {
+                            TextEditor(text: $holder)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
+                                .frame(width: 150, height: 25)
+                                .font(.subheadline)
+                            Spacer()
+                            Button(action: {
+                                if (holder != "") {
+                                    let link: URL = URL(string: holder)!
+                                    courseLink = link
+                                } else {
+                                    courseLink = URL(string: "https://google.com")!
+                                }
+                                saveLinkContext()
+                                formShowing = false
+                            }, label: {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(.green)
+                            })
+                        } else {
+                            Link("\(courseLink)", destination: courseLink)
+                            Spacer()
+                            Button(action: {formShowing = true}, label: {
+                                Image(systemName: "pencil.circle.fill")
+                                    .foregroundColor(.blue)
+                            })
+                        }
+                    }.padding(.bottom)
+                    .padding(.top)
+                    .padding(.leading)
+                    
+                }.padding(.bottom)
+                    //LazyVStack
                 
-                
-                
-                Spacer()
                 //button allows user to save changes to the course
                 HStack{
                     Spacer()
@@ -103,6 +147,7 @@ struct CourseDetailView: View {
                         .border(Color.blue)
                     Spacer()
                 }
+                Spacer()
             }.onAppear() {
                 courseName = course.name ?? ""
                 if (course.pointValues) {
@@ -112,6 +157,9 @@ struct CourseDetailView: View {
                 }
                 selectedColorIndex = Int(Int16(course.colorIndex))
                 UITextView.appearance().backgroundColor = .clear
+                
+                courseLink = course.courseLink ?? URL(string: "https://google.com")!
+                holder = courseLink.absoluteString
             }
         
     }
@@ -120,6 +168,31 @@ struct CourseDetailView: View {
         course.name = courseName
         course.pointValues = self.pointSystem == 0 ? true : false
         course.colorIndex = Int16(self.selectedColorIndex)
+        try viewContext.save()
+      } catch {
+        print("Error saving managed object context: \(error)")
+      }
+    }
+    
+    //saves changes made to the link
+    func saveLinkContext() {
+      do {
+        if(holder == "") {
+            courseLink = URL(string: "https://google.com")!
+            holder = "https://google.com"
+            course.courseLink = URL(string: "https://google.com")!
+        }
+        //assignment.linkToAssignment = assignmentLink
+        if(holder.contains("http://") || holder.contains("https://")) {
+            let link: URL = URL(string: holder)!
+            course.courseLink = link
+        } else {
+            let finLink = "http://" + holder
+            let link: URL = URL(string: finLink)!
+            course.courseLink = link
+            courseLink = link
+            holder = finLink
+        }
         try viewContext.save()
       } catch {
         print("Error saving managed object context: \(error)")

@@ -20,6 +20,10 @@ struct AddCourse: View {
     private var columns: [GridItem] =
             Array(repeating: .init(.flexible()), count: 6)
     
+    //link values
+    @State var courseLink: URL = URL(string: "https://google.com")!
+    @State var formShowing: Bool = false
+    @State var holder: String = "https://google.com"
     
     init() {
         //get rid of UITextView background color
@@ -95,6 +99,43 @@ struct AddCourse: View {
                         }.pickerStyle(SegmentedPickerStyle())
                         Spacer(minLength: 25)
                     }.padding([.top, .bottom], 10)
+                    
+                    //allows user to click on the default link for this course (if they don't have one google is the default) and also edit and save an updated link
+                    HStack {
+                        Text("Default Link: ")
+                            .font(.subheadline)
+                            .bold()
+                        if(formShowing) {
+                            TextEditor(text: $holder)
+                                .disableAutocorrection(true)
+                                .autocapitalization(.none)
+                                .frame(width: 150, height: 25)
+                                .font(.subheadline)
+                            Spacer()
+                            Button(action: {
+                                if (holder != "") {
+                                    let link: URL = URL(string: holder)!
+                                    courseLink = link
+                                } else {
+                                    courseLink = URL(string: "https://google.com")!
+                                }
+                                formShowing = false
+                                updateLink()
+                            }, label: {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(.green)
+                            })
+                        } else {
+                            Link("\(courseLink)", destination: courseLink)
+                            Spacer()
+                            Button(action: {formShowing = true}, label: {
+                                Image(systemName: "pencil.circle.fill")
+                                    .foregroundColor(.blue)
+                            })
+                        }
+                    }.padding(.bottom)
+                    .padding(.top)
+                    .padding(.leading)
                 }  //LazyVStack
                 
                 
@@ -119,7 +160,7 @@ struct AddCourse: View {
                         addCourse()
                         self.presentationMode.wrappedValue.dismiss()
                     }, label : {
-                        Text("Done")
+                        Text("Save")
                     })
                 }
             }
@@ -137,6 +178,7 @@ struct AddCourse: View {
         let newTag = Tag(context: self.viewContext)
         newTag.name = self.courseName
         
+        newCourse.courseLink = courseLink
         saveContext()
     }
 
@@ -147,6 +189,24 @@ struct AddCourse: View {
         print("Error saving managed object context: \(error)")
       }
     }
+    
+    func updateLink() {
+        //set the link values
+        if(holder == "") {
+            courseLink = URL(string: "https://google.com")!
+            holder = "https://google.com"
+        }
+        if(holder.contains("http://") || holder.contains("https://")) {
+            let link: URL = URL(string: holder)!
+            courseLink = link
+        } else {
+            let finLink = "http://" + holder
+            let link: URL = URL(string: finLink)!
+            courseLink = link
+            holder = finLink
+        }
+    }
+    
 }
 
 struct AddCourse_Previews: PreviewProvider {
