@@ -229,9 +229,6 @@ struct AddAssignmentView: View {
         }
         newAssignment.tags = Set(self.selectedTag) as NSSet
         //attatches selected course to the assignment if setCourse is not an empty course and sets hasCourse to true
-        if(newAssignment.course != nil){
-            fatalError()
-        }
         if(self.courseIndex != -1){
             newAssignment.course = self.courses[self.courseIndex]
         }

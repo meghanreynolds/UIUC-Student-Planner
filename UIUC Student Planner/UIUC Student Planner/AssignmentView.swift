@@ -208,6 +208,7 @@ struct AssignmentView: View {
                 if(assignment.course != nil) {
                     showCourse = true
                     courseName = assignment.course!.name!
+                    NSLog(courseName)
                     points = assignment.course!.pointValues
                     colorIndex = Int(assignment.course!.colorIndex)
                     //sets link to default link if the user did not put in a different link
