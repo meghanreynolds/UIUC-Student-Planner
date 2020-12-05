@@ -174,10 +174,6 @@ struct AddCourse: View {
         newCourse.pointValues = self.pointSystem == 0 ? true : false
         newCourse.colorIndex = Int16(self.selectedColorIndex)
         
-        //create new tag base on the course title
-        let newTag = Tag(context: self.viewContext)
-        newTag.name = self.courseName
-        
         newCourse.courseLink = courseLink
         saveContext()
     }
