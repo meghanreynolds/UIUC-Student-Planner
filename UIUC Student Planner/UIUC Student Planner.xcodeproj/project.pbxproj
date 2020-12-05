@@ -20,8 +20,11 @@
 		230BB70A2573359300FD0572 /* Color+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230BB7092573359300FD0572 /* Color+Ext.swift */; };
 		230DB4D7253F9CBB005D7427 /* DeadlinePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DB4D6253F9CBB005D7427 /* DeadlinePickerView.swift */; };
 		23196996257B96B600F8CCCA /* CourseSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23196995257B96B600F8CCCA /* CourseSettingView.swift */; };
+		237CC853257BE2C400F4D562 /* AssignmentCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237CC852257BE2C400F4D562 /* AssignmentCardView.swift */; };
+		237CC857257C04C800F4D562 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237CC856257C04C800F4D562 /* Util.swift */; };
 		237E09A9253A661E00B26AB2 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237E09A8253A661E00B26AB2 /* Date+Ext.swift */; };
 		23D0A6CC25620A0400AC1970 /* Collection+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D0A6CB25620A0400AC1970 /* Collection+Ext.swift */; };
+		23DEC734257C13D200888D12 /* Binding+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DEC733257C13D200888D12 /* Binding+Ext.swift */; };
 		23F332C725461D46007811B2 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F332C625461D46007811B2 /* TagView.swift */; };
 		23F332CE25463091007811B2 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F332CD25463091007811B2 /* String+Ext.swift */; };
 		790F44BC255C8CA90066ECA4 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F44BB255C8CA90066ECA4 /* HomeView.swift */; };
@@ -50,8 +53,11 @@
 		230BB7092573359300FD0572 /* Color+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Ext.swift"; sourceTree = "<group>"; };
 		230DB4D6253F9CBB005D7427 /* DeadlinePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlinePickerView.swift; sourceTree = "<group>"; };
 		23196995257B96B600F8CCCA /* CourseSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseSettingView.swift; sourceTree = "<group>"; };
+		237CC852257BE2C400F4D562 /* AssignmentCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentCardView.swift; sourceTree = "<group>"; };
+		237CC856257C04C800F4D562 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		237E09A8253A661E00B26AB2 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		23D0A6CB25620A0400AC1970 /* Collection+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Ext.swift"; sourceTree = "<group>"; };
+		23DEC733257C13D200888D12 /* Binding+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Ext.swift"; sourceTree = "<group>"; };
 		23F332C625461D46007811B2 /* TagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		23F332CD25463091007811B2 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		790F44BB255C8CA90066ECA4 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -128,6 +134,7 @@
 			children = (
 				230DB4D6253F9CBB005D7427 /* DeadlinePickerView.swift */,
 				23F332C625461D46007811B2 /* TagView.swift */,
+				237CC852257BE2C400F4D562 /* AssignmentCardView.swift */,
 			);
 			path = SupportingView;
 			sourceTree = "<group>";
@@ -159,6 +166,8 @@
 				23F332CD25463091007811B2 /* String+Ext.swift */,
 				23D0A6CB25620A0400AC1970 /* Collection+Ext.swift */,
 				230BB7092573359300FD0572 /* Color+Ext.swift */,
+				237CC856257C04C800F4D562 /* Util.swift */,
+				23DEC733257C13D200888D12 /* Binding+Ext.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -242,6 +251,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				230DB4D7253F9CBB005D7427 /* DeadlinePickerView.swift in Sources */,
+				23DEC734257C13D200888D12 /* Binding+Ext.swift in Sources */,
+				237CC853257BE2C400F4D562 /* AssignmentCardView.swift in Sources */,
 				79A125D425606958008A3A90 /* EditCourseView.swift in Sources */,
 				79A125D725606B0D008A3A90 /* CourseDetailView.swift in Sources */,
 				790F44BC255C8CA90066ECA4 /* HomeView.swift in Sources */,
@@ -262,6 +273,7 @@
 				23F332CE25463091007811B2 /* String+Ext.swift in Sources */,
 				224AA7E6252E697B00194BF5 /* AddAssignmentView.swift in Sources */,
 				22D54355252E67970069E6D2 /* ContentView.swift in Sources */,
+				237CC857257C04C800F4D562 /* Util.swift in Sources */,
 				23F332C725461D46007811B2 /* TagView.swift in Sources */,
 				22D54353252E67970069E6D2 /* UIUC_Student_PlannerApp.swift in Sources */,
 			);

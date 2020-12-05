@@ -14,10 +14,16 @@ struct CourseDetailView: View {
     var assignments: FetchedResults<Assignment> { assignmentRequest.wrappedValue }
     
     @State public var selectedTabIndex: Int = 0
+    @State public var courseColorIndex: Int = 0
     @State var course: Course
-    @State private var courseColor: Color = Color.Material.palette[0]
     
-    private let tabs = ["assignments", "settings"]
+    var courseColor: Color{
+        get{
+            return Color.Material.palette[self.courseColorIndex]
+        }
+    }
+    
+    private var tabs = ["assignments", "settings"]
     private let backgroundColor: Color = Color.white
     
     public init(course: Course){
@@ -36,15 +42,8 @@ struct CourseDetailView: View {
                 .font(Font(UIFont.systemFont(ofSize: 36, weight: .bold)))
                 .foregroundColor(self.backgroundColor)
                 .lineLimit(1)
-                .padding([.top, .leading, .trailing], 10)
-                .padding(.bottom, 10)
-                .multilineTextAlignment(.leading)
-                .disabled(true)
-            TextField("", text: .constant("tasks: \(self.assignments.count)"))
-                .font(Font(UIFont.systemFont(ofSize: 18, weight: .bold)))
-                .foregroundColor(self.backgroundColor)
-                .lineLimit(1)
                 .padding([.leading, .trailing], 10)
+                .padding(.top, 80)
                 .padding(.bottom, 40)
                 .multilineTextAlignment(.leading)
                 .disabled(true)
@@ -64,7 +63,12 @@ struct CourseDetailView: View {
                         }){
                             HStack {
                                 Spacer()
-                                Text(self.tabs[i]).font(Font(UIFont.systemFont(ofSize: 16, weight: .bold)))
+                                if i == 0{
+                                    Text(self.tabs[i] + " (\(self.assignments.count))")
+                                        .font(Font(UIFont.systemFont(ofSize: 16, weight: .bold)))
+                                }else{
+                                    Text(self.tabs[i]).font(Font(UIFont.systemFont(ofSize: 16, weight: .bold)))
+                                }
                                 Spacer()
                             }
                         }
@@ -74,17 +78,34 @@ struct CourseDetailView: View {
                     }
                 }
             }
-            ScrollView{
-                LazyVStack{
-                    ForEach(self.assignments.indices) { i in
-                        Text(self.assignments[i].name ?? "null")
-                    }
+            if self.selectedTabIndex == 0{
+                //Course Assignment Tab
+                ScrollView{
+                    LazyVStack{
+                        ForEach(self.assignments.indices) { i in
+                            NavigationLink(destination:AssignmentView(assignment: self.assignments[i])) {
+                                AssignmentCardView(self.assignments[i], self.$courseColorIndex)
+                                    .padding([.top, .bottom], 5.0)
+                                    .padding([.leading, .trailing], 10.0)
+                            }
+                        }
+                    }.padding(.top, 10.0)
                 }
+                .background(Color.white)
+                .padding(.top, -10)
+            }else{
+                //Settings Tab
+                CourseSettingView(course: self.$course, parentColorIndex: self.$courseColorIndex)
+                    .background(Color.white)
+                    .padding(.top, -10)
             }
-        }.background(self.courseColor)
-        .onAppear(){
-            self.courseColor = Color.Material.palette[Int(self.course.colorIndex)]
         }
+        .background(self.courseColor)
+        .onAppear(){
+            self.courseColorIndex = Int(self.course.colorIndex)
+        }
+        .navigationBarTitleDisplayMode(.large)
+        .edgesIgnoringSafeArea(.top)
         Spacer()
     }
     

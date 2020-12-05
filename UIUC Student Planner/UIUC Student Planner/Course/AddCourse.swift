@@ -15,15 +15,14 @@ struct AddCourse: View {
     @State var courseName: String = "Course Name"
     @State var pointSystem: Int = 0
     @State var selectedColorIndex = 0
+    //link values
+    @State var courseLink = ""
+    @State var showInvalidLink = false
     
     //columns item for colors
     private var columns: [GridItem] =
             Array(repeating: .init(.flexible()), count: 6)
-    
-    //link values
-    @State var courseLink: URL = URL(string: "https://google.com")!
-    @State var formShowing: Bool = false
-    @State var holder: String = "https://google.com"
+
     
     init() {
         //get rid of UITextView background color
@@ -88,54 +87,56 @@ struct AddCourse: View {
                     .padding([.leading, .trailing], 10)
                     .padding([.top, .bottom], 10)
                     
-                    //allows user to change the assignment's grading system
-                    HStack {
-                        Spacer(minLength: 25)
-                        Text("Grading:")
-                        Spacer(minLength: 25)
+                    
+                    //allows user to change the assignment's grading syste
+                    VStack{
+                        HStack{
+                            Text("grading:")
+                                .font(.system(size: 12))
+                                .foregroundColor(Color.Material.grey)
+                            Spacer()
+                        }
                         Picker(selection: self.$pointSystem, label: Text("")){
                             Text("point").tag(0)
                             Text("percentage").tag(1)
-                        }.pickerStyle(SegmentedPickerStyle())
-                        Spacer(minLength: 25)
-                    }.padding([.top, .bottom], 10)
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                        .padding(.top, -5.0)
+                    }
+                    .padding(.top, 10)
+                    .padding([.leading, .trailing], 20)
+                    
                     
                     //allows user to click on the default link for this course (if they don't have one google is the default) and also edit and save an updated link
-                    HStack {
-                        Text("Default Link: ")
-                            .font(.subheadline)
-                            .bold()
-                        if(formShowing) {
-                            TextEditor(text: $holder)
-                                .disableAutocorrection(true)
-                                .autocapitalization(.none)
-                                .frame(width: 150, height: 25)
-                                .font(.subheadline)
+                    VStack{
+                        HStack{
+                            Text("link (optional):")
+                                .font(.system(size: 12))
+                                .foregroundColor(self.showInvalidLink ? Color.Material.red : Color.Material.grey)
                             Spacer()
-                            Button(action: {
-                                if (holder != "") {
-                                    let link: URL = URL(string: holder)!
-                                    courseLink = link
-                                } else {
-                                    courseLink = URL(string: "https://google.com")!
-                                }
-                                formShowing = false
-                                updateLink()
-                            }, label: {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(.green)
-                            })
-                        } else {
-                            Link("\(courseLink)", destination: courseLink)
-                            Spacer()
-                            Button(action: {formShowing = true}, label: {
-                                Image(systemName: "pencil.circle.fill")
-                                    .foregroundColor(.blue)
-                            })
                         }
-                    }.padding(.bottom)
-                    .padding(.top)
-                    .padding(.leading)
+                        TextField("https://example.com", text: self.$courseLink, onCommit: {
+                            guard Util.isValidUrl(self.courseLink) else{
+                                self.showInvalidLink.toggle()
+                                self.courseLink = ""
+                                return
+                            }
+                        })
+                        .padding(10)
+                        .textContentType(.URL)
+                        .keyboardType(.URL)
+                        .font(Font.system(size: 15))
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color(UIColor.systemGroupedBackground)))
+                        .foregroundColor(.black)
+                        .accentColor(.black)
+                        .padding(.top, -5.0)
+                    }
+                    .padding(.top, 10)
+                    .padding([.leading, .trailing], 20)
+                    .alert(isPresented: self.$showInvalidLink){
+                        Alert.init(title: Text("invalid URL"), message: nil, dismissButton: .default(Text("Ok")))
+                    }
+                    
                 }  //LazyVStack
                 
                 
@@ -157,7 +158,7 @@ struct AddCourse: View {
                 //Save Button
                 ToolbarItem(placement: .confirmationAction) {
                     Button(action: {
-                        addCourse()
+                        self.addCourse()
                         self.presentationMode.wrappedValue.dismiss()
                     }, label : {
                         Text("Save")
@@ -167,14 +168,13 @@ struct AddCourse: View {
         }
     }
     
-    func addCourse() {
+    private func addCourse() {
         //create new Course and set its values
         let newCourse = Course(context: viewContext)
         newCourse.name = self.courseName
         newCourse.pointValues = self.pointSystem == 0 ? true : false
         newCourse.colorIndex = Int16(self.selectedColorIndex)
-        
-        newCourse.courseLink = courseLink
+        newCourse.courseLink = URL.init(string: self.courseLink)
         saveContext()
     }
 
@@ -184,23 +184,6 @@ struct AddCourse: View {
       } catch {
         print("Error saving managed object context: \(error)")
       }
-    }
-    
-    func updateLink() {
-        //set the link values
-        if(holder == "") {
-            courseLink = URL(string: "https://google.com")!
-            holder = "https://google.com"
-        }
-        if(holder.contains("http://") || holder.contains("https://")) {
-            let link: URL = URL(string: holder)!
-            courseLink = link
-        } else {
-            let finLink = "http://" + holder
-            let link: URL = URL(string: finLink)!
-            courseLink = link
-            holder = finLink
-        }
     }
     
 }
