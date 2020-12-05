@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="19H15" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="20B29" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="Assignment" representedClassName="Assignment" syncable="YES" codeGenerationType="class">
         <attribute name="completed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="hasCourse" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="linkToAssignment" optional="YES" attributeType="URI"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="pinned" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -25,8 +24,8 @@
         <relationship name="assignments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Assignment" inverseName="tags" inverseEntity="Assignment"/>
     </entity>
     <elements>
-        <element name="Assignment" positionX="-63" positionY="-18" width="128" height="208"/>
-        <element name="Course" positionX="-282.34375" positionY="-128.70703125" width="128" height="118"/>
+        <element name="Assignment" positionX="-63" positionY="-18" width="128" height="179"/>
+        <element name="Course" positionX="-282.34375" positionY="-128.70703125" width="128" height="104"/>
         <element name="Tag" positionX="-329.3125" positionY="11.41015625" width="128" height="73"/>
     </elements>
 </model>

@@ -205,7 +205,7 @@ struct AssignmentView: View {
                 holder = assignmentLink.absoluteString
                 
                 //sets course values if the assignment has a course
-                if(assignment.hasCourse) {
+                if(assignment.course != nil) {
                     showCourse = true
                     courseName = assignment.course!.name!
                     points = assignment.course!.pointValues

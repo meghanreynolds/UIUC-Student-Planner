@@ -234,7 +234,6 @@ struct AddAssignmentView: View {
         }
         if(self.courseIndex != -1){
             newAssignment.course = self.courses[self.courseIndex]
-            newAssignment.hasCourse = true
         }
         saveContext()
     }
