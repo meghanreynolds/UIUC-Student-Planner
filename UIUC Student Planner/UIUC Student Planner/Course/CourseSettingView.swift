@@ -130,6 +130,8 @@ struct CourseSettingView: View{
                 .padding(10)
                 .textContentType(.URL)
                 .keyboardType(.URL)
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
                 .font(Font.system(size: 15))
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color(UIColor.systemGroupedBackground)))
                 .foregroundColor(.black)

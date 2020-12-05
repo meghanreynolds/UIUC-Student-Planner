@@ -125,6 +125,8 @@ struct AddCourse: View {
                         .padding(10)
                         .textContentType(.URL)
                         .keyboardType(.URL)
+                        .disableAutocorrection(true)
+                        .autocapitalization(.none)
                         .font(Font.system(size: 15))
                         .background(RoundedRectangle(cornerRadius: 10).fill(Color(UIColor.systemGroupedBackground)))
                         .foregroundColor(.black)
