@@ -31,6 +31,7 @@ struct AssignmentView: View {
     @State var assignmentLink: URL = URL(string: "https://google.com")!
     @State var formShowing: Bool = false
     @State var holder: String = "https://google.com"
+    @State var defaultLink: URL = URL(string: "https://gooogle.com")!
     //course values
     @State var courseName: String = ""
     @State var showCourse: Bool = false
@@ -79,10 +80,10 @@ struct AssignmentView: View {
                         }
                     }.padding(.bottom)
                     //allows user to change deadline using deadline picker view
-                    Text("Deadline: ")
-                        .font(.subheadline)
-                        .bold()
-                    DeadlinePickerView(selectedDate: $selectedDate)
+                        Text("Deadline: ")
+                            .font(.subheadline)
+                            .bold()
+                        DeadlinePickerView(selectedDate: $selectedDate)
                     //allows user to click on the link to their assignment (if they don't have one google is the default) and also edit and save an updated link
                     HStack {
                         Text("Link to Assignment: ")
@@ -204,10 +205,18 @@ struct AssignmentView: View {
                 holder = assignmentLink.absoluteString
                 
                 //sets course values if the assignment has a course
-                if(assignment.hasCourse) {
+                if(assignment.course != nil) {
                     showCourse = true
                     courseName = assignment.course!.name!
+                    points = assignment.course!.pointValues
                     colorIndex = Int(assignment.course!.colorIndex)
+                    //sets link to default link if the user did not put in a different link
+                    if (assignment.linkToAssignment == nil) {
+                        assignmentLink = assignment.course!.courseLink ?? URL(string: "https://google.com")!
+                        holder = assignmentLink.absoluteString
+                    }
+                    //sets default link value to the course's default link
+                    defaultLink = assignment.course!.courseLink ?? URL(string: "https://google.com")!
                 }
             }
         }
@@ -243,7 +252,22 @@ struct AssignmentView: View {
     //saves changes made to the link
     func saveLinkContext() {
       do {
-        assignment.linkToAssignment = assignmentLink
+        if(holder == "") {
+            assignmentLink = defaultLink
+            holder = assignmentLink.absoluteString
+            assignment.linkToAssignment = assignmentLink
+        }
+        //assignment.linkToAssignment = assignmentLink
+        if(holder.contains("http://") || holder.contains("https://")) {
+            let link: URL = URL(string: holder)!
+            assignment.linkToAssignment = link
+        } else {
+            let finLink = "http://" + holder
+            let link: URL = URL(string: finLink)!
+            assignment.linkToAssignment = link
+            assignmentLink = link
+            holder = finLink
+        }
         try viewContext.save()
       } catch {
         print("Error saving managed object context: \(error)")

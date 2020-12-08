@@ -15,11 +15,14 @@ struct AddCourse: View {
     @State var courseName: String = "Course Name"
     @State var pointSystem: Int = 0
     @State var selectedColorIndex = 0
+    //link values
+    @State var courseLink = ""
+    @State var showInvalidLink = false
     
     //columns item for colors
     private var columns: [GridItem] =
             Array(repeating: .init(.flexible()), count: 6)
-    
+
     
     init() {
         //get rid of UITextView background color
@@ -84,17 +87,58 @@ struct AddCourse: View {
                     .padding([.leading, .trailing], 10)
                     .padding([.top, .bottom], 10)
                     
-                    //allows user to change the assignment's grading system
-                    HStack {
-                        Spacer(minLength: 25)
-                        Text("Grading:")
-                        Spacer(minLength: 25)
+                    
+                    //allows user to change the assignment's grading syste
+                    VStack{
+                        HStack{
+                            Text("grading:")
+                                .font(.system(size: 12))
+                                .foregroundColor(Color.Material.grey)
+                            Spacer()
+                        }
                         Picker(selection: self.$pointSystem, label: Text("")){
                             Text("point").tag(0)
                             Text("percentage").tag(1)
-                        }.pickerStyle(SegmentedPickerStyle())
-                        Spacer(minLength: 25)
-                    }.padding([.top, .bottom], 10)
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                        .padding(.top, -5.0)
+                    }
+                    .padding(.top, 10)
+                    .padding([.leading, .trailing], 20)
+                    
+                    
+                    //allows user to click on the default link for this course (if they don't have one google is the default) and also edit and save an updated link
+                    VStack{
+                        HStack{
+                            Text("link (optional):")
+                                .font(.system(size: 12))
+                                .foregroundColor(self.showInvalidLink ? Color.Material.red : Color.Material.grey)
+                            Spacer()
+                        }
+                        TextField("https://example.com", text: self.$courseLink, onCommit: {
+                            guard Util.isValidUrl(self.courseLink) else{
+                                self.showInvalidLink.toggle()
+                                self.courseLink = ""
+                                return
+                            }
+                        })
+                        .padding(10)
+                        .textContentType(.URL)
+                        .keyboardType(.URL)
+                        .disableAutocorrection(true)
+                        .autocapitalization(.none)
+                        .font(Font.system(size: 15))
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color(UIColor.systemGroupedBackground)))
+                        .foregroundColor(.black)
+                        .accentColor(.black)
+                        .padding(.top, -5.0)
+                    }
+                    .padding(.top, 10)
+                    .padding([.leading, .trailing], 20)
+                    .alert(isPresented: self.$showInvalidLink){
+                        Alert.init(title: Text("invalid URL"), message: nil, dismissButton: .default(Text("Ok")))
+                    }
+                    
                 }  //LazyVStack
                 
                 
@@ -116,27 +160,23 @@ struct AddCourse: View {
                 //Save Button
                 ToolbarItem(placement: .confirmationAction) {
                     Button(action: {
-                        addCourse()
+                        self.addCourse()
                         self.presentationMode.wrappedValue.dismiss()
                     }, label : {
-                        Text("Done")
+                        Text("Save")
                     })
                 }
             }
         }
     }
     
-    func addCourse() {
+    private func addCourse() {
         //create new Course and set its values
         let newCourse = Course(context: viewContext)
         newCourse.name = self.courseName
         newCourse.pointValues = self.pointSystem == 0 ? true : false
         newCourse.colorIndex = Int16(self.selectedColorIndex)
-        
-        //create new tag base on the course title
-        let newTag = Tag(context: self.viewContext)
-        newTag.name = self.courseName
-        
+        newCourse.courseLink = URL.init(string: self.courseLink)
         saveContext()
     }
 
@@ -147,6 +187,7 @@ struct AddCourse: View {
         print("Error saving managed object context: \(error)")
       }
     }
+    
 }
 
 struct AddCourse_Previews: PreviewProvider {

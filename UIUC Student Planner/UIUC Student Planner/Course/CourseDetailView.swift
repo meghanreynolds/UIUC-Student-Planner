@@ -8,121 +8,115 @@ import SwiftUI
 import UIKit
 
 struct CourseDetailView: View {
-    //Viewcontext for the database
-    @Environment(\.managedObjectContext) var viewContext
-    //The course passed in from the parent view
-    @State var course: Course
-    @State var courseName: String = ""
-    @State var pointSystem: Int = 0
-    @State var selectedColorIndex = 0
     
-    //columns item for colors
-     var columns: [GridItem] =
-            Array(repeating: .init(.flexible()), count: 6)
-    var body: some View {
-            VStack {
-                Spacer()
-                LazyVStack{
-                    //TextField allows user to set the course's name
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 10.0)
-                            .fill(Color.Material.palette[get: self.selectedColorIndex])
-                            .padding([.leading, .trailing], 40)
-                        TextEditor(text: $courseName)
-                            .font(Font(UIFont.systemFont(ofSize: 22, weight: .bold)))
-                            .lineLimit(1)
-                            .multilineTextAlignment(.leading)
-                            .foregroundColor(Color.Material.palette[get: self.selectedColorIndex].isDarkColor ? .white : .black)
-                            .padding(.top, 5)
-                            .padding(.bottom, 50)
-                            .padding([.leading, .trailing], 50)
-                            .zIndex(1)
-                    }  //ZStack
-                    .padding(.top, -30)
-                    .padding(.bottom, 10)
-                    .padding([.leading, .trailing], 10)
-                    .onTapGesture {
-                        if !self.courseName.isEmpty{
-                            self.courseName = ""
-                        }
-                    }.animation(.easeInOut(duration: 0.25))
-                    
-                    //allows the user to set the course tag's color
-                    LazyVGrid(columns: self.columns){
-                        ForEach(0..<Color.Material.palette.count){ i in
-                            ZStack{
-                                if(self.selectedColorIndex == i){
-                                    Circle()
-                                        .fill(Color.Material.lightGrey)
-                                        .frame(width: 40, height: 40)
-                                    Circle()
-                                        .fill(Color.white)
-                                        .frame(width: 35, height: 35)
+    @Environment(\.managedObjectContext) private var viewContext
+    var assignmentRequest: FetchRequest<Assignment>
+    var assignments: FetchedResults<Assignment> { assignmentRequest.wrappedValue }
+    
+    @State public var selectedTabIndex: Int = 0
+    @State public var courseColorIndex: Int = 0
+    @State var course: Course
+    
+    var courseColor: Color{
+        get{
+            return Color.Material.palette[self.courseColorIndex]
+        }
+    }
+    
+    private var tabs = ["assignments", "settings"]
+    private let backgroundColor: Color = Color.white
+    
+    public init(course: Course){
+        self._course = State.init(initialValue: course)
+        self.assignmentRequest = FetchRequest(
+            entity: Assignment.entity(),
+            sortDescriptors: [],
+            predicate: NSPredicate(format: "course == %@", course),
+            animation: .default
+        )
+    }
+    
+    public var body: some View{
+        VStack{
+            TextField("", text: .constant(self.course.name ?? ""))
+                .font(Font(UIFont.systemFont(ofSize: 36, weight: .bold)))
+                .foregroundColor(self.backgroundColor)
+                .lineLimit(1)
+                .padding([.leading, .trailing], 10)
+                .padding(.top, 80)
+                .padding(.bottom, 40)
+                .multilineTextAlignment(.leading)
+                .disabled(true)
+            ZStack{
+                GeometryReader { geometry in
+                    RoundedRectangle(cornerRadius: 10.0)
+                        .fill(self.backgroundColor)
+                        .frame(width: self.tabWidth(from: geometry.size.width), height: 48, alignment: .leading)
+                        .offset(x: self.xoff(from: geometry.size.width), y: -14)
+                        .animation(.easeInOut)
+                        .fixedSize(horizontal: false, vertical: true)
+                }.fixedSize(horizontal: false, vertical: true)
+                HStack(spacing: 0) {
+                    ForEach(self.tabs.indices, id:\.self){ i in
+                        Button(action: {
+                            self.selectedTabIndex = i
+                        }){
+                            HStack {
+                                Spacer()
+                                if i == 0{
+                                    Text(self.tabs[i] + " (\(self.assignments.count))")
+                                        .font(Font(UIFont.systemFont(ofSize: 16, weight: .bold)))
                                 }else{
-                                    Circle()
-                                        .fill(Color.white)
-                                        .frame(width: 40, height: 40)
+                                    Text(self.tabs[i]).font(Font(UIFont.systemFont(ofSize: 16, weight: .bold)))
                                 }
-                                    
-                                Circle()
-                                    .fill(Color.Material.palette[get: i])
-                                    .frame(width: 30, height: 30)
-                                    .onTapGesture {
-                                        selectedColorIndex = i
-                                    }
-                            } //ZStack
-                        } // ForEach
-                    } //LazyVGrid
-                    .padding([.leading, .trailing], 10)
-                    .padding([.top, .bottom], 10)
-                    
-                    //allows user to change the assignment's grading system
-                    HStack {
-                        Spacer(minLength: 25)
-                        Text("Grading:")
-                        Spacer(minLength: 25)
-                        Picker(selection: self.$pointSystem, label: Text("")){
-                            Text("point").tag(0)
-                            Text("percentage").tag(1)
-                        }.pickerStyle(SegmentedPickerStyle())
-                        Spacer(minLength: 25)
-                    }.padding([.top, .bottom], 10)
-                }  //LazyVStack
-                
-                
-                
-                Spacer()
-                //button allows user to save changes to the course
-                HStack{
-                    Spacer()
-                    Button(action: {
-                            saveContext()
-                            
-                    }, label: {Text("Save Changes")})
-                        .padding()
-                        .border(Color.blue)
-                    Spacer()
+                                Spacer()
+                            }
+                        }
+                        .padding(.vertical, 10)
+                        .accentColor(i == self.selectedTabIndex ? self.courseColor : self.backgroundColor)
+                        .background(Color.clear)
+                    }
                 }
-            }.onAppear() {
-                courseName = course.name ?? ""
-                if (course.pointValues) {
-                    pointSystem = 0
-                } else {
-                    pointSystem = 1
-                }
-                selectedColorIndex = Int(Int16(course.colorIndex))
-                UITextView.appearance().backgroundColor = .clear
             }
-        
+            if self.selectedTabIndex == 0{
+                //Course Assignment Tab
+                ScrollView{
+                    LazyVStack{
+                        ForEach(self.assignments.indices) { i in
+                            NavigationLink(destination:AssignmentView(assignment: self.assignments[i])) {
+                                AssignmentCardView(self.assignments[i], self.$courseColorIndex)
+                                    .padding([.top, .bottom], 5.0)
+                                    .padding([.leading, .trailing], 10.0)
+                            }
+                        }
+                    }.padding(.top, 10.0)
+                }
+                .background(Color.white)
+                .padding(.top, -10)
+            }else{
+                //Settings Tab
+                CourseSettingView(course: self.$course, parentColorIndex: self.$courseColorIndex)
+                    .background(Color.white)
+                    .padding(.top, -10)
+            }
+        }
+        .background(self.courseColor)
+        .onAppear(){
+            self.courseColorIndex = Int(self.course.colorIndex)
+        }
+        .navigationBarTitleDisplayMode(.large)
+        .edgesIgnoringSafeArea(.top)
+        Spacer()
     }
-    func saveContext() {
-      do {
-        course.name = courseName
-        course.pointValues = self.pointSystem == 0 ? true : false
-        course.colorIndex = Int16(self.selectedColorIndex)
-        try viewContext.save()
-      } catch {
-        print("Error saving managed object context: \(error)")
-      }
+    
+    
+    private func tabWidth(from w: CGFloat) -> CGFloat{
+        return w / CGFloat(self.tabs.count) - 10
     }
+    
+    private func xoff(from w: CGFloat) -> CGFloat {
+        let o: CGFloat = 7.0 * (CGFloat(self.selectedTabIndex + 1))
+        return self.tabWidth(from: w) * CGFloat(self.selectedTabIndex) + o
+    }
+    
 }
