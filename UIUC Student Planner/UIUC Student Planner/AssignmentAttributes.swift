@@ -30,11 +30,11 @@ struct AssignmentAttributes: View {
                 VStack(alignment: .leading) {
                     HStack{
                         Text("\(assignment.name ?? "Unknown")")
-                           .font(.headline)
-                           .fontWeight(.bold)
-                           .lineLimit(2)
-                           .padding(.bottom, 5)
-                           .foregroundColor(Color.white)
+                            .font(.headline)
+                            .fontWeight(.bold)
+                            .lineLimit(2)
+                            .padding(.bottom, 5)
+                            .foregroundColor(Color.white)
                         Spacer()
                         if(assignment.pinned) {
                             Image(systemName: "pin.fill")
@@ -47,7 +47,7 @@ struct AssignmentAttributes: View {
                         .foregroundColor(Color.white)
                     
                     HStack(alignment: .center) {
-                         Text("Points: \(assignment.points)")
+                        Text("Points: \(assignment.points)")
                             .foregroundColor(Color.white)
                     }
                     .padding(.bottom, 5)
@@ -58,8 +58,8 @@ struct AssignmentAttributes: View {
             }
             .padding(15)
         }
+        }
     }
-}
     private let dayFormatter: DateFormatter = {
         //Starter code, feel free to remove this based on that the assignment entry data has
         let formatter = DateFormatter()

@@ -23,8 +23,8 @@ struct HomeView: View {
     
     //The fetch request getting all the assignments and sorting them by their timestamps
     @FetchRequest(entity: Assignment.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Assignment.dueDate, ascending: true)],
-        animation: .default) var items: FetchedResults<Assignment>
+                  sortDescriptors: [NSSortDescriptor(keyPath: \Assignment.dueDate, ascending: true)],
+                  animation: .default) var items: FetchedResults<Assignment>
     
     //The fetch request getting all the courses and sorting them by their names
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Course.name, ascending: true)])
@@ -32,23 +32,35 @@ struct HomeView: View {
     
     @State private var showingDetail = false
     
+    @State private var sort: Int = 0
+    
+    //Values for the filter menu
+    private var filters = ["None","Min Points", "Pinned", "Max Points"]
+    
+    
     var body: some View {
+        let FilterObject = Order();
+        //Displays assignments that were fetched.
         NavigationView {
             List {
                 ForEach(items) { item in
-                    NavigationLink(destination:AssignmentView(assignment: item)) {
-                        //                       Text("Item at \(item.timestamp!, formatter: itemFormatter)") // creates the text in the list
-                        HStack {
-                            AssignmentAttributes(assignment: item)
-                                .cornerRadius(15)
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 7)
-                                .foregroundColor(.white)
+                    //Apply filter
+                    if (FilterObject.isNotFiltered(assignment: item, selectedSorts: filters[sort])) {
+                        // Link to individual assignment details.
+                        NavigationLink(destination:AssignmentView(assignment: item)) {
+                            //                       Text("Item at \(item.timestamp!, formatter: itemFormatter)") // creates the text in the list
+                            HStack {
+                                AssignmentAttributes(assignment: item)
+                                    .cornerRadius(15)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 7)
+                                    .foregroundColor(.white)
+                            }
+                            
                         }
-                        
                     }
                 }
                 .onDelete(perform: deleteItems)
@@ -60,21 +72,32 @@ struct HomeView: View {
             
             
             .toolbar {
+                //Toggle delete assignemnts from home page
                 ToolbarItem(placement: .navigationBarLeading) {
                     EditButton()
                 }
-                
-                //                ToolbarItem( placement: .navigationBarTrailing) {
-                //                    CircleImage()
-                //                }
-                
+                // Toggles sheet to display form to add a new assignment
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {self.showingDetail.toggle()}) {
                         Label("Add Item", systemImage: "plus")
                     }
                 }
+                //Toggles menu to display filter options
+                ToolbarItem(placement: .primaryAction) {
+                    Menu {
+                        Picker(selection: $sort, label: Text("Sorting options")) {
+                            ForEach(0 ..< filters.count) {
+                                Text(self.filters[$0])
+                            }
+                        }
+                    }
+                    label: {
+                        Label("Sort", systemImage: "arrow.up.arrow.down")
+                    }
+                }
             }
         }
+        // sheet to display the view that allows users to add asignments
         .sheet(isPresented: $showingDetail) {
             AddAssignmentView()
         }
