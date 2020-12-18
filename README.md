@@ -6,6 +6,7 @@ An academic planner for students @ UIUC
 # Features
     Home Page
         Filter Assignments based on Pinned Assingments and Points
+        ![](HomeFeature.gif)
     Add Assignments
         Form View using Text Fields, Wheel Pickers, Lists, and Toggles
         Automatically adds http to links
