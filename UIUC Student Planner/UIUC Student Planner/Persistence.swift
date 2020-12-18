@@ -18,7 +18,24 @@ struct PersistenceController {
             newItem.dueDate = Date()
             newItem.name = ""
             newItem.points = 0
+            newItem.completed = false
+            newItem.pinned = false
+            newItem.priority = 0
         }
+        let t1 = Tag(context: viewContext)
+        t1.name = "CS 125"
+        let t2 = Tag(context: viewContext)
+        t2.name = "CS 196"
+        let t3 = Tag(context: viewContext)
+        t3.name = "Test Course 1"
+        let t4 = Tag(context: viewContext)
+        t4.name = "Test Course 2"
+        let c1 = Course(context: viewContext)    //added Course context for testing
+        c1.pointValues = true
+        c1.name = "Test Course 1"
+        let c2 = Course(context: viewContext)
+        c2.pointValues = false
+        c2.name = "Test Course 2"
         do {
             try viewContext.save()
         } catch {
