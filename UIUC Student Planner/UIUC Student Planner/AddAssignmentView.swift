@@ -86,25 +86,25 @@ struct AddAssignmentView: View {
                 }
                 Section(header: Text("Assignment Details")) {
                     //lets user pick how much an assignment is worth
-                        HStack {
-                            Text("Percent")
-                            Divider()
-                            Button(action:{pickerPointShowing = !pickerPointShowing}, label: {
-                                Text("\(pointValue)")
-                                    .foregroundColor(.black)
-                            })
-                            Spacer()
-                            Image(systemName: "chevron.down")
-                                .foregroundColor(.blue)
-                            
+                    HStack {
+                        Text("Percent")
+                        Divider()
+                        Button(action:{pickerPointShowing = !pickerPointShowing}, label: {
+                            Text("\(pointValue)")
+                                .foregroundColor(.black)
+                        })
+                        Spacer()
+                        Image(systemName: "chevron.down")
+                            .foregroundColor(.blue)
+                        
                         if (pickerPointShowing){
                             Picker("Point Picker", selection: $pointValue){
                                 ForEach(0 ..< 101) {
                                     Text("\($0)")
                                 }
                             }.pickerStyle(WheelPickerStyle())
-                            }
                         }
+                    }
                     //Allows the user to add a link to their assignment
                     List{
                         //textfield allowing a user to add a link
@@ -216,7 +216,7 @@ struct AddAssignmentView: View {
                 let link: URL = URL(string: finLink)!
                 newAssignment.linkToAssignment = link
             }
-
+            
         } else {
             newAssignment.linkToAssignment = nil
         }

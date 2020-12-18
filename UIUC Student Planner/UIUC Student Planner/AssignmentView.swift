@@ -39,86 +39,86 @@ struct AssignmentView: View {
     @State var colorIndex = 0
     
     var body: some View {
-            VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .leading, spacing: 20) {
+            HStack {
+                //TextEditor allows user to change assignment name if they want by clicking on the text
+                TextEditor(text: $assignmentName)
+                    .frame(width: 275, height: CGFloat(editorHeight))
+                    .font(.largeTitle)
+                //displays filled in pin for pinned assignments and unfilled pin for unpinned assignments, user can pin/unpin this by clicking the icon
+                if(isPinned) {
+                    Button(action: {isPinned = false
+                        savePinContext()
+                    }, label: {
+                        Image(systemName: "pin.fill")
+                            .foregroundColor(.black)
+                    })
+                } else {
+                    Button(action: {isPinned = true
+                        savePinContext()
+                    }, label: {
+                        Image(systemName: "pin")
+                            .foregroundColor(.black)
+                    })
+                }
+            }
+            VStack(alignment: .leading) {
+                //displays stepper for user to change points/percentage the assignment is worth depending on the selected course's grading system
                 HStack {
-                    //TextEditor allows user to change assignment name if they want by clicking on the text
-                    TextEditor(text: $assignmentName)
-                        .frame(width: 275, height: CGFloat(editorHeight))
-                        .font(.largeTitle)
-                    //displays filled in pin for pinned assignments and unfilled pin for unpinned assignments, user can pin/unpin this by clicking the icon
-                    if(isPinned) {
-                        Button(action: {isPinned = false
-                            savePinContext()
+                    if(points) {
+                        Stepper(value: $newPoints ,in: 0...100){
+                            Text(getPoints())
+                                .font(.headline)
+                                .bold()
+                        }
+                    } else {
+                        Stepper(value: $newPoints ,in: 0...100){
+                            Text(getPercents())
+                                .font(.headline)
+                                .bold()
+                        }
+                    }
+                }.padding(.bottom)
+                //allows user to change deadline using deadline picker view
+                Text("Deadline: ")
+                    .font(.subheadline)
+                    .bold()
+                DeadlinePickerView(selectedDate: $selectedDate)
+                //allows user to click on the link to their assignment (if they don't have one google is the default) and also edit and save an updated link
+                HStack {
+                    Text("Link to Assignment: ")
+                        .font(.subheadline)
+                        .bold()
+                    if(formShowing) {
+                        TextEditor(text: $holder)
+                            .disableAutocorrection(true)
+                            .autocapitalization(.none)
+                            .frame(width: 150, height: 25)
+                            .font(.subheadline)
+                        Spacer()
+                        Button(action: {
+                            if (holder != "") {
+                                let link: URL = URL(string: holder)!
+                                assignmentLink = link
+                            } else {
+                                assignmentLink = URL(string: "https://google.com")!
+                            }
+                            saveLinkContext()
+                            formShowing = false
                         }, label: {
-                            Image(systemName: "pin.fill")
-                                .foregroundColor(.black)
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(.green)
                         })
                     } else {
-                        Button(action: {isPinned = true
-                            savePinContext()
-                        }, label: {
-                            Image(systemName: "pin")
-                                .foregroundColor(.black)
+                        Link("\(assignmentLink)", destination: assignmentLink)
+                        Spacer()
+                        Button(action: {formShowing = true}, label: {
+                            Image(systemName: "pencil.circle.fill")
+                                .foregroundColor(.blue)
                         })
                     }
-                }
-                VStack(alignment: .leading) {
-                    //displays stepper for user to change points/percentage the assignment is worth depending on the selected course's grading system
-                    HStack {
-                        if(points) {
-                            Stepper(value: $newPoints ,in: 0...100){
-                                Text(getPoints())
-                                    .font(.headline)
-                                    .bold()
-                                }
-                        } else {
-                            Stepper(value: $newPoints ,in: 0...100){
-                                Text(getPercents())
-                                    .font(.headline)
-                                    .bold()
-                                }
-                        }
-                    }.padding(.bottom)
-                    //allows user to change deadline using deadline picker view
-                        Text("Deadline: ")
-                            .font(.subheadline)
-                            .bold()
-                        DeadlinePickerView(selectedDate: $selectedDate)
-                    //allows user to click on the link to their assignment (if they don't have one google is the default) and also edit and save an updated link
-                    HStack {
-                        Text("Link to Assignment: ")
-                            .font(.subheadline)
-                            .bold()
-                        if(formShowing) {
-                            TextEditor(text: $holder)
-                                .disableAutocorrection(true)
-                                .autocapitalization(.none)
-                                .frame(width: 150, height: 25)
-                                .font(.subheadline)
-                            Spacer()
-                            Button(action: {
-                                if (holder != "") {
-                                    let link: URL = URL(string: holder)!
-                                    assignmentLink = link
-                                } else {
-                                    assignmentLink = URL(string: "https://google.com")!
-                                }
-                                saveLinkContext()
-                                formShowing = false
-                            }, label: {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(.green)
-                            })
-                        } else {
-                            Link("\(assignmentLink)", destination: assignmentLink)
-                            Spacer()
-                            Button(action: {formShowing = true}, label: {
-                                Image(systemName: "pencil.circle.fill")
-                                    .foregroundColor(.blue)
-                            })
-                        }
-                    }.padding(.bottom)
-                    .padding(.top)
+                }.padding(.bottom)
+                .padding(.top)
                 HStack {
                     //allows user to click the priority tag to change its priority
                     if (assignmentPriority == 0) {
@@ -174,106 +174,106 @@ struct AssignmentView: View {
                         .cornerRadius(25.0)
                     }
                 }
-                    Spacer()
-                    //allows the user to save changes made to the assignment
-                    HStack{
-                        Spacer()
-                        Button(action: {saveContext()}, label: {Text("Save Changes")})
-                            .padding()
-                            .border(Color.blue)
-                        Spacer()
-                    }
-                    
-                }.toolbar {
-                }
                 Spacer()
-            }
-            .padding()
-            .navigationBarTitleDisplayMode(.inline)
-            .onAppear() {
-                //sets initial values
-                isPinned = assignment.pinned
-                assignmentName = assignment.name ?? "Unititled Assignment"
-                //sets how large the text editor needs to be to fit the assignment name
-                editorHeight = Int64(assignmentName.count / 11 * 50) + 50
-                
-                selectedDate = assignment.dueDate ?? Date(timeIntervalSinceNow: 0)
-                assignmentPriority = assignment.priority
-                newPoints = assignment.points
-                
-                assignmentLink = assignment.linkToAssignment ?? URL(string: "https://google.com")!
-                holder = assignmentLink.absoluteString
-                
-                //sets course values if the assignment has a course
-                if(assignment.course != nil) {
-                    showCourse = true
-                    courseName = assignment.course!.name!
-                    points = assignment.course!.pointValues
-                    colorIndex = Int(assignment.course!.colorIndex)
-                    //sets link to default link if the user did not put in a different link
-                    if (assignment.linkToAssignment == nil) {
-                        assignmentLink = assignment.course!.courseLink ?? URL(string: "https://google.com")!
-                        holder = assignmentLink.absoluteString
-                    }
-                    //sets default link value to the course's default link
-                    defaultLink = assignment.course!.courseLink ?? URL(string: "https://google.com")!
+                //allows the user to save changes made to the assignment
+                HStack{
+                    Spacer()
+                    Button(action: {saveContext()}, label: {Text("Save Changes")})
+                        .padding()
+                        .border(Color.blue)
+                    Spacer()
                 }
+                
+            }.toolbar {
+            }
+            Spacer()
+        }
+        .padding()
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear() {
+            //sets initial values
+            isPinned = assignment.pinned
+            assignmentName = assignment.name ?? "Unititled Assignment"
+            //sets how large the text editor needs to be to fit the assignment name
+            editorHeight = Int64(assignmentName.count / 11 * 50) + 50
+            
+            selectedDate = assignment.dueDate ?? Date(timeIntervalSinceNow: 0)
+            assignmentPriority = assignment.priority
+            newPoints = assignment.points
+            
+            assignmentLink = assignment.linkToAssignment ?? URL(string: "https://google.com")!
+            holder = assignmentLink.absoluteString
+            
+            //sets course values if the assignment has a course
+            if(assignment.course != nil) {
+                showCourse = true
+                courseName = assignment.course!.name!
+                points = assignment.course!.pointValues
+                colorIndex = Int(assignment.course!.colorIndex)
+                //sets link to default link if the user did not put in a different link
+                if (assignment.linkToAssignment == nil) {
+                    assignmentLink = assignment.course!.courseLink ?? URL(string: "https://google.com")!
+                    holder = assignmentLink.absoluteString
+                }
+                //sets default link value to the course's default link
+                defaultLink = assignment.course!.courseLink ?? URL(string: "https://google.com")!
             }
         }
+    }
     //saves changes to assignment name, points, and due dates
     func saveContext() {
-      do {
-        assignment.name = assignmentName
-        assignment.points = newPoints
-        assignment.dueDate = selectedDate
-        try viewContext.save()
-      } catch {
-        print("Error saving managed object context: \(error)")
-      }
+        do {
+            assignment.name = assignmentName
+            assignment.points = newPoints
+            assignment.dueDate = selectedDate
+            try viewContext.save()
+        } catch {
+            print("Error saving managed object context: \(error)")
+        }
     }
     //saves changes to whether or not the assignment is pinned
     func savePinContext() {
-      do {
-        assignment.pinned = isPinned
-        try viewContext.save()
-      } catch {
-        print("Error saving managed object context: \(error)")
-      }
+        do {
+            assignment.pinned = isPinned
+            try viewContext.save()
+        } catch {
+            print("Error saving managed object context: \(error)")
+        }
     }
     //saves changes made to the assignment's priority
     func savePriorityContext() {
-      do {
-        assignment.priority = assignmentPriority
-        try viewContext.save()
-      } catch {
-        print("Error saving managed object context: \(error)")
-      }
+        do {
+            assignment.priority = assignmentPriority
+            try viewContext.save()
+        } catch {
+            print("Error saving managed object context: \(error)")
+        }
     }
     //saves changes made to the link
     func saveLinkContext() {
-      do {
-        if(holder == "") {
-            assignmentLink = defaultLink
-            holder = assignmentLink.absoluteString
-            assignment.linkToAssignment = assignmentLink
+        do {
+            if(holder == "") {
+                assignmentLink = defaultLink
+                holder = assignmentLink.absoluteString
+                assignment.linkToAssignment = assignmentLink
+            }
+            //assignment.linkToAssignment = assignmentLink
+            if(holder.contains("http://") || holder.contains("https://")) {
+                let link: URL = URL(string: holder)!
+                assignment.linkToAssignment = link
+            } else {
+                let finLink = "http://" + holder
+                let link: URL = URL(string: finLink)!
+                assignment.linkToAssignment = link
+                assignmentLink = link
+                holder = finLink
+            }
+            try viewContext.save()
+        } catch {
+            print("Error saving managed object context: \(error)")
         }
-        //assignment.linkToAssignment = assignmentLink
-        if(holder.contains("http://") || holder.contains("https://")) {
-            let link: URL = URL(string: holder)!
-            assignment.linkToAssignment = link
-        } else {
-            let finLink = "http://" + holder
-            let link: URL = URL(string: finLink)!
-            assignment.linkToAssignment = link
-            assignmentLink = link
-            holder = finLink
-        }
-        try viewContext.save()
-      } catch {
-        print("Error saving managed object context: \(error)")
-      }
     }
-        
+    
     func getPoints() -> String {
         //updates the assignment's points and displays the points to the user
         return "\(newPoints) Point\(newPoints != 1 ? "s" : "")"
@@ -285,13 +285,13 @@ struct AssignmentView: View {
         return "\(newPoints) Percent"
         
     }
-
+    
 }
 
 struct AssignmentView_Previews: PreviewProvider {
     static var previews: some View {
         AssignmentView(assignment: Assignment(context: PersistenceController.preview.container.viewContext))
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-            
+        
     }
 }

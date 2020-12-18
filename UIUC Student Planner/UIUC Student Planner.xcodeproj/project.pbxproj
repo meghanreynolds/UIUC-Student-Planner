@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		13288AC62541158600AA9EEF /* CircleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13288AC52541158600AA9EEF /* CircleImage.swift */; };
+		132BEBE825803B5200402C5D /* FilterItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132BEBE725803B5200402C5D /* FilterItems.swift */; };
 		224AA7E3252E696800194BF5 /* EditAssignmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224AA7E2252E696800194BF5 /* EditAssignmentView.swift */; };
 		224AA7E6252E697B00194BF5 /* AddAssignmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224AA7E5252E697B00194BF5 /* AddAssignmentView.swift */; };
 		224AA7E9252E698700194BF5 /* AssignmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224AA7E8252E698700194BF5 /* AssignmentView.swift */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		13288AC52541158600AA9EEF /* CircleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImage.swift; sourceTree = "<group>"; };
+		132BEBE725803B5200402C5D /* FilterItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterItems.swift; sourceTree = "<group>"; };
 		224AA7E2252E696800194BF5 /* EditAssignmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAssignmentView.swift; sourceTree = "<group>"; };
 		224AA7E5252E697B00194BF5 /* AddAssignmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAssignmentView.swift; sourceTree = "<group>"; };
 		224AA7E8252E698700194BF5 /* AssignmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentView.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				13288AC52541158600AA9EEF /* CircleImage.swift */,
 				22D54354252E67970069E6D2 /* ContentView.swift */,
 				790F44BB255C8CA90066ECA4 /* HomeView.swift */,
+				132BEBE725803B5200402C5D /* FilterItems.swift */,
 				A8D22119253D256400E2A13A /* AssignmentAttributes.swift */,
 				224AA7E8252E698700194BF5 /* AssignmentView.swift */,
 				224AA7E5252E697B00194BF5 /* AddAssignmentView.swift */,
@@ -261,6 +264,7 @@
 				79852E2425604E9800CEB5B1 /* AddCourse.swift in Sources */,
 				230BB70A2573359300FD0572 /* Color+Ext.swift in Sources */,
 				224AA7E3252E696800194BF5 /* EditAssignmentView.swift in Sources */,
+				132BEBE825803B5200402C5D /* FilterItems.swift in Sources */,
 				A8D2211A253D256500E2A13A /* AssignmentAttributes.swift in Sources */,
 				79A125DA2560CBA9008A3A90 /* TagSettings.swift in Sources */,
 				22D5435C252E67980069E6D2 /* Persistence.swift in Sources */,
