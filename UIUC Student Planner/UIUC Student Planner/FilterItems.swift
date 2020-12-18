@@ -19,11 +19,11 @@ class Order: ObservableObject {
     }
     // Conditionals set to return true or false based on selected filters
     public  func isNotFiltered(assignment: Assignment, selectedSorts: String) -> Bool {
-        if(selectedSorts == "Min Points") {
+        if(selectedSorts == "Max Points") {
             minPoints.1 = true
             if (minPoints.1 && assignment.points >= minPoints.0) { return true }
         }
-        if(selectedSorts == "Max Points") {
+        if(selectedSorts == "Min Points") {
             maxPoints.1 = true
             if (maxPoints.1 && assignment.points <= maxPoints.0) { return true }
         }
