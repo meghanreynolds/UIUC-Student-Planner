@@ -1,9 +1,9 @@
 # UIUC-Student-Planner
 An academic planner for students @ UIUC
-# Technologies Used
+## Technologies Used
 * Swift UI
 * Core Data
-# Features
+## Features
 
 ### Home Page
 * Filter Assignments based on Pinned Assingments and Points
