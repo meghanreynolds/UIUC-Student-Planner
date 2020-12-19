@@ -7,6 +7,7 @@ An academic planner for students @ UIUC
 
 ### Home Page
 * Filter Assignments based on Pinned Assingments and Points
+
 ![HomeFeature](https://media.giphy.com/media/N4RrxeywmBJkLEImIu/giphy.gif)
 
 ### Add Assignments
@@ -22,6 +23,7 @@ An academic planner for students @ UIUC
 * Stepper to modify the Assignment's points
 * Click the priority tag to change the Assignment's priority
 * Click the pin icon to change whether or not the Assignment is pinned
+
 ![AddAssignment](https://media.giphy.com/media/hf3XkYzRtlluCnRknB/giphy.gif)
 
 ### Courses 
