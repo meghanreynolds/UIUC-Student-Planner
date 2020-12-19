@@ -13,6 +13,7 @@ An academic planner for students @ UIUC
 * Form View using Text Fields, Wheel Pickers, Lists, and Toggles
 * Automatically adds http to links
 * Pick Courses and Tags for the Assignment
+
 ![AddAssignment](https://media.giphy.com/media/LSLFv6aAMl12qAA9RC/giphy.gif)
 
 ### Detailed Assignment View
@@ -29,6 +30,7 @@ An academic planner for students @ UIUC
 * Set a default link for a course
 * View all Assignments for specific courses
 * Customize the course's tag's color
+
 ![AddAssignment](https://media.giphy.com/media/sFWtlyZvQfl425uNHz/giphy.gif)
     
         
